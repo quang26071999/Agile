@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DangNhapScreen extends StatelessWidget {
+  const DangNhapScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {

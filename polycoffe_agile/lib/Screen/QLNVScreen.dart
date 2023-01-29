@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class QLNVScreen extends StatelessWidget {
+  const QLNVScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DoanhThuScreen extends StatelessWidget {
+  const DoanhThuScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {
