@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "211008631845",
+    "project_id": "polycoffee-agile",
+    "storage_bucket": "polycoffee-agile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211008631845:android:e27c11809e74561280fbcc",
+        "android_client_info": {
+          "package_name": "com.example.polycoffe_agile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "211008631845-k4gaenusbo8bvl16cdq4geuj8enslhtn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8SgAhzOzLn9_Zbo55yOtoIH1PgWI5l74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "211008631845-k4gaenusbo8bvl16cdq4geuj8enslhtn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
