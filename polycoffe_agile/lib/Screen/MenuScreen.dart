@@ -220,7 +220,31 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.brown),
-                                      onPressed: () => Navigator.pop(context),
+                                      onPressed: () {
+                                        DocumentReference documentReference =
+                                            FirebaseFirestore.instance
+                                                .collection("Products")
+                                                .doc(id);
+                                        Map<String, dynamic> product = {
+                                          "masp": _maSPTED.text,
+                                          "tensp": _tenSPTED.text,
+                                          "hinhanh": '',
+                                          "gia": _giaSPTED.text,
+                                          "maloai": 1
+                                        };
+                                        documentReference
+                                            .set(product)
+                                            .whenComplete(() => {
+                                                  debugPrint("Them thanh cong"),
+                                                  _maSPTED.text = "",
+                                                  _tenSPTED.text = "",
+                                                  _giaSPTED.text = "",
+                                                  id = DateTime.now()
+                                                      .millisecondsSinceEpoch
+                                                      .toString(),
+                                                  Navigator.pop(context)
+                                                });
+                                      },
                                       child: const Text('LƯU'),
                                     ),
                                   ),
