@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:polycoffe_agile/Model/Product.dart';
 import 'package:polycoffe_agile/TabProducts/CakeScreen.dart';
 import 'package:polycoffe_agile/TabProducts/DrinksScreen.dart';
 import 'package:polycoffe_agile/TabProducts/JunkFoodScreen.dart';
+import 'package:image_picker/image_picker.dart';
 
 const List<String> list = <String>['Đồ uống', 'Bánh ngọt', 'Đồ ăn vặt'];
 // void main() {
@@ -34,14 +36,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final TextEditingController _giaSPTED = TextEditingController();
 
   String id = DateTime.now().millisecondsSinceEpoch.toString();
+  File? _imageFile;
+  final ImagePicker _imagePicker = ImagePicker();
 
-  Product _product = new Product();
+  // Product _product = new Product();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-          appBar: AppBar(
+        appBar: AppBar(
           bottom: const TabBar(
             tabs: [
               Padding(
@@ -73,104 +77,162 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           children: [DrinksScreen(), CakeScreen(), JunkFoodScreen()],
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: const Color(0xff492F2C),
           onPressed: () {
-            showDialog(
+            showModalBottomSheet<void>(
               context: context,
-              barrierDismissible: false,
-              // barrierColor: Colors.blue,
-              builder: (BuildContext context) => AlertDialog(
-                // backgroundColor: const Color(0xff6ae792),
-                title: const Text(
-                  'Thêm sản phẩm',
-                  textAlign: TextAlign.center,
-                ),
-                content: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      iconSize: 72,
-                      icon: const Icon(Icons.add_a_photo),
-                      onPressed: () {
-                        print("abc");
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 6.0),
-                      child: TextFormField(
-                        controller: _maSPTED,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Nhập mã sản phẩm',
-                        ),
-                        onChanged: (value) => {
-                        _product.maSP = value
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 6.0),
-                      child: TextFormField(
-                        controller: _tenSPTED,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Nhập tên sản phẩm',
-                        ),
-                        onChanged: (value) => {
-                          _product.tenSP = value
-                        },
-                      ),
-                    ),
-                    TextFormField(
-                      controller: _giaSPTED,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Nhập giá sản phẩm',
-                      ),
-                      onChanged: (value) => {
-                        _product.gia = value as int
-                      },
-                    ),
-                  ],
-                ),
-                actions: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Row(
+              builder: (BuildContext context) {
+                return Container(
+                  color: const Color(0xffDECDB9),
+                  child: Center(
+                    child: SingleChildScrollView(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  DocumentReference documentReference = FirebaseFirestore.instance.collection("Products").doc(id);
-                                  Map<String, dynamic> product = {
-                                    "masp": _maSPTED.text,
-                                    "tensp": _tenSPTED.text,
-                                    "hinhanh": '',
-                                    "gia": _giaSPTED.text,
-                                    "maloai": 1
-                                  };
-                                  documentReference.set(product).whenComplete(() => {
-                                    debugPrint("Them thanh cong"),
-                                    _maSPTED.text = "",
-                                    _tenSPTED.text = "",
-                                    _giaSPTED.text = "",
-                                    id = DateTime.now().millisecondsSinceEpoch.toString(),
-                                    Navigator.pop(context)
-                                  });
-                                },
-                                child: const Text('THÊM')),
+                        // mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          _imageFile == null
+                              ? const SizedBox(
+                              width: 100,
+                              height: 100,
+                              child: Image(
+                                  image: AssetImage(
+                                      'assets/images/imageDefault.png')))
+                              : Image.file(
+                            _imageFile!,
+                            width: 100,
+                            height: 100,
                           ),
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
+                          Padding(
+                            padding: const EdgeInsets.only(left: 66.0),
+                            child: IconButton(
+                              iconSize: 30,
+                              icon: const Icon(Icons.add_circle),
+                              onPressed: () async {
+                                showModalBottomSheet<void>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SizedBox(
+                                      height: 130,
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            ListTile(
+                                              leading: const Icon(
+                                                Icons.photo_camera,
+                                              ),
+                                              title: const Text(
+                                                'Camera',
+                                                style: TextStyle(),
+                                              ),
+                                              onTap: () async {
+                                                final XFile? image =
+                                                await _imagePicker
+                                                    .pickImage(
+                                                    source: ImageSource
+                                                        .camera);
+                                                setState(() {
+                                                  _imageFile =
+                                                      File(image!.path);
+                                                });
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            ListTile(
+                                              leading: const Icon(
+                                                Icons.camera,
+                                              ),
+                                              title: const Text(
+                                                'Bộ sưu tập',
+                                                style: TextStyle(),
+                                              ),
+                                              onTap: () async {
+                                                final XFile? image =
+                                                await _imagePicker
+                                                    .pickImage(
+                                                    source: ImageSource
+                                                        .gallery);
+                                                setState(() {
+                                                  _imageFile =
+                                                      File(image!.path);
+                                                });
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
                               },
-                              child: const Text('HUỶ'))
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: TextField(
+                              controller: _maSPTED,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Nhập mã sản phẩm',
+                                  isDense: true),
+                              onChanged: (value) => {
+                                // _product.maSP = value
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: TextField(
+                              controller: _tenSPTED,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Nhập tên sản phẩm',
+                                  isDense: true),
+                              onChanged: (value) => {
+                                // _product.tenSP = value
+                              },
+                            ),
+                          ),
+                          TextField(
+                            controller: _giaSPTED,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Nhập giá sản phẩm',
+                                isDense: true),
+                            onChanged: (value) => {},
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 50.0),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.brown),
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('LƯU'),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.brown),
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('HUỶ'),
+                                ),
+                              ],
+                            ),
+                          )
                         ],
-                      )),
-                ],
-              ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             );
           },
           child: const Icon(Icons.add),
@@ -179,3 +241,4 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     );
   }
 }
+
