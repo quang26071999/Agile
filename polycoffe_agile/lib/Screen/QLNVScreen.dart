@@ -1,5 +1,7 @@
 
 
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 class QLNVScreen extends StatelessWidget {
@@ -129,10 +131,15 @@ class QLNVScreen extends StatelessWidget {
         onPressed: (){
           showModalBottomSheet(
               context: context,
+              isScrollControlled: true,
+              elevation: 5,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0),topRight: Radius.circular(15.0)),
+              ),
               builder: (BuildContext context){
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  height: 1500.0,
+                  height: 700.0,
                   color: const Color(0xffDECDB9),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -150,7 +157,7 @@ class QLNVScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(
-                            padding: EdgeInsets.only(right: 100.0),
+                            padding: const EdgeInsets.only(right: 100.0),
                             child: (
                                 Row(
                                   children: [
@@ -161,8 +168,8 @@ class QLNVScreen extends StatelessWidget {
 
                                       },
                                     ),
-                                    SizedBox(width: 5.0,),
-                                    Text("Admin",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
+                                    const SizedBox(width: 5.0,),
+                                    const Text("Admin",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
                                   ],
                                 )
                             ),
@@ -175,8 +182,8 @@ class QLNVScreen extends StatelessWidget {
                                 groupValue: _chucVuValue,
                                 onChanged: (value){},
                               ),
-                              SizedBox(width: 5.0,),
-                              Text("Nhân viên",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
+                              const SizedBox(width: 5.0,),
+                              const Text("Nhân viên",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
                             ],
                           )
                         ],
@@ -186,6 +193,9 @@ class QLNVScreen extends StatelessWidget {
                         child: TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
+                            prefixIcon: SizedBox(
+                                width: 50,
+                                child: Icon(Icons.supervised_user_circle_outlined)),
                             hintText: 'Nhập username',
                           ),
                           onChanged: (value) => {
@@ -197,6 +207,9 @@ class QLNVScreen extends StatelessWidget {
                         child: TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
+                            prefixIcon: SizedBox(
+                                width: 50,
+                                child: Icon(Icons.lock_open)),
                             hintText: 'Nhập password',
                           ),
                           onChanged: (value) => {
@@ -208,6 +221,9 @@ class QLNVScreen extends StatelessWidget {
 
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
+                          prefixIcon: SizedBox(
+                              width: 50,
+                              child: Icon(Icons.supervised_user_circle_sharp)),
                           hintText: 'Nhập họ tên',
                         ),
                         onChanged: (value) => {
@@ -219,9 +235,9 @@ class QLNVScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Text("Giới tính: ",style: TextStyle(fontSize: 18),),
+                          const Text("Giới tính: ",style: TextStyle(fontSize: 18),),
                           Container(
-                            padding: EdgeInsets.only(right: 80.0),
+                            padding: const EdgeInsets.only(right: 80.0),
                             child: (
                                 Row(
                                   children: [
@@ -232,8 +248,8 @@ class QLNVScreen extends StatelessWidget {
 
                                       },
                                     ),
-                                    SizedBox(width: 5.0,),
-                                    Text("Nam",style: TextStyle(fontSize: 18),)
+                                    const SizedBox(width: 5.0,),
+                                    const Text("Nam",style: TextStyle(fontSize: 18),)
                                   ],
                                 )
                             ),
@@ -246,26 +262,77 @@ class QLNVScreen extends StatelessWidget {
                                 groupValue: _chucVuValue,
                                 onChanged: (value){},
                               ),
-                              SizedBox(width: 5.0,),
-                              Text("Nữ",style: TextStyle(fontSize: 18),)
+                              const SizedBox(width: 5.0,),
+                              const Text("Nữ",style: TextStyle(fontSize: 18),)
                             ],
                           )
                         ],
                       ),
 
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 6.0),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            prefixIcon: SizedBox(
+                                width: 50,
+                                child: Icon(Icons.calendar_month_outlined)),
+                            hintText: 'Nhập ngày sinh',
+                          ),
+                          onChanged: (value) => {
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 6.0),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            prefixIcon: SizedBox(
+                                width: 50,
+                                child: Icon(Icons.map_outlined)),
+                            hintText: 'Nhập địa chỉ',
+                          ),
+                          onChanged: (value) => {
 
+                          },
+                        ),
+                      ),
+                      TextFormField(
+
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          prefixIcon: SizedBox(
+                              width: 50,
+                              child: Icon(Icons.phone)),
+                          hintText: 'Nhập số điện thoại',
+                        ),
+                        onChanged: (value) => {
+
+                        },
+                      ),
 
                       Row(
                         children: [
-                          ElevatedButton(
-                              child: const Text('Lưu'),
-                              onPressed: ()=>{
+                          Container(
+                            width: 150,
+                            child: ElevatedButton(
 
-                              }
+                                child: const Text('Lưu', style: TextStyle(fontSize: 22),),
+                                onPressed: ()=>{
+
+                                }
+                            ),
                           ),
-                          ElevatedButton(
-                              child: const Text('Hủy'),
-                              onPressed: () => Navigator.pop(context)
+                          Container(
+                            width: 200,
+                            padding: const EdgeInsets.only(left: 50),
+
+                            child: ElevatedButton(
+
+                                child: const Text('Hủy', style: TextStyle(fontSize: 22),),
+                                onPressed: () => Navigator.pop(context)
+                            ),
                           )
                         ],
                       )
