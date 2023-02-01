@@ -14,7 +14,7 @@ class _LoginPageState extends State<LoginPage>{
       body: Container(
         padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
         constraints: BoxConstraints.expand(),
-        color: Colors.white,
+        color: Colors.brown,
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -22,18 +22,14 @@ class _LoginPageState extends State<LoginPage>{
                 height: 140,
               ),
               Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 40, 0, 6),
+                  padding: const EdgeInsets.fromLTRB(0, 170, 0, 0),
                 child: Text(
-                  "hihi",
-                  style: TextStyle(fontSize: 24,color: Colors.cyan),
+                  "POLY COFFEE",
+                  style: TextStyle(fontSize: 40,color: Colors.black),
                 ),
               ),
-              Text(
-                "login to tieesp tuc",
-                style: TextStyle(fontSize: 14,color: Colors.amber),
-              ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 145, 0, 20),
+                padding: const EdgeInsets.fromLTRB(0, 50, 0, 20),
                 child: TextField(
                   style: TextStyle(fontSize: 18,color: Colors.brown),
                   decoration: InputDecoration(
@@ -61,10 +57,10 @@ class _LoginPageState extends State<LoginPage>{
                 constraints: BoxConstraints.loose(Size(double.infinity,30)),
                 alignment: AlignmentDirectional.centerEnd,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: Text(
                       "forgot password?",
-                  style: TextStyle(fontSize: 16,color: Colors.green),
+                  style: TextStyle(fontSize: 16,color: Colors.black),
                   ),
                 ),
               ),
