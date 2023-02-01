@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage>{
                   decoration: InputDecoration(
                     labelText: "Usename",
                     prefixIcon: Container(
-                      width: 50, child: Image.asset("account_circle.png")),
+                      width: 50, child: Icon(Icons.person)),
                     border: OutlineInputBorder(
                       borderSide:
                         BorderSide(color: Colors.blueAccent,width: 1),
@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage>{
                 decoration: InputDecoration(
                     labelText: "Password",
                     prefixIcon: Container(
-                        width: 50, child: Image.asset("key.png")),
+                        width: 50, child: Icon(Icons.key)),
                     border: OutlineInputBorder(
                         borderSide:
                         BorderSide(color: Colors.blueAccent,width: 1),
