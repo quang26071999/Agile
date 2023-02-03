@@ -36,7 +36,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   File? _imageFile;
   final ImagePicker _imagePicker = ImagePicker();
 
-  // Product _product = new Product();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

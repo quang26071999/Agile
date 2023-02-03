@@ -7,7 +7,13 @@ class CakeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/backgroundCoffee.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Column(
             children: <Widget>[
               StreamBuilder(
