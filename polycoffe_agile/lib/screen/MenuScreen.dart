@@ -6,6 +6,7 @@ import 'package:polycoffe_agile/TabProducts/CakeScreen.dart';
 import 'package:polycoffe_agile/TabProducts/DrinksScreen.dart';
 import 'package:polycoffe_agile/TabProducts/JunkFoodScreen.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:polycoffe_agile/models/product.dart';
 
 const List<String> list = <String>['Đồ uống', 'Bánh ngọt', 'Đồ ăn vặt'];
 
@@ -19,9 +20,13 @@ class MenuScreen extends StatefulWidget {
 class _Menu extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
-        child: MenuStatefulWidget(),
+        child: GestureDetector(
+          onTap: () =>  FocusManager.instance.primaryFocus?.unfocus(),
+          child: MenuStatefulWidget(),
+        ),
       ),
     );
   }
@@ -53,6 +58,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
       length: 3,
       child: Scaffold(
         backgroundColor: const Color(0xffD9D9D9),
+        resizeToAvoidBottomInset: false,
         appBar: const TabBar(
           labelPadding: EdgeInsets.only(top: 12),
           tabs: [
@@ -237,22 +243,23 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                         style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.brown),
                                         onPressed: () {
-                                          DocumentReference documentReference =
+                                          var documentReference =
                                               FirebaseFirestore.instance
-                                                  .collection("Products")
-                                                  .doc(id);
-                                          Map<String, dynamic> product = {
-                                            "masp": _maSPTED.text,
-                                            "tensp": _tenSPTED.text,
-                                            "hinhanh": base64Encode(_imageFile!.readAsBytesSync()),
-                                            //Image.file(base64Decode(anhdaidien)) => widget ImageProvider
-                                            // file la lay thang file
-                                            // network la lay url
-                                            "gia": _giaSPTED.text,
-                                            "maloai": 1
-                                          };
+                                                  .collection("Products");
+                                                  //.doc(id);
+                                          // Map<String, dynamic> product = {
+                                          //   "masp": _maSPTED.text,
+                                          //   "tensp": _tenSPTED.text,
+                                          //   "hinhanh": base64Encode(_imageFile!.readAsBytesSync()),
+                                          //   //Image.file(base64Decode(anhdaidien)) => widget ImageProvider
+                                          //   // file la lay thang file
+                                          //   // network la lay url
+                                          //   "gia": _giaSPTED.text,
+                                          //   "maloai": 1
+                                          // };
+                                          Product product = Product(_maSPTED.text, _tenSPTED.text, base64Encode(_imageFile!.readAsBytesSync()), int.parse(_giaSPTED.text), 1);
                                           documentReference
-                                              .set(product)
+                                              .add(product.toJson())
                                               .whenComplete(() => {
                                                     setEmpty(),
                                                     Navigator.pop(context)
