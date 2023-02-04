@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -243,7 +244,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                           Map<String, dynamic> product = {
                                             "masp": _maSPTED.text,
                                             "tensp": _tenSPTED.text,
-                                            "hinhanh": '',
+                                            "hinhanh": base64Encode(_imageFile!.readAsBytesSync()),
                                             "gia": _giaSPTED.text,
                                             "maloai": 1
                                           };
