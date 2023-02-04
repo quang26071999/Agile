@@ -245,6 +245,9 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                             "masp": _maSPTED.text,
                                             "tensp": _tenSPTED.text,
                                             "hinhanh": base64Encode(_imageFile!.readAsBytesSync()),
+                                            //Image.file(base64Decode(anhdaidien)) => widget ImageProvider
+                                            // file la lay thang file
+                                            // network la lay url
                                             "gia": _giaSPTED.text,
                                             "maloai": 1
                                           };
