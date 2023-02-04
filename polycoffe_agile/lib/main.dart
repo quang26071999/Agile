@@ -61,34 +61,38 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.admin_panel_settings_outlined),
-            label: 'QLNV',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book_sharp),
-            label: 'Menu',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.table_bar),
-            label: 'Bàn',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.money),
-            label: 'Doanh Thu',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.assignment_ind),
-            label: 'Tài khoản',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue[800],
-        onTap: _onItemTapped,
-      ),
+      bottomNavigationBar: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(17)),
+        child: BottomNavigationBar(
+          backgroundColor: Color(0xffD9D9D9),
+          type: BottomNavigationBarType.fixed,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.admin_panel_settings_outlined),
+              label: 'QLNV',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.menu_book_sharp),
+              label: 'Menu',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.table_bar),
+              label: 'Bàn',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.money),
+              label: 'Doanh Thu',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.assignment_ind),
+              label: 'Tài khoản',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blue[800],
+          onTap: _onItemTapped,
+        ),
+      )
     );
   }
 }

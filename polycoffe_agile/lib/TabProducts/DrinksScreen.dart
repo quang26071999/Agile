@@ -9,11 +9,12 @@ class DrinksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/backgroundCoffee.png"),
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
         child: Column(
@@ -23,12 +24,13 @@ class DrinksScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     TextField(
+                      style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
                       decoration: InputDecoration(
-                          filled: true, //<-- SEE HERE
+                          filled: true,
                           fillColor: const Color(0xffFFFFFF),
                           prefixIcon: const Icon(Icons.search),
                           contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 15),
+                              vertical: 5, horizontal: 5),
                           hintText: "Tìm kiếm",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
@@ -95,7 +97,6 @@ class DrinksScreen extends StatelessWidget {
                   ],
                 )),
           ],
-
         ),
       )
     );
