@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +20,9 @@ class CakeScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               StreamBuilder(
-                stream: FirebaseFirestore.instance.collection("Products").snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection("Products")
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
@@ -25,46 +30,101 @@ class CakeScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: snapshot.data?.docs.length,
                       itemBuilder: (context, index) {
-                        DocumentSnapshot documentSnapshot =
-                        snapshot.data?.docs[index] as DocumentSnapshot<Object?>;
+                        DocumentSnapshot documentSnapshot = snapshot
+                            .data?.docs[index] as DocumentSnapshot<Object?>;
 
                         // lay id de xoa
-                        String idDelete= documentSnapshot.id;
+                        String idDelete = documentSnapshot.id;
 
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                documentSnapshot["masp"],
-                                textAlign: TextAlign.center,
-                              ),
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Card(
+                            color: const Color(0xffDECDB9),
+                            elevation: 5.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
                             ),
-                            Expanded(
-                              child: Text(
-                                documentSnapshot["tensp"],
-                                textAlign: TextAlign.center,
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 50.0),
+                                  child: Image.memory(
+                                    base64.decode(documentSnapshot["hinhanh"]),
+                                    width: 100,
+                                    height: 100,
+                                  ),
+                                ),
+                                Column(
+                                  // crossAxisAlignment:
+                                  //     CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 8.0),
+                                      child: Text(
+                                        documentSnapshot["tensp"],
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontStyle: FontStyle.italic),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 8.0),
+                                      child: Text(
+                                          documentSnapshot["gia"].toString(),
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontStyle: FontStyle.italic)),
+                                    ),
+                                  ],
+                                ),
+                                Expanded(
+                                  child: IconButton(
+                                    iconSize: 30,
+                                    icon: const Icon(Icons.close),
+                                    onPressed: () {
+                                      showDialog<String>(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            AlertDialog(
+                                          title: const Text('Xoá sản phẩm'),
+                                          content: Text(
+                                              'Bạn có muốn xoá sản phẩm ${documentSnapshot["tensp"]} không ?'),
+                                          actions: <Widget>[
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  DocumentReference
+                                                      documentReference =
+                                                      FirebaseFirestore.instance
+                                                          .collection(
+                                                              "Products")
+                                                          .doc(idDelete);
+                                                  documentReference
+                                                      .delete()
+                                                      .whenComplete(() => {
+                                                            debugPrint(
+                                                                "Xoa thanh cong")
+                                                          });
+                                                },
+                                                child: Text('Xoá')),
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('Huỷ'))
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                )
+                              ],
                             ),
-                            Expanded(
-                              child: Text(
-                                documentSnapshot["gia"],
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: IconButton(
-                                iconSize: 30,
-                                icon: const Icon(Icons.close),
-                                onPressed: () {
-                                  DocumentReference documentReference = FirebaseFirestore.instance.collection("Products").doc(idDelete);
-                                    documentReference.delete().whenComplete(() => {
-                                      debugPrint("Xoa thanh cong")
-                                    });
-                                },
-                              ),
-                            ),
-                          ],
+                          ),
                         );
                       },
                     );

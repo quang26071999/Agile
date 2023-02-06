@@ -150,15 +150,12 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                                   ),
                                                   onTap: () async {
                                                     final XFile? image =
-                                                        await _imagePicker
-                                                            .pickImage(
-                                                                source:
-                                                                    ImageSource
-                                                                        .camera);
+                                                        await _imagePicker.pickImage(source: ImageSource.camera, imageQuality: 10);
                                                     setState(() {
                                                       _imageFile =
                                                           File(image!.path);
                                                     });
+                                                    print(_imageFile);
                                                     Navigator.of(context).pop();
                                                   },
                                                 ),
@@ -172,11 +169,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                                   ),
                                                   onTap: () async {
                                                     final XFile? image =
-                                                        await _imagePicker
-                                                            .pickImage(
-                                                                source:
-                                                                    ImageSource
-                                                                        .gallery);
+                                                        await _imagePicker.pickImage(source: ImageSource.gallery);
                                                     setState(() {
                                                       _imageFile =
                                                           File(image!.path);
@@ -257,7 +250,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                           //   "gia": _giaSPTED.text,
                                           //   "maloai": 1
                                           // };
-                                          Product product = Product(_maSPTED.text, _tenSPTED.text, base64Encode(_imageFile!.readAsBytesSync()), int.parse(_giaSPTED.text), 1);
+                                          Product product = Product(_maSPTED.text, _tenSPTED.text, base64Encode(_imageFile!.readAsBytesSync()), int.parse(_giaSPTED.text.toString()), 1);
                                           documentReference
                                               .add(product.toJson())
                                               .whenComplete(() => {
@@ -267,7 +260,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                               .then((value) =>
                                                   debugPrint("Them thanh cong"))
                                               .catchError((error) =>
-                                                  debugPrint("Them that bai"));
+                                                  debugPrint("Them that bai ${error}"));
                                         },
                                         child: const Text('LƯU'),
                                       ),
@@ -305,6 +298,6 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
     _maSPTED.text = "";
     _tenSPTED.text = "";
     _giaSPTED.text = "";
-    id = DateTime.now().millisecondsSinceEpoch.toString();
+    // id = DateTime.now().millisecondsSinceEpoch.toString();
   }
 }
