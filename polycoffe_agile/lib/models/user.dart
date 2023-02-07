@@ -1,13 +1,13 @@
 class User{
-  String username,password,hoTen;
+  String password,hoTen;
   int role,gioiTinh;
   String diaChi,avatar;
   String ngaySinh;
-  int phone;
+  int username;
 
 
   User(this.username, this.password, this.hoTen, this.role, this.gioiTinh,
-      this.diaChi, this.avatar, this.ngaySinh, this.phone);
+      this.diaChi, this.avatar, this.ngaySinh);
 
   Map<String,dynamic> toJson() =>{
     "username" : username,
@@ -18,12 +18,12 @@ class User{
     "diaChi" : diaChi,
     "avatar" : avatar,
     "ngaySinh" : ngaySinh,
-    "phone" : phone
+
   };
 
   factory User.fromJson(Map<String, dynamic> json){
     return User(
-      json["username".toString()],
+      int.parse(json["username"].toString()),
       json["password".toString()],
       json["hoTen".toString()],
       int.parse(json["role"].toString()),
@@ -31,7 +31,7 @@ class User{
       json["diaChi".toString()],
       json["avatar".toString()],
       json["ngaySinh".toString()],
-      int.parse(json["phone"].toString())
+
     );
   }
 }

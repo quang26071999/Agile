@@ -124,7 +124,7 @@ class QLNVScreen extends StatelessWidget {
                                               const EdgeInsets.only(bottom: 20.0),
                                               child: Text(
 
-                                                  "Username: " + documentSnapshot["username"],
+                                                  "Username: " + documentSnapshot["username"].toString(),
                                                   style: GoogleFonts.inter(
                                                       textStyle: const TextStyle(
                                                           fontSize: 10,
@@ -195,14 +195,14 @@ class QLNVScreen extends StatelessWidget {
                                                           FontWeight.w500))),
                                             ),
 
-                                            Text(
-                                                "Số điện thoại: " + documentSnapshot["phone"].toString(),
-                                                style: GoogleFonts.inter(
-                                                    textStyle: const TextStyle(
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                        FontWeight.w500))
-                                            ),
+                                            // Text(
+                                            //     "Số điện thoại: " + documentSnapshot["phone"].toString(),
+                                            //     style: GoogleFonts.inter(
+                                            //         textStyle: const TextStyle(
+                                            //             fontSize: 10,
+                                            //             fontWeight:
+                                            //             FontWeight.w500))
+                                            // ),
 
                                           ],
                                         ),
@@ -483,7 +483,7 @@ class QLNVScreen extends StatelessWidget {
                                   onPressed: () {
                                     var documentRefence = FirebaseFirestore.instance.collection("User");
 
-                                    User user = User(username.text, password.text, hoTen.text, 1, 2, diaChi.text, "2333", ngaySinh.text, int.parse(phone.text.toString()));
+                                    User user = User(int.parse(username.text.toString()), password.text, hoTen.text, 1, 2, diaChi.text, "2333", ngaySinh.text);
 
                                     documentRefence.add(user.toJson()).whenComplete(() => {
                                       Navigator.pop(context)
