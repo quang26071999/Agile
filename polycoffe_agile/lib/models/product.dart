@@ -9,17 +9,14 @@ class Product{
     "masp": maSP,
     "tensp": tenSP,
     "hinhanh": hinhAnh,
-    //Image.file(base64Decode(anhdaidien)) => widget ImageProvider
-    // file la lay thang file
-    // network la lay url
     "gia": gia,
     "maloai": maLoai
   };
 
-  factory Product.fromJson(Map<String, dynamic> json){
-    return Product(
-       json['masp'].toString(), json['tensp'].toString(),json['hinhanh'].toString(), int.parse(json['gia'].toString()),int.parse(json['maloai'].toString())
-    );
-  }
+  // factory Product.fromJson(Map<String, dynamic> json){
+  //   return Product(
+  //      json['masp'].toString(), json['tensp'].toString(),json['hinhanh'].toString(), int.parse(json['gia'].toString()),int.parse(json['maloai'].toString())
+  //   );
+  // }
 
 }
