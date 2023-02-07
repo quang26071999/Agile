@@ -49,317 +49,322 @@ class DrinksScreen extends StatelessWidget {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: snapshot.data?.docs.length,
-                      itemBuilder: (context, index) {
-                        DocumentSnapshot documentSnapshot = snapshot
-                            .data?.docs[index] as DocumentSnapshot<Object?>;
-                        String id = documentSnapshot.id; // id
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Slidable(
-                            // key: ValueKey(0),
-                            endActionPane: ActionPane(
-                              motion: const ScrollMotion(),
-                              children: [
-                                SlidableAction(
-                                  flex: 1,
-                                  borderRadius: BorderRadius.circular(15),
-                                  onPressed: (context) {
-                                    _tenSPUpdateTED.text =
+                    return Expanded(
+                        child: Padding(padding: EdgeInsets.only(top: 20, bottom: 200),child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data?.docs.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot documentSnapshot = snapshot
+                                .data?.docs[index] as DocumentSnapshot<Object?>;
+                            String id = documentSnapshot.id; // id
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Slidable(
+                                // key: ValueKey(0),
+                                endActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      flex: 1,
+                                      borderRadius: BorderRadius.circular(15),
+                                      onPressed: (context) {
+                                        _tenSPUpdateTED.text =
                                         documentSnapshot["tensp"];
-                                    _giaSPUpdateTED.text =
-                                        documentSnapshot["gia"].toString();
-                                    showModalBottomSheet<void>(
-                                      isScrollControlled: true,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return StatefulBuilder(
-                                            builder: (context, setState) {
-                                          return FractionallySizedBox(
-                                            heightFactor: 0.6,
-                                            child: Container(
-                                              color: const Color(0xffDECDB9),
-                                              child: Center(
-                                                child: SingleChildScrollView(
-                                                  child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              0),
-                                                      child: Column(
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
+                                        _giaSPUpdateTED.text =
+                                            documentSnapshot["gia"].toString();
+                                        showModalBottomSheet<void>(
+                                          isScrollControlled: true,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return StatefulBuilder(
+                                                builder: (context, setState) {
+                                                  return FractionallySizedBox(
+                                                    heightFactor: 0.6,
+                                                    child: Container(
+                                                      color: const Color(0xffDECDB9),
+                                                      child: Center(
+                                                        child: SingleChildScrollView(
+                                                          child: Padding(
+                                                              padding:
+                                                              const EdgeInsets.all(
+                                                                  0),
+                                                              child: Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding:
+                                                                    const EdgeInsets
                                                                         .only(
-                                                                    bottom: 46),
-                                                            child: Image.memory(
-                                                              base64.decode(
-                                                                  documentSnapshot[
-                                                                      "hinhanh"]),
-                                                              width: 100,
-                                                              height: 100,
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 40,
-                                                                    right: 40),
-                                                            child: Column(
-                                                              children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      bottom:
-                                                                          34.0),
-                                                                  child: Container(
-                                                                    width: 280,
-                                                                    height: 40,
-                                                                    child:
-                                                                    TextField(
-                                                                      controller:
-                                                                      _tenSPUpdateTED,
-                                                                      decoration: const InputDecoration(
-                                                                          border:
-                                                                          OutlineInputBorder(),
-                                                                          hintText:
-                                                                          'Nhập tên sản phẩm cần sửa',
-                                                                          isDense:
-                                                                          true),
+                                                                        bottom: 46),
+                                                                    child: Image.memory(
+                                                                      base64.decode(
+                                                                          documentSnapshot[
+                                                                          "hinhanh"]),
+                                                                      width: 100,
+                                                                      height: 100,
                                                                     ),
                                                                   ),
-                                                                ),
-                                                                Container(
-                                                                  width: 280,
-                                                                  height: 40,
-                                                                  child: TextField(
-                                                                    controller:
-                                                                    _giaSPUpdateTED,
-                                                                    decoration: const InputDecoration(
-                                                                        border:
-                                                                        OutlineInputBorder(),
-                                                                        hintText:
-                                                                        'Nhập giá sản phẩm cần sửa',
-                                                                        isDense:
-                                                                        true),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
+                                                                  Padding(
+                                                                    padding:
+                                                                    const EdgeInsets
                                                                         .only(
-                                                                    top: 46),
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          24.0),
-                                                                  child:
-                                                                      Container(
-                                                                    width: 128,
-                                                                    height: 40,
-                                                                    child:
-                                                                        ElevatedButton(
-                                                                      style: ElevatedButton.styleFrom(
-                                                                          backgroundColor:
-                                                                              const Color(0xff492F2C)),
-                                                                      onPressed:
-                                                                          () {
-                                                                        var documentReference = FirebaseFirestore
-                                                                            .instance
-                                                                            .collection("Products")
-                                                                            .doc(id);
-                                                                        documentReference
-                                                                            .update({
-                                                                              "tensp": _tenSPUpdateTED.text,
-                                                                              "gia": _giaSPUpdateTED.text
-                                                                            })
-                                                                            .then((value) =>
-                                                                                debugPrint("Sửa thành công"))
-                                                                            .catchError((error) => debugPrint("Sửa thất bại:  ${error}"));
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child: Text(
-                                                                          'LƯU', style: GoogleFonts.inter(
-                                                                          fontSize: 20,
-                                                                          fontWeight: FontWeight.bold,
-                                                                          color: Color(0xffffffff))),
+                                                                        left: 40,
+                                                                        right: 40),
+                                                                    child: Column(
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: const EdgeInsets
+                                                                              .only(
+                                                                              bottom:
+                                                                              34.0),
+                                                                          child:
+                                                                          Container(
+                                                                            width: 280,
+                                                                            height: 40,
+                                                                            child:
+                                                                            TextField(
+                                                                              controller:
+                                                                              _tenSPUpdateTED,
+                                                                              decoration: const InputDecoration(
+                                                                                  border:
+                                                                                  OutlineInputBorder(),
+                                                                                  hintText:
+                                                                                  'Nhập tên sản phẩm cần sửa',
+                                                                                  isDense:
+                                                                                  true),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          width: 280,
+                                                                          height: 40,
+                                                                          child:
+                                                                          TextField(
+                                                                            controller:
+                                                                            _giaSPUpdateTED,
+                                                                            decoration: const InputDecoration(
+                                                                                border:
+                                                                                OutlineInputBorder(),
+                                                                                hintText:
+                                                                                'Nhập giá sản phẩm cần sửa',
+                                                                                isDense:
+                                                                                true),
+                                                                          ),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
-                                                                ),
-                                                                Container(
-                                                                  width: 128,
-                                                                  height: 40,
-                                                                  child: ElevatedButton(
-                                                                    style: ElevatedButton.styleFrom(
-                                                                        backgroundColor:
-                                                                        const Color(
-                                                                            0xff492F2C)),
-                                                                    onPressed: () =>
-                                                                        Navigator.pop(
-                                                                            context),
-                                                                    child:
-                                                                    Text(
-                                                                        'HUỶ', style: GoogleFonts.inter(
-                                                                        fontSize: 20,
-                                                                        fontWeight: FontWeight.bold,
-                                                                        color: Color(0xffffffff))),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          )
-                                                        ],
-                                                      )),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        });
+                                                                  Padding(
+                                                                    padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        top: 46),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: const EdgeInsets
+                                                                              .only(
+                                                                              right:
+                                                                              24.0),
+                                                                          child:
+                                                                          Container(
+                                                                            width: 128,
+                                                                            height: 40,
+                                                                            child:
+                                                                            ElevatedButton(
+                                                                              style: ElevatedButton.styleFrom(
+                                                                                  backgroundColor:
+                                                                                  const Color(0xff492F2C)),
+                                                                              onPressed:
+                                                                                  () {
+                                                                                var documentReference = FirebaseFirestore
+                                                                                    .instance
+                                                                                    .collection("Products")
+                                                                                    .doc(id);
+                                                                                documentReference
+                                                                                    .update({
+                                                                                  "tensp": _tenSPUpdateTED.text,
+                                                                                  "gia": _giaSPUpdateTED.text
+                                                                                })
+                                                                                    .then((value) =>
+                                                                                    debugPrint("Sửa thành công"))
+                                                                                    .catchError((error) => debugPrint("Sửa thất bại:  ${error}"));
+                                                                                Navigator.pop(
+                                                                                    context);
+                                                                              },
+                                                                              child: Text(
+                                                                                  'LƯU',
+                                                                                  style: GoogleFonts.inter(
+                                                                                      fontSize: 20,
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                      color: Color(0xffffffff))),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          width: 128,
+                                                                          height: 40,
+                                                                          child:
+                                                                          ElevatedButton(
+                                                                            style: ElevatedButton.styleFrom(
+                                                                                backgroundColor:
+                                                                                const Color(0xff492F2C)),
+                                                                            onPressed: () =>
+                                                                                Navigator.pop(
+                                                                                    context),
+                                                                            child: Text(
+                                                                                'HUỶ',
+                                                                                style: GoogleFonts.inter(
+                                                                                    fontSize:
+                                                                                    20,
+                                                                                    fontWeight:
+                                                                                    FontWeight.bold,
+                                                                                    color: Color(0xffffffff))),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              )),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
+                                          },
+                                        );
                                       },
-                                    );
-                                  },
-                                  backgroundColor: const Color(0xffDECDB9),
-                                  foregroundColor: Colors.black,
-                                  icon: Icons.edit,
-                                  padding: EdgeInsets.only(right: 10),
-                                ),
-                                SlidableAction(
-                                  flex: 1,
-                                  borderRadius: BorderRadius.circular(15),
-                                  onPressed: (BuildContext context) {
-                                    showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                        insetPadding: EdgeInsets.zero,
-                                        title: const Text(
-                                          'Xoá sản phẩm',
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        content: Text(
-                                            'Bạn có muốn xoá ${documentSnapshot["tensp"]} không ?'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              DocumentReference
-                                                  documentReference =
-                                                  FirebaseFirestore.instance
-                                                      .collection("Products")
-                                                      .doc(id);
-                                              documentReference
-                                                  .delete()
-                                                  .whenComplete(() =>
-                                                      {Navigator.pop(context)})
-                                                  .then((value) => debugPrint(
-                                                      "Xoá thành công"))
-                                                  .catchError((error) => debugPrint(
-                                                      "Xoá thất bại ${error}"));
-                                            },
-                                            child: const Text(
-                                              'Xoá', //title
-                                              textAlign:
-                                                  TextAlign.end, //aligment
-                                            ),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text(
-                                              'Huỷ', //title
-                                              textAlign: TextAlign.end,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                  backgroundColor: const Color(0xffDECDB9),
-                                  foregroundColor: Colors.black,
-                                  icon: Icons.delete,
-                                ),
-                              ],
-                            ),
-                            child: Card(
-                              // margin: EdgeInsets.only(bottom: 20, top: 20),
-                              color: const Color(0xffDECDB9),
-                              elevation: 5.0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              child: Row(
-                                // mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 20, bottom: 20, left: 24),
-                                    child: Image.memory(
-                                      base64
-                                          .decode(documentSnapshot["hinhanh"]),
-                                      width: 100,
-                                      height: 100,
+                                      backgroundColor: const Color(0xffDECDB9),
+                                      foregroundColor: Colors.black,
+                                      icon: Icons.edit,
                                     ),
+                                    SlidableAction(
+                                      flex: 1,
+                                      borderRadius: BorderRadius.circular(15),
+                                      onPressed: (BuildContext context) {
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                                insetPadding: EdgeInsets.zero,
+                                                title: const Text(
+                                                  'Xoá sản phẩm',
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                content: Text(
+                                                    'Bạn có muốn xoá ${documentSnapshot["tensp"]} không ?'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                      DocumentReference
+                                                      documentReference =
+                                                      FirebaseFirestore.instance
+                                                          .collection("Products")
+                                                          .doc(id);
+                                                      documentReference
+                                                          .delete()
+                                                          .whenComplete(() =>
+                                                      {Navigator.pop(context)})
+                                                          .then((value) => debugPrint(
+                                                          "Xoá thành công"))
+                                                          .catchError((error) => debugPrint(
+                                                          "Xoá thất bại ${error}"));
+                                                    },
+                                                    child: const Text(
+                                                      'Xoá', //title
+                                                      textAlign:
+                                                      TextAlign.end, //aligment
+                                                    ),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text(
+                                                      'Huỷ', //title
+                                                      textAlign: TextAlign.end,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                        );
+                                      },
+                                      backgroundColor: const Color(0xffDECDB9),
+                                      foregroundColor: Colors.black,
+                                      icon: Icons.delete,
+                                    ),
+                                  ],
+                                ),
+                                child: Card(
+                                  // margin: EdgeInsets.only(bottom: 20, top: 20),
+                                  color: const Color(0xffDECDB9),
+                                  elevation: 5.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
                                   ),
-                                  Column(
+                                  child: Row(
+                                    // mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.only(left: 50),
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 10.0),
-                                              child: Text(
-                                                  documentSnapshot["tensp"],
-                                                  textAlign: TextAlign.start,
-                                                  style: GoogleFonts.inter(
-                                                      color: Color(0xff000000),
-                                                      fontSize: 16,
-                                                      fontStyle:
+                                        padding: const EdgeInsets.only(
+                                            top: 20, bottom: 20, left: 24),
+                                        child: Image.memory(
+                                          base64
+                                              .decode(documentSnapshot["hinhanh"]),
+                                          width: 100,
+                                          height: 100,
+                                        ),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 50),
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      bottom: 10.0),
+                                                  child: Text(
+                                                      documentSnapshot["tensp"],
+                                                      textAlign: TextAlign.start,
+                                                      style: GoogleFonts.inter(
+                                                          color: Color(0xff000000),
+                                                          fontSize: 16,
+                                                          fontStyle:
                                                           FontStyle.italic,
-                                                      fontWeight:
+                                                          fontWeight:
                                                           FontWeight.bold)),
-                                            ),
-                                            Text(
-                                                NumberFormat.simpleCurrency(
+                                                ),
+                                                Text(
+                                                    NumberFormat.simpleCurrency(
                                                         locale: "vi_VN")
-                                                    .format(int.parse(
+                                                        .format(int.parse(
                                                         documentSnapshot["gia"]
                                                             .toString())),
-                                                textAlign: TextAlign.right,
-                                                style: GoogleFonts.inter(
-                                                    color: Color(0xff000000),
-                                                    fontSize: 16,
-                                                    fontStyle:
+                                                    textAlign: TextAlign.right,
+                                                    style: GoogleFonts.inter(
+                                                        color: Color(0xff000000),
+                                                        fontSize: 16,
+                                                        fontStyle:
                                                         FontStyle.italic))
-                                          ],
-                                        ),
-                                      )
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
+                            );
+                          },
+                        ),));
                   }
                   return const Text("Không có sản phẩm");
                 },

@@ -121,7 +121,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                           color: const Color(0xffDECDB9),
                           child: Center(
                             child: SingleChildScrollView(
-                              physics: AlwaysScrollableScrollPhysics(),
+                              physics: const AlwaysScrollableScrollPhysics(),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 // mainAxisSize: MainAxisSize.min,
@@ -149,7 +149,8 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                                   ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(left: 14, top: 80),
+                                            padding: const EdgeInsets.only(
+                                                left: 14, top: 80),
                                             child: IconButton(
                                               iconSize: 30,
                                               icon:
