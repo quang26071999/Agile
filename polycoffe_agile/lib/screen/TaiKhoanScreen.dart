@@ -1,27 +1,30 @@
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TaiKhoanScreen extends StatelessWidget {
  const TaiKhoanScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/backgroundCoffee.png'),
-              fit: BoxFit.fill
+    return SafeArea(
+      child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/backgroundCoffee.png'),
+                fit: BoxFit.fill
+            ),
           ),
-        ),
-        padding: const EdgeInsets.fromLTRB(20,100,20,0),
-        child: Column(
-          children:  <Widget>[
-            Avatar(),
-            Profile(),
-            Buttons(),
-          ],
-        ),
+          padding: const EdgeInsets.fromLTRB(20,70,20,0),
+          child: Column(
+            children:  <Widget>[
+              Avatar(),
+              Profile(),
+              Buttons(),
+            ],
+          ),
 
+      ),
     );
   }
 }
@@ -33,7 +36,6 @@ class Avatar extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-
     return  Row(
       children: [
         const Image(
@@ -42,30 +44,30 @@ class Avatar extends StatelessWidget{
         Padding(
             padding:const EdgeInsets.only(left: 26),
             child: Column(
-              children:const <Widget>[
+              children: <Widget>[
                 Text("Admin",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
+                  style:  GoogleFonts.inter(
+                    textStyle: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w700,)
                   ),
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                   child: Text("Quản lý",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w400,
+                    style:  GoogleFonts.inter(
+                        textStyle: const TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w400,)
                     ),
-                  ),
                 ),
-
+                )
               ],
             )
         ),
-        Padding(padding:const EdgeInsets.fromLTRB(80, 0, 0, 21),
+        Padding(padding:const EdgeInsets.fromLTRB(70, 0, 0, 21),
           child: IconButton(onPressed: () {},
               icon: const Icon(Icons.edit,
                 size: 45 ,
-
               )
           ),
         )
@@ -96,40 +98,50 @@ class Profile extends StatelessWidget{
               padding: const EdgeInsets.fromLTRB(25, 25, 0, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children:const  <Widget> [
+                children: <Widget> [
                   Padding(padding: EdgeInsets.only(bottom: 20),
-                    child: Text("Họ và tên: Nguyễn Văn Quang",style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
+                    child: Text("Họ và tên: Nguyễn Văn Quang",
+                      style:  GoogleFonts.inter(
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,)
+                      ),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(bottom: 20),
+                    child: Text("Ngày sinh: 26/07/1999",
+                      style:  GoogleFonts.inter(
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,)
+                      ),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(bottom: 20),
+                    child: Text("Số điện thoại: 0329698609",
+                      style:  GoogleFonts.inter(
+                        textStyle: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,)
                     ),
                     ),
                   ),
                   Padding(padding: EdgeInsets.only(bottom: 20),
-                    child: Text("Ngày sinh: 26/07/1999",style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: 20),
-                    child: Text("Số điện thoại: 0329698609",style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    ),
+                    child: Text("Giới tính: Nam",
+                      style:  GoogleFonts.inter(
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,)
+                      ),
                     ),
                   ),
                   Padding(padding: EdgeInsets.only(bottom: 20),
-                    child: Text("Giới tính: Nam",style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: 20),
-                    child: Text("Địa chỉ: Hải dương",style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    ),
+                    child: Text("Địa chỉ: Hải dương",
+                      style:  GoogleFonts.inter(
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,)
+                      ),
                     ),
                   ),
                 ],
