@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DatBanScreen extends StatefulWidget {
   const DatBanScreen({super.key});
@@ -33,15 +34,15 @@ class _DatBanScreenState extends State<DatBanScreen> {
           child: Column(
             children: [
               Row(
-                children: const [
-                  Text(
+                children: [
+                   Text(
                     "Lọc theo",
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: 20,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.filter_alt_sharp,
                     size: 32,
                   ),
@@ -74,7 +75,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
                                       padding:
                                           const EdgeInsets.only(bottom: 8.0),
                                       child: Text(
-                                        style: const TextStyle(fontSize: 24),
+                                        style: GoogleFonts.inter(fontSize: 24),
                                         "Bàn ${soBan[index]}",
                                       ),
                                     ),
@@ -82,7 +83,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
                                       padding: const EdgeInsets.only(bottom: 0),
                                       child: Text(
                                         trangThai[index],
-                                        style: TextStyle(
+                                        style: GoogleFonts.inter(
                                           color: trangThai[index] ==
                                                   "Chưa thanh toán"
                                               ? Color(0xffFF0000)
