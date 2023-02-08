@@ -64,11 +64,16 @@ class Avatar extends StatelessWidget{
               ],
             )
         ),
-        Padding(padding:const EdgeInsets.fromLTRB(70, 0, 0, 21),
-          child: IconButton(onPressed: () {},
-              icon: const Icon(Icons.edit,
-                size: 45 ,
-              )
+        Expanded(
+          child: Container(
+            alignment: Alignment.centerRight,
+            child: Padding(padding:const EdgeInsets.fromLTRB(0, 0, 0, 18),
+              child: IconButton(onPressed: () {},
+                  icon: const Icon(Icons.edit,
+                    size: 45 ,
+                  )
+              ),
+            ),
           ),
         )
       ],
