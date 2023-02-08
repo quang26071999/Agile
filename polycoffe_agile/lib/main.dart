@@ -81,11 +81,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               label: 'Bàn',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.money),
+              icon: Icon(Icons.attach_money),
               label: 'Doanh Thu',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.assignment_ind),
+              icon: Icon(Icons.person_pin),
               label: 'Tài khoản',
             ),
           ],
