@@ -79,7 +79,7 @@ class DangNhapScreen extends StatelessWidget {
                               BorderSide(color: Colors.black,width: 2),
                               borderRadius: BorderRadius.all(Radius.circular(20)))),
                     ),
-                    // Image(image: Image.asset(eye.png))
+                    Image.asset("assets/images/eye.png",height: 30,scale: 2,width: 40,)
                   ],
                 ),
               ),
