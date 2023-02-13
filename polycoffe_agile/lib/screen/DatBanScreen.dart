@@ -10,7 +10,7 @@ class DatBanScreen extends StatefulWidget {
 }
 
 class _DatBanScreenState extends State<DatBanScreen> {
-  List TrangThai = [
+  List trangThai = [
     "Chưa thanh toán",
     "Trống",
     "Chưa thanh toán",
@@ -19,7 +19,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
     "Trống",
   ];
 
-  List SoBan = [1, 2, 3, 4, 5, 6];
+  List soBan = [1, 2, 3, 4, 5, 6];
 
   @override
   Widget build(BuildContext context) {
