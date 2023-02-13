@@ -1,29 +1,33 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:polycoffe_agile/constants.dart';
+import 'package:polycoffe_agile/screen/EditProfile.dart';
 
 class TaiKhoanScreen extends StatelessWidget {
  const TaiKhoanScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/backgroundCoffee.png'),
-                fit: BoxFit.fill
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/images/backgroundCoffee.png'),
+                  fit: BoxFit.fill
+              ),
             ),
-          ),
-          padding: const EdgeInsets.fromLTRB(20,70,20,0),
-          child: Column(
-            children:  <Widget>[
-              Avatar(),
-              Profile(),
-              Buttons(),
-            ],
-          ),
+            padding: const EdgeInsets.fromLTRB(20,70,20,0),
+            child: Column(
+              children:  <Widget>[
+                Avatar(),
+                Profile(),
+                Buttons(),
+              ],
+            ),
 
+        ),
       ),
     );
   }
@@ -64,11 +68,20 @@ class Avatar extends StatelessWidget{
               ],
             )
         ),
-        Padding(padding:const EdgeInsets.fromLTRB(70, 0, 0, 21),
-          child: IconButton(onPressed: () {},
-              icon: const Icon(Icons.edit,
-                size: 45 ,
-              )
+        Expanded(
+          child: Container(
+            alignment: Alignment.centerRight,
+            child: Padding(padding:const EdgeInsets.fromLTRB(0, 0, 0, 18),
+              child: IconButton(
+                  onPressed: () {
+                    // Get.to(const EditProfile());
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
+                  },
+                  icon: const Icon(Icons.edit,
+                    size: 45 ,
+                  )
+              ),
+            ),
           ),
         )
       ],
@@ -89,7 +102,7 @@ class Profile extends StatelessWidget{
             width: double.maxFinite,
             height: 250,
             decoration: const BoxDecoration(
-                color: Color.fromRGBO(222, 205, 185, 1),
+                color: color,
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
                 )
@@ -182,7 +195,7 @@ class Buttons extends StatelessWidget{
                 )
             ),
           ),
-           Padding(padding:const EdgeInsets.only(top: 40),
+           Padding(padding:const EdgeInsets.only(top: 30),
               child: SizedBox(
                   width: double.maxFinite,
                   height: 54,
@@ -205,8 +218,9 @@ class Buttons extends StatelessWidget{
       ),
     );
   }
-
 }
+
+
 
 
 

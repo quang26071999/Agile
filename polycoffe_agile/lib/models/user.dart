@@ -1,6 +1,6 @@
 class User{
   String password,hoTen;
-  int role,gioiTinh;
+  String role,gioiTinh;
   String diaChi,avatar;
   String ngaySinh;
   int username;
@@ -26,8 +26,8 @@ class User{
       int.parse(json["username"].toString()),
       json["password".toString()],
       json["hoTen".toString()],
-      int.parse(json["role"].toString()),
-      int.parse(json["gioiTinh"].toString()),
+      json["role".toString()],
+      json["gioiTinh".toString()],
       json["diaChi".toString()],
       json["avatar".toString()],
       json["ngaySinh".toString()],

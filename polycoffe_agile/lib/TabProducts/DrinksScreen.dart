@@ -50,7 +50,8 @@ class DrinksScreen extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Expanded(
-                        child: Padding(padding: EdgeInsets.only(top: 20, bottom: 120),child: ListView.builder(
+                        child: Padding(padding: EdgeInsets.only(top: 20, bottom: 120),
+                          child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           itemCount: snapshot.data?.docs.length,
