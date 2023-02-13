@@ -10,7 +10,7 @@ class DatBanScreen extends StatefulWidget {
 }
 
 class _DatBanScreenState extends State<DatBanScreen> {
-  List trangThai = [
+  List TrangThai = [
     "Chưa thanh toán",
     "Trống",
     "Chưa thanh toán",
@@ -19,7 +19,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
     "Trống",
   ];
 
-  List soBan = [1, 2, 3, 4, 5, 6];
+  List SoBan = [1, 2, 3, 4, 5, 6];
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +38,15 @@ class _DatBanScreenState extends State<DatBanScreen> {
                 children: [
                   Text(
                     "Lọc theo",
-                    style: GoogleFonts.inter(
+                    style: TextStyle(
                       fontSize: 20,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
-                  const Icon(
+                  Icon(
                     Icons.filter_alt_sharp,
                     size: 32,
-                  ),
+                  )
                 ],
               ),
               GestureDetector(
