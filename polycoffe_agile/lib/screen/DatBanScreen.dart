@@ -35,7 +35,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
           child: Column(
             children: [
               Row(
-                children: [
+                children: const [
                   Text(
                     "Lọc theo",
                     style: TextStyle(
