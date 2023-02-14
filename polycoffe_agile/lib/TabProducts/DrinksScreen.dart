@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -103,10 +104,8 @@ class DrinksScreen extends StatelessWidget {
                                                                                   bottom:
                                                                                   46),
                                                                               child: Image
-                                                                                  .memory(
-                                                                                base64.decode(
-                                                                                    documentSnapshot[
-                                                                                    "hinhanh"]),
+                                                                                  .network(
+                                                                                documentSnapshot["hinhanh"],
                                                                                 width: 100,
                                                                                 height: 100,
                                                                               ),
@@ -286,16 +285,19 @@ class DrinksScreen extends StatelessWidget {
                                                             'Bạn có muốn xoá ${documentSnapshot["tensp"]} không ?'),
                                                         actions: <Widget>[
                                                           TextButton(
-                                                            onPressed: () {
+                                                            onPressed: () async {
                                                               Navigator.pop(context);
+                                                              var storageRef = FirebaseStorage.instance.ref().child('${documentSnapshot["masp"]}');
+                                                              await storageRef.delete();
                                                               DocumentReference
                                                               documentReference =
                                                               FirebaseFirestore.instance
                                                                   .collection("Products")
                                                                   .doc(id);
-                                                              documentReference
+                                                              await documentReference
                                                                   .delete()
                                                                   .whenComplete(() => {
+
                                                                 Navigator.pop(context)
                                                               })
                                                                   .then((value) => debugPrint(
@@ -343,9 +345,8 @@ class DrinksScreen extends StatelessWidget {
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 20, bottom: 20, left: 24),
-                                                child: Image.memory(
-                                                  base64.decode(
-                                                      documentSnapshot["hinhanh"]),
+                                                child: Image.network(
+                                                  documentSnapshot["hinhanh"],
                                                   width: 100,
                                                   height: 100,
                                                 ),

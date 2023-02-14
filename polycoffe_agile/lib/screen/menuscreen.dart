@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:polycoffe_agile/models/product.dart';
@@ -334,17 +335,24 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                                 style: ElevatedButton.styleFrom(
                                                     backgroundColor:
                                                         Color(0xff492F2C)),
-                                                onPressed: () {
+                                                onPressed: () async {
                                                   if (_formKey.currentState!.validate()) {
+                                                    final storageRef = FirebaseStorage.instance.ref().child(id);
+                                                    try {
+                                                      await storageRef.putFile(_imageFile!);
+                                                    } on FirebaseException catch (e) {
+                                                      // ...
+                                                      print(e.message);
+                                                    }
                                                     var documentReference =
                                                     FirebaseFirestore.instance
                                                         .collection(
                                                         "Products");
+                                                    var url = await storageRef.getDownloadURL();
                                                     Product product = Product(
                                                         id,
                                                         _tenSPTED.text,
-                                                        base64Encode(_imageFile!
-                                                            .readAsBytesSync()),
+                                                        url,
                                                         int.parse(_giaSPTED.text
                                                             .toString()),
                                                         1);
