@@ -70,7 +70,8 @@ class DrinksScreen extends StatelessWidget {
                                           children: [
                                             SlidableAction(
                                               flex: 1,
-                                              borderRadius: BorderRadius.circular(15),
+                                              // borderRadius: BorderRadius.circular(15),
+                                              borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), bottomLeft: Radius.circular(15.0)),
                                               onPressed: (context) {
                                                 _tenSPUpdateTED.text =
                                                 documentSnapshot["tensp"];
@@ -208,18 +209,18 @@ class DrinksScreen extends StatelessWidget {
                                                                                         ElevatedButton.styleFrom(backgroundColor: const Color(0xff492F2C)),
                                                                                         onPressed:
                                                                                             () {
-                                                                                          // if (_formKey.currentState!.validate()) {
-                                                                                          //   var documentReference = FirebaseFirestore.instance.collection("Products").doc(id);
-                                                                                          //   documentReference
-                                                                                          //       .update({
-                                                                                          //     "tensp": _tenSPUpdateTED.text,
-                                                                                          //     "gia": _giaSPUpdateTED.text
-                                                                                          //   })
-                                                                                          //       .then((value) => debugPrint("Sửa thành công"))
-                                                                                          //       .catchError((error) => debugPrint("Sửa thất bại:  ${error}"));
-                                                                                          //   Navigator.pop(context);
-                                                                                          // }
-                                                                                              print(snapshot.data?.docs.where((element) => element["maloai"] == maLoai).length) ;
+                                                                                          if (_formKey.currentState!.validate()) {
+                                                                                            var documentReference = FirebaseFirestore.instance.collection("Products").doc(id);
+                                                                                            documentReference
+                                                                                                .update({
+                                                                                              "tensp": _tenSPUpdateTED.text,
+                                                                                              "gia": _giaSPUpdateTED.text
+                                                                                            })
+                                                                                                .then((value) => debugPrint("Sửa thành công"))
+                                                                                                .catchError((error) => debugPrint("Sửa thất bại:  ${error}"));
+                                                                                            Navigator.pop(context);
+                                                                                          }
+                                                                                              // print(snapshot.data?.docs.where((element) => element["maloai"] == maLoai).length) ;
                                                                                         },
                                                                                         child: Text(
                                                                                             'LƯU',
@@ -268,7 +269,8 @@ class DrinksScreen extends StatelessWidget {
                                             ),
                                             SlidableAction(
                                               flex: 1,
-                                              borderRadius: BorderRadius.circular(15),
+                                              // borderRadius: BorderRadius.circular(15),
+                                              borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0)),
                                               onPressed: (BuildContext context) {
                                                 showDialog<String>(
                                                   context: context,

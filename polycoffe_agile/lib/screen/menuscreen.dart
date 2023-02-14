@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:polycoffe_agile/models/product.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../TabProducts/DrinksScreen.dart';
+import 'package:get/get.dart';
 
 //
 // const List<String> list = <String>['Đồ uống', 'Bánh ngọt', 'Đồ ăn vặt'];
@@ -229,6 +230,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                                                           context)
                                                                       .pop();
                                                                 },
+
                                                               ),
                                                               ListTile(
                                                                 leading:
@@ -338,7 +340,10 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                                     backgroundColor:
                                                         Color(0xff492F2C)),
                                                 onPressed: () async {
-                                                  if (_formKey.currentState!.validate()) {
+                                                  if(_imageFile == null){
+                                                    Get.snackbar("Thông báo", "Vui lòng thêm ảnh cho sản phẩm", backgroundColor: Color(0xffDECDB9),);
+                                                  }
+                                                  else if (_formKey.currentState!.validate() && _imageFile!=null) {
                                                     final storageRef = FirebaseStorage.instance.ref().child(id);
                                                     try {
                                                       await storageRef.putFile(_imageFile!);
