@@ -2,12 +2,44 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:polycoffe_agile/constants.dart';
+import 'package:polycoffe_agile/screen/DangNhapScreen.dart';
 import 'package:polycoffe_agile/screen/EditProfile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
 
-class TaiKhoanScreen extends StatelessWidget {
- const TaiKhoanScreen({super.key});
-
+class TaiKhoanScreen extends StatelessWidget{
   @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: ProfileScreen(),
+    );
+  }
+
+}
+class ProfileScreen extends StatefulWidget{
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+
+}
+class _ProfileScreenState extends State<ProfileScreen>{
+
+  late SharedPreferences logindata;
+  late String username;
+  @override
+  void initState() {
+
+    super.initState();
+    initial();
+  }
+
+  Future<void> initial() async {
+    logindata = await SharedPreferences.getInstance();
+    setState(() {
+      username = logindata.getString("username")!;
+    });
+  }
+
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -23,7 +55,54 @@ class TaiKhoanScreen extends StatelessWidget {
               children:  <Widget>[
                 Avatar(),
                 Profile(),
-                Buttons(),
+                Padding(
+                  padding: EdgeInsets.only(top: 66),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: double.maxFinite,
+                        height: 54,
+                        child: TextButton(
+                            onPressed: (){},
+                            style: TextButton.styleFrom(
+                              backgroundColor: Color.fromRGBO(73, 47, 44, 1),
+                            ),
+                            child: const Text('Đổi mật khẩu',
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                )
+                            )
+                        ),
+                      ),
+                      Padding(padding:const EdgeInsets.only(top: 30),
+                          child: SizedBox(
+                            width: double.maxFinite,
+                            height: 54,
+                            child: TextButton(
+                                onPressed: (){
+                                  logindata.setBool("login", true);
+                                  //Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => MyLogin()));
+                                  Get.off(MyLogin());
+
+                                },
+                                style: TextButton.styleFrom(
+                                  backgroundColor: const Color.fromRGBO(73, 47, 44, 1),
+                                ),
+                                child: const Text('Đăng xuất',
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                    )
+                                )
+                            ),
+                          )
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
 
@@ -31,7 +110,41 @@ class TaiKhoanScreen extends StatelessWidget {
       ),
     );
   }
+
 }
+
+// class TaiKhoanScreen extends StatelessWidget {
+//   TaiKhoanScreen({super.key});
+//  late SharedPreferences logindata;
+//
+//
+//
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: SafeArea(
+//         child: Container(
+//             decoration: const BoxDecoration(
+//               image: DecorationImage(
+//                   image: AssetImage('assets/images/backgroundCoffee.png'),
+//                   fit: BoxFit.fill
+//               ),
+//             ),
+//             padding: const EdgeInsets.fromLTRB(20,70,20,0),
+//             child: Column(
+//               children:  <Widget>[
+//                 Avatar(),
+//                 Profile(),
+//                 Buttons(),
+//               ],
+//             ),
+//
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 class Avatar extends StatelessWidget{
@@ -167,58 +280,61 @@ class Profile extends StatelessWidget{
 
 }
 
-class Buttons extends StatelessWidget{
-  const Buttons({super.key});
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Padding(
-      padding: EdgeInsets.only(top: 66),
-      child: Column(
-        children: [
-          SizedBox(
-            width: double.maxFinite,
-            height: 54,
-            child: TextButton(
-                onPressed: (){},
-                style: TextButton.styleFrom(
-                  backgroundColor: Color.fromRGBO(73, 47, 44, 1),
-                ),
-                child: const Text('Đổi mật khẩu',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    )
-                )
-            ),
-          ),
-           Padding(padding:const EdgeInsets.only(top: 30),
-              child: SizedBox(
-                  width: double.maxFinite,
-                  height: 54,
-                  child: TextButton(
-                  onPressed: (){},
-                  style: TextButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(73, 47, 44, 1),
-                  ),
-                  child: const Text('Đăng xuất',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      )
-                  )
-              ),
-           )
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class Buttons extends StatelessWidget{
+//   const Buttons({super.key});
+//
+//
+//   @override
+//   Widget build(BuildContext context) {
+//
+//     return Padding(
+//       padding: EdgeInsets.only(top: 66),
+//       child: Column(
+//         children: [
+//           SizedBox(
+//             width: double.maxFinite,
+//             height: 54,
+//             child: TextButton(
+//                 onPressed: (){},
+//                 style: TextButton.styleFrom(
+//                   backgroundColor: Color.fromRGBO(73, 47, 44, 1),
+//                 ),
+//                 child: const Text('Đổi mật khẩu',
+//                     style: TextStyle(
+//                       fontSize: 30,
+//                       fontWeight: FontWeight.w700,
+//                       color: Colors.white,
+//                     )
+//                 )
+//             ),
+//           ),
+//            Padding(padding:const EdgeInsets.only(top: 30),
+//               child: SizedBox(
+//                   width: double.maxFinite,
+//                   height: 54,
+//                   child: TextButton(
+//                   onPressed: (){
+//
+//
+//                   },
+//                   style: TextButton.styleFrom(
+//                     backgroundColor: const Color.fromRGBO(73, 47, 44, 1),
+//                   ),
+//                   child: const Text('Đăng xuất',
+//                       style: TextStyle(
+//                         fontSize: 30,
+//                         fontWeight: FontWeight.w700,
+//                         color: Colors.white,
+//                       )
+//                   )
+//               ),
+//            )
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 
 

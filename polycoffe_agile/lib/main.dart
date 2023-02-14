@@ -8,6 +8,7 @@ import 'package:polycoffe_agile/Screen/DoanhThuScreen.dart';
 import 'package:polycoffe_agile/Screen/MenuScreen.dart';
 import 'package:polycoffe_agile/Screen/QLNVScreen.dart';
 import 'package:polycoffe_agile/Screen/TaiKhoanScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -40,6 +41,23 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  late SharedPreferences logindata;
+  late String username;
+
+  @override
+  void initState() {
+
+    super.initState();
+    initial();
+  }
+
+  Future<void> initial() async {
+    logindata = await SharedPreferences.getInstance();
+    setState(() {
+      username = logindata.getString("username")!;
+    });
+  }
+
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
