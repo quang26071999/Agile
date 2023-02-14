@@ -66,12 +66,11 @@ class DrinksScreen extends StatelessWidget {
                                       child: Slidable(
                                         // key: ValueKey(0),
                                         endActionPane: ActionPane(
-                                          motion: const ScrollMotion(),
+                                          motion: const StretchMotion(),
                                           children: [
                                             SlidableAction(
                                               flex: 1,
-                                              // borderRadius: BorderRadius.circular(15),
-                                              borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), bottomLeft: Radius.circular(15.0)),
+                                              borderRadius: BorderRadius.circular(15),
                                               onPressed: (context) {
                                                 _tenSPUpdateTED.text =
                                                 documentSnapshot["tensp"];
@@ -269,8 +268,7 @@ class DrinksScreen extends StatelessWidget {
                                             ),
                                             SlidableAction(
                                               flex: 1,
-                                              // borderRadius: BorderRadius.circular(15),
-                                              borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), bottomRight: Radius.circular(15.0)),
+                                              borderRadius: BorderRadius.circular(15),
                                               onPressed: (BuildContext context) {
                                                 showDialog<String>(
                                                   context: context,
