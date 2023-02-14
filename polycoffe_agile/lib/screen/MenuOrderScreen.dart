@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:polycoffe_agile/TabProducts/CakeScreen.dart';
-import 'package:polycoffe_agile/TabProducts/JunkFoodScreen.dart';
 import 'package:polycoffe_agile/tabproducts2/DrinksScreen2.dart';
 
 class MenuOrder extends StatefulWidget {
@@ -12,6 +10,8 @@ class MenuOrder extends StatefulWidget {
 }
 
 class _MenuOrderState extends State<MenuOrder> {
+  int maLoai = 1;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,6 +28,12 @@ class _MenuOrderState extends State<MenuOrder> {
                         color: const Color(0xff000000))),
                 bottom: TabBar(
                   labelPadding: EdgeInsets.only(top: 12),
+                  onTap: (selectedIndex) {
+                    setState(() {
+                      maLoai = selectedIndex + 1;
+                    });
+                    print(maLoai);
+                  },
                   tabs: [
                     Padding(
                       padding: EdgeInsets.only(bottom: 10),
@@ -62,8 +68,10 @@ class _MenuOrderState extends State<MenuOrder> {
                   ],
                 ),
               ),
-              body: TabBarView(
-                children: [DrinksScreen2(), CakeScreen(), JunkFoodScreen()],
+              body: PageView(
+                children: [
+                  DrinksScreen2(maLoai: maLoai,)
+                ],
               ),
             )));
   }

@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:polycoffe_agile/models/product.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../TabProducts/CakeScreen.dart';
 import '../TabProducts/DrinksScreen.dart';
-import '../TabProducts/JunkFoodScreen.dart';
 
 //
 // const List<String> list = <String>['Đồ uống', 'Bánh ngọt', 'Đồ ăn vặt'];

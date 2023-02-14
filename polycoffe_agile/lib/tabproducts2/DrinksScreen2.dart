@@ -1,21 +1,20 @@
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:polycoffe_agile/screen/AddProductToTableScreen.dart';
 
 List products = ["Cà Phê Phin", "Cà Phê Đen", "Bạc Xỉu"];
 List quantity = [2, 5, 1];
 
-class DrinksScreen2 extends StatefulWidget {
-  const DrinksScreen2({Key? key}) : super(key: key);
+class DrinksScreen2 extends StatelessWidget {
+  DrinksScreen2({super.key, required this.maLoai});
 
-  @override
-  State<DrinksScreen2> createState() => _DrinksScreen2State();
-}
+  final int maLoai;
+  final db = FirebaseFirestore.instance.collection("Products");
 
-class _DrinksScreen2State extends State<DrinksScreen2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +32,7 @@ class _DrinksScreen2State extends State<DrinksScreen2> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: <Widget>[
-                TextField(
+                TextFormField(
                   style: GoogleFonts.inter(
                       fontSize: 16, fontStyle: FontStyle.italic),
                   decoration: InputDecoration(
@@ -49,117 +48,99 @@ class _DrinksScreen2State extends State<DrinksScreen2> {
                       )),
                 ),
                 StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection("Products")
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Expanded(
-                            child: Padding(
-                                padding: const EdgeInsets.only(top: 20),
-                                child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const AddProduct()));
-                                    },
-                                    child: ListView.builder(
-                                        scrollDirection: Axis.vertical,
-                                        shrinkWrap: true,
-                                        itemCount: snapshot.data?.docs.length,
-                                        itemBuilder: (context, index) {
-                                          DocumentSnapshot docSnap =
-                                              snapshot.data?.docs[index]
-                                                  as DocumentSnapshot<Object?>;
-                                          String id = docSnap.id;
-                                          return Card(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 20),
-                                            color: const Color(0xffDECDB9),
-                                            elevation: 5.0,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.0),
-                                            ),
-                                            child: Row(
-                                              // mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 20,
-                                                          bottom: 20,
-                                                          left: 24),
-                                                  child: Image.memory(
-                                                    base64.decode(
-                                                        docSnap["hinhanh"]),
-                                                    width: 100,
-                                                    height: 100,
-                                                  ),
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 50),
-                                                      child: Column(
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    bottom:
-                                                                        10.0),
-                                                            child: Text(
-                                                                docSnap[
-                                                                    "tensp"],
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .start,
-                                                                style: GoogleFonts.inter(
-                                                                    color: const Color(
-                                                                        0xff000000),
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontStyle:
-                                                                        FontStyle
-                                                                            .italic,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
-                                                          ),
-                                                          Text(
-                                                              NumberFormat.simpleCurrency(
-                                                                      locale:
-                                                                          "vi_VN")
-                                                                  .format(int.parse(
-                                                                      docSnap["gia"]
-                                                                          .toString())),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .right,
-                                                              style: GoogleFonts.inter(
-                                                                  color: const Color(
-                                                                      0xff000000),
-                                                                  fontSize: 16,
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .italic))
-                                                        ],
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        }))));
-                      }
-                      return const Text("Không có sản phẩm nào");
-                    })
+                  stream: FirebaseFirestore.instance
+                      .collection("Products")
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Expanded(
+                          child: Padding(
+                        padding: EdgeInsets.only(top: 20, bottom: 120),
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data?.docs
+                              .where((element) => element["maloai"] == maLoai)
+                              .length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot documentSnapshot = snapshot
+                                .data?.docs
+                                .where((element) => element["maloai"] == maLoai)
+                                .elementAt(index) as DocumentSnapshot<Object?>;
+                            String id = documentSnapshot.id; // id
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Card(
+                                // margin: EdgeInsets.only(bottom: 20, top: 20),
+                                color: const Color(0xffDECDB9),
+                                elevation: 5.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: Row(
+                                  // mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 20, bottom: 20, left: 24),
+                                      child: Image.network(
+                                        documentSnapshot["hinhanh"],
+                                        width: 100,
+                                        height: 100,
+                                      ),
+                                    ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 50),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 10.0),
+                                                child: Text(
+                                                    documentSnapshot["tensp"],
+                                                    textAlign: TextAlign.start,
+                                                    style: GoogleFonts.inter(
+                                                        color:
+                                                            Color(0xff000000),
+                                                        fontSize: 16,
+                                                        fontStyle:
+                                                            FontStyle.italic,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ),
+                                              Text(
+                                                  NumberFormat.simpleCurrency(
+                                                          locale: "vi_VN")
+                                                      .format(int.parse(
+                                                          documentSnapshot[
+                                                                  "gia"]
+                                                              .toString())),
+                                                  textAlign: TextAlign.right,
+                                                  style: GoogleFonts.inter(
+                                                      color: Color(0xff000000),
+                                                      fontSize: 16,
+                                                      fontStyle:
+                                                          FontStyle.italic))
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ));
+                    }
+                    return const Text("Không có sản phẩm");
+                  },
+                )
               ],
             ),
           ),
@@ -219,10 +200,7 @@ void _showModalBottomSheet(BuildContext context) {
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
-                          margin: const EdgeInsets.only(
-                            left: 40,
-                            right: 40
-                          ),
+                          margin: const EdgeInsets.only(left: 40, right: 40),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
