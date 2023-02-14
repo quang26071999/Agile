@@ -355,7 +355,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                                         url,
                                                         int.parse(_giaSPTED.text
                                                             .toString()),
-                                                        1);
+                                                        maLoai!);
                                                     documentReference
                                                         .add(product.toJson())
                                                         .whenComplete(() => {
