@@ -34,22 +34,25 @@ class _DatBanScreenState extends State<DatBanScreen> {
          ),
          child: Column(
            children: [
-             Container(
-               alignment: Alignment.topRight,
-               child: Row(
-                 children: const [
-                   Text(
-                     "Lọc theo",
-                     style: TextStyle(
-                       fontSize: 20,
-                       fontStyle: FontStyle.italic,
+             Padding(
+               padding: const EdgeInsets.fromLTRB(247, 28, 24, 0),
+               child: Container(
+                 alignment: Alignment.topRight,
+                 child: Row(
+                   children: const [
+                     Text(
+                       "Lọc theo",
+                       style: TextStyle(
+                         fontSize: 20,
+                         fontStyle: FontStyle.italic,
+                       ),
                      ),
-                   ),
-                   Icon(
-                     Icons.filter_alt_sharp,
-                     size: 32,
-                   )
-                 ],
+                     Icon(
+                       Icons.filter_alt_sharp,
+                       size: 32,
+                     )
+                   ],
+                 ),
                ),
              ),
              GestureDetector(
