@@ -47,7 +47,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
   final TextEditingController _maSPTED = TextEditingController();
   final TextEditingController _tenSPTED = TextEditingController();
   final TextEditingController _giaSPTED = TextEditingController();
-  int? maLoai;
+  int maLoai = 0;
 
   String id = DateTime.now().millisecondsSinceEpoch.toString();
   File? _imageFile;
@@ -69,23 +69,28 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
           appBar: TabBar(
             labelPadding: EdgeInsets.only(top: 12),
             onTap: (selectedIndex) {
-              switch (selectedIndex) {
-                case 0:
-                  {
-                    maLoai = 1;
-                  }
-                  break;
-                case 1:
-                  {
-                    maLoai = 2;
-                  }
-                  break;
-                case 2:
-                  {
-                    maLoai = 3;
-                  }
-                  break;
-              }
+              // switch (selectedIndex) {
+              //   case 0:
+              //     {
+              //       maLoai = 1;
+              //     }
+              //     break;
+              //   case 1:
+              //     {
+              //       maLoai = 2;
+              //     }
+              //     break;
+              //   case 2:
+              //     {
+              //       maLoai = 3;
+              //     }
+              //     break;
+              // }
+             // print(selectedIndex);
+              setState(() {
+                maLoai = selectedIndex+1;
+              });
+              print(maLoai);
             },
             tabs: [
               Padding(
@@ -355,7 +360,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                                         url,
                                                         int.parse(_giaSPTED.text
                                                             .toString()),
-                                                        maLoai!);
+                                                        maLoai);
                                                     documentReference
                                                         .add(product.toJson())
                                                         .whenComplete(() => {
