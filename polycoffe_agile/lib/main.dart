@@ -15,6 +15,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(GetMaterialApp(home: DangNhapScreen(),));
+
 }
 
 class MyApp extends StatelessWidget {

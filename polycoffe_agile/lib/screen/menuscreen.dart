@@ -47,7 +47,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
   final TextEditingController _maSPTED = TextEditingController();
   final TextEditingController _tenSPTED = TextEditingController();
   final TextEditingController _giaSPTED = TextEditingController();
-  int maLoai = 0;
+  int maLoai = 1;
 
   String id = DateTime.now().millisecondsSinceEpoch.toString();
   File? _imageFile;
@@ -130,8 +130,8 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
             //     color: Colors.amber
             // ),
           ),
-          body: TabBarView(
-            children: [DrinksScreen(), CakeScreen(), JunkFoodScreen()],
+          body: PageView(
+            children: [DrinksScreen(maLoai: maLoai,)],
           ),
           floatingActionButton: Visibility(
             visible: showFab,

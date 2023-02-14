@@ -13,10 +13,10 @@ class Product{
     "maloai": maLoai
   };
 
-  // factory Product.fromJson(Map<String, dynamic> json){
-  //   return Product(
-  //      json['masp'].toString(), json['tensp'].toString(),json['hinhanh'].toString(), int.parse(json['gia'].toString()),int.parse(json['maloai'].toString())
-  //   );
-  // }
+  factory Product.fromJson(Map<String, dynamic> json){
+    return Product(
+       json['masp'].toString(), json['tensp'].toString(),json['hinhanh'].toString(), int.parse(json['gia'].toString()),int.parse(json['maloai'].toString())
+    );
+  }
 
 }

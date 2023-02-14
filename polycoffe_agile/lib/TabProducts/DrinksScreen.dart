@@ -7,12 +7,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class DrinksScreen extends StatelessWidget {
-  DrinksScreen({super.key});
-
+  DrinksScreen({super.key, required this.maLoai});
+  final int maLoai;
   final TextEditingController _tenSPUpdateTED = TextEditingController();
   final TextEditingController _giaSPUpdateTED = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
+  final db =  FirebaseFirestore.instance.collection("Products");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,12 +55,10 @@ class DrinksScreen extends StatelessWidget {
                               child: ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
-                                itemCount: snapshot.data?.docs.length,
+                                itemCount: snapshot.data?.docs.where((element) => element["maloai"] == maLoai).length,
                                 itemBuilder: (context, index) {
-                                  DocumentSnapshot documentSnapshot = snapshot
-                                      .data?.docs[index] as DocumentSnapshot<Object?>;
+                                  DocumentSnapshot documentSnapshot =  snapshot.data?.docs.where((element) => element["maloai"] == maLoai).elementAt(index) as DocumentSnapshot<Object?>;
                                   String id = documentSnapshot.id; // id
-                                  if(documentSnapshot["maloai"]==1){
                                     return Container(
                                       width: MediaQuery.of(context).size.width,
                                       padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -211,17 +209,18 @@ class DrinksScreen extends StatelessWidget {
                                                                                         ElevatedButton.styleFrom(backgroundColor: const Color(0xff492F2C)),
                                                                                         onPressed:
                                                                                             () {
-                                                                                          if (_formKey.currentState!.validate()) {
-                                                                                            var documentReference = FirebaseFirestore.instance.collection("Products").doc(id);
-                                                                                            documentReference
-                                                                                                .update({
-                                                                                              "tensp": _tenSPUpdateTED.text,
-                                                                                              "gia": _giaSPUpdateTED.text
-                                                                                            })
-                                                                                                .then((value) => debugPrint("Sửa thành công"))
-                                                                                                .catchError((error) => debugPrint("Sửa thất bại:  ${error}"));
-                                                                                            Navigator.pop(context);
-                                                                                          }
+                                                                                          // if (_formKey.currentState!.validate()) {
+                                                                                          //   var documentReference = FirebaseFirestore.instance.collection("Products").doc(id);
+                                                                                          //   documentReference
+                                                                                          //       .update({
+                                                                                          //     "tensp": _tenSPUpdateTED.text,
+                                                                                          //     "gia": _giaSPUpdateTED.text
+                                                                                          //   })
+                                                                                          //       .then((value) => debugPrint("Sửa thành công"))
+                                                                                          //       .catchError((error) => debugPrint("Sửa thất bại:  ${error}"));
+                                                                                          //   Navigator.pop(context);
+                                                                                          // }
+                                                                                              print(snapshot.data?.docs.where((element) => element["maloai"] == maLoai).length) ;
                                                                                         },
                                                                                         child: Text(
                                                                                             'LƯU',
@@ -395,7 +394,6 @@ class DrinksScreen extends StatelessWidget {
                                         ),
                                       ),
                                     );
-                                  }
                                 },
                               ),
                             ));
@@ -410,3 +408,4 @@ class DrinksScreen extends StatelessWidget {
         ));
   }
 }
+
