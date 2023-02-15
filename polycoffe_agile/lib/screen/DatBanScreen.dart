@@ -30,7 +30,6 @@ class _DatBanScreenState extends State<DatBanScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-
         child: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -40,22 +39,25 @@ class _DatBanScreenState extends State<DatBanScreen> {
           ),
           child: Column(
             children: [
-              Container(
-                alignment: Alignment.topRight,
-                child: Row(
-                  children: const [
-                    Text(
-                      "Lọc theo",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontStyle: FontStyle.italic,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(247, 28, 24, 0),
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Row(
+                    children: const [
+                      Text(
+                        "Lọc theo",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
-                    ),
-                    Icon(
-                      Icons.filter_alt_sharp,
-                      size: 32,
-                    )
-                  ],
+                      Icon(
+                        Icons.filter_alt_sharp,
+                        size: 32,
+                      )
+                    ],
+                  ),
                 ),
               ),
               StreamBuilder(
@@ -85,8 +87,8 @@ class _DatBanScreenState extends State<DatBanScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            MenuOrder(numTable: "Bàn ${index + 1}")));
+                                        builder: (context) => MenuOrder(
+                                            numTable: "Bàn ${index + 1}")));
                               },
                               child: SizedBox(
                                 width: 147,
