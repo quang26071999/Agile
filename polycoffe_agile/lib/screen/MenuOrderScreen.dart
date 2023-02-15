@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:polycoffe_agile/tabproducts2/DrinksScreen2.dart';
 
 class MenuOrder extends StatefulWidget {
-  const MenuOrder({Key? key}) : super(key: key);
+  final String numTable;
+  const MenuOrder({Key? key, required this.numTable}) : super(key: key);
 
   @override
   State<MenuOrder> createState() => _MenuOrderState();
@@ -21,48 +22,47 @@ class _MenuOrderState extends State<MenuOrder> {
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: const Color(0xffD9D9D9),
-                title: Text("Bàn 1",
+                title: Text(widget.numTable,
                     style: GoogleFonts.inter(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xff000000))),
                 bottom: TabBar(
-                  labelPadding: EdgeInsets.only(top: 12),
+                  labelPadding: const EdgeInsets.only(top: 12),
                   onTap: (selectedIndex) {
                     setState(() {
                       maLoai = selectedIndex + 1;
                     });
-                    print(maLoai);
                   },
                   tabs: [
                     Padding(
-                      padding: EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
                         'Đồ uống',
                         style: GoogleFonts.inter(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xff000000)),
+                            color: const Color(0xff000000)),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
                         'Bánh ngọt',
                         style: GoogleFonts.inter(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xff000000)),
+                            color: const Color(0xff000000)),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
                         'Đồ ăn vặt',
                         style: GoogleFonts.inter(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xff000000)),
+                            color: const Color(0xff000000)),
                       ),
                     ),
                   ],
