@@ -83,7 +83,7 @@ class _MyLoginState extends State<MyLogin>{
                   controller: usernameController,
                   style:  GoogleFonts.inter(fontSize: 20,color: Colors.black,),
                   decoration: InputDecoration(
-                      labelText: "Usename",
+                      labelText: "Username",
                       filled: true,
                       fillColor:   Color(0xffDECDB9),
                       prefixIcon: Container(

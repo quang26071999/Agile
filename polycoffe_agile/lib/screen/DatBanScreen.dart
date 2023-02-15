@@ -30,6 +30,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+
         child: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
