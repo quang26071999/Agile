@@ -239,11 +239,11 @@ class QLNVScreen extends StatelessWidget {
                                                                         ),
                                                                         validator: (value){
                                                                           if(value!.isEmpty){
-                                                                            return "Vui lòng nhập username";
+                                                                            return "Vui lòng không để trống";
                                                                           }
-                                                                          // else if(value){
-                                                                          //   return "Nhập đúng định dạng số điện thoại";
-                                                                          // }
+                                                                          else if(!RegExp(r'^(84|0)+([0-9]{9})+$').hasMatch(value!)){
+                                                                            return "Nhập đúng định dạng số điện thoại";
+                                                                          }
                                                                           return null;
                                                                         },
 
@@ -262,6 +262,14 @@ class QLNVScreen extends StatelessWidget {
                                                                               width: 50, child: Icon(Icons.lock_open)),
                                                                           hintText: 'Nhập password',
                                                                         ),
+                                                                        validator: (value){
+                                                                          if(value!.isEmpty){
+                                                                            return "Vui lòng không để trống";
+                                                                          }
+                                                                          else{
+                                                                            return null;
+                                                                          }
+                                                                        },
                                                                         onChanged: (value) => {},
                                                                       ),
                                                                     ),
@@ -279,6 +287,14 @@ class QLNVScreen extends StatelessWidget {
                                                                               Icon(Icons.supervised_user_circle_sharp)),
                                                                           hintText: 'Nhập họ tên',
                                                                         ),
+                                                                        validator: (value){
+                                                                          if(value!.isEmpty){
+                                                                            return "Vui lòng không để trống";
+                                                                          }
+                                                                          else{
+                                                                            return null;
+                                                                          }
+                                                                        },
                                                                         onChanged: (value) => {},
                                                                       ),
                                                                     ),
@@ -340,6 +356,17 @@ class QLNVScreen extends StatelessWidget {
                                                                               child: Icon(Icons.calendar_month_outlined)),
                                                                           hintText: 'Nhập ngày sinh',
                                                                         ),
+                                                                        validator: (value){
+                                                                          if(value!.isEmpty){
+                                                                            return "Vui lòng không để trống";
+                                                                          }
+                                                                          if(!RegExp(r'^(0[1-9]|[12][0-9]|[3][01])/(0[1-9]|1[012])/[0-9]{4}$').hasMatch(value!)){
+                                                                            return "Ngày sinh không đúng định dạng";
+                                                                          }
+                                                                          else{
+                                                                            return null;
+                                                                          }
+                                                                        },
                                                                         onChanged: (value) => {},
                                                                       ),
                                                                     ),
@@ -355,6 +382,14 @@ class QLNVScreen extends StatelessWidget {
                                                                               width: 50, child: Icon(Icons.map_outlined)),
                                                                           hintText: 'Nhập địa chỉ',
                                                                         ),
+                                                                        validator: (value){
+                                                                          if(value!.isEmpty){
+                                                                            return "Vui lòng không để trống";
+                                                                          }
+                                                                          else{
+                                                                            return null;
+                                                                          }
+                                                                        },
                                                                         onChanged: (value) => {},
                                                                       ),
                                                                     ),
