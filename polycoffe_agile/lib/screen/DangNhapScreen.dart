@@ -139,13 +139,21 @@ class _MyLoginState extends State<MyLogin>{
                     onPressed: () {
                       final userRef = FirebaseFirestore.instance.collection("User");
                       userRef.get().then((QuerySnapshot querySnapshot){
-                        querySnapshot.docs.forEach((doc) {
+                        querySnapshot.docs.forEach((doc) async {
                           if(usernameController.text == doc["username"] && passwordController.text == doc["password"]){
-                            logindata.setBool("login", false);
-                            logindata.setString("username", usernameController.text);
+                           await logindata.setBool("login", false);
+                           await logindata.setString("username", usernameController.text);
+                           await logindata.setString("name", doc['hoTen']);
+                           await logindata.setString("dateOfBirth", doc['ngaySinh']);
+                           await logindata.setString("sex", doc['gioiTinh']);
+                           await logindata.setString("avatar", doc['avatar']);
+                           await logindata.setString("role", doc['role']);
+                           await logindata.setString("address", doc['diaChi']);
+                            Get.snackbar("Successfully", "Dang nhap thanh cong");
                             Get.off(MyApp());
                           }else if(usernameController.text == "admin" && passwordController.text == "admin"){
                             logindata.setBool("login", false);
+                            logindata.setString("role", 'admin');
                             logindata.setString("username", usernameController.text);
 
                             Get.off(MyApp());

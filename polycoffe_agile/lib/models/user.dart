@@ -3,7 +3,7 @@ class User{
   String role,gioiTinh;
   String diaChi,avatar;
   String ngaySinh;
-  int username;
+  String username;
 
 
   User(this.username, this.password, this.hoTen, this.role, this.gioiTinh,
@@ -23,7 +23,7 @@ class User{
 
   factory User.fromJson(Map<String, dynamic> json){
     return User(
-      int.parse(json["username"].toString()),
+      json["username"].toString(),
       json["password".toString()],
       json["hoTen".toString()],
       json["role".toString()],

@@ -6,17 +6,17 @@ import 'package:polycoffe_agile/constants.dart';
 class EditProfile extends StatelessWidget{
    EditProfile({super.key});
 
-   final TextEditingController numberPhone = TextEditingController();
-   final TextEditingController name = TextEditingController();
-   final TextEditingController dateOfBirth = TextEditingController();
-   final TextEditingController address = TextEditingController();
+   final TextEditingController numberPhonetxt = TextEditingController();
+   final TextEditingController nametxt = TextEditingController();
+   final TextEditingController dateOfBirthtxt = TextEditingController();
+   final TextEditingController addresstxt = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-  numberPhone.text = '0329698609';
-  name.text = 'Nguyễn Văn Quang';
-  dateOfBirth.text = '26/07/1999';
-  address.text = 'Hải Dương';
+    numberPhonetxt.text = username.toString();
+    nametxt.text = name.toString() ;
+    dateOfBirthtxt.text = dateOfBirth.toString();
+    addresstxt.text = address.toString();
     return Scaffold(
       body: Container(
           width: 500,
@@ -31,7 +31,7 @@ class EditProfile extends StatelessWidget{
                       Padding(
                         padding: const EdgeInsets.only(bottom: 28),
                         child: TextField(
-                            controller: numberPhone,
+                            controller: numberPhonetxt,
                             style: GoogleFonts.inter(),
                             enabled: false,
                             decoration: const InputDecoration(
@@ -43,7 +43,7 @@ class EditProfile extends StatelessWidget{
                       Padding(
                         padding: const EdgeInsets.only(bottom: 28),
                         child: TextField(
-                          controller: name,
+                          controller: nametxt,
                           style: GoogleFonts.inter(),
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -55,7 +55,7 @@ class EditProfile extends StatelessWidget{
                       Padding(
                         padding: const EdgeInsets.only(bottom: 28),
                         child: TextField(
-                          controller: dateOfBirth,
+                          controller: dateOfBirthtxt,
                           style: GoogleFonts.inter(),
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -67,7 +67,7 @@ class EditProfile extends StatelessWidget{
                       Padding(
                         padding: const EdgeInsets.only(bottom: 28),
                         child: TextField(
-                          controller: address,
+                          controller: addresstxt,
                           style: GoogleFonts.inter(),
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -132,5 +132,27 @@ class RadioButtonState extends State<RadioButtons> {
 
   );
   }
+}
+
+class HomeEdit extends StatefulWidget{
+@override
+  State<StatefulWidget> createState() {
+    return HomeEditState();
+  }
+
+}
+class HomeEditState extends State<HomeEdit>{
+  @override
+  void initState() {
+
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+    );
+  }
+
 }
 
