@@ -359,8 +359,10 @@ class DrinksScreen extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           top: 20, bottom: 20, left: 24),
-                                      child: Image.network(
-                                        documentSnapshot["hinhanh"],
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                        documentSnapshot[
+                                        "hinhanh"],
                                         width: 100,
                                         height: 100,
                                       ),
