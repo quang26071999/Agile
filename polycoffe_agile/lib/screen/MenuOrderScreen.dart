@@ -3,8 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:polycoffe_agile/tabproducts2/DrinksScreen2.dart';
 
 class MenuOrder extends StatefulWidget {
-  final String numTable;
-  const MenuOrder({Key? key, required this.numTable}) : super(key: key);
+  final String numTable, idBan;
+
+  const MenuOrder({Key? key, required this.numTable, required this.idBan})
+      : super(key: key);
 
   @override
   State<MenuOrder> createState() => _MenuOrderState();
@@ -70,7 +72,10 @@ class _MenuOrderState extends State<MenuOrder> {
               ),
               body: PageView(
                 children: [
-                  DrinksScreen2(maLoai: maLoai,)
+                  DrinksScreen2(
+                    maLoai: maLoai,
+                    idBan: widget.idBan,
+                  )
                 ],
               ),
             )));

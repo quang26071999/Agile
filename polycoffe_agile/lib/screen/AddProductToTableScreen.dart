@@ -1,8 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+
+CollectionReference colTable = FirebaseFirestore.instance.collection("Table");
 
 class AddProduct extends StatefulWidget {
-  const AddProduct({Key? key}) : super(key: key);
+  final String photo, namePrd, idPrd, idBan;
+  final int pricePrd;
+
+  const AddProduct(
+      {Key? key,
+      required this.photo,
+      required this.namePrd,
+      required this.pricePrd,
+      required this.idPrd,
+      required this.idBan})
+      : super(key: key);
 
   @override
   State<AddProduct> createState() => _AddProductState();
@@ -19,7 +33,7 @@ class _AddProductState extends State<AddProduct> {
             appBar: AppBar(
               backgroundColor: const Color(0xff492F2C),
               title: Text(
-                "Cà Phê Đen",
+                widget.namePrd,
                 style: GoogleFonts.inter(fontSize: 24, color: Colors.white),
               ),
             ),
@@ -34,8 +48,8 @@ class _AddProductState extends State<AddProduct> {
                       color: Colors.white,
                       width: 160,
                       height: 160,
-                      child: Image.asset(
-                        'assets/images/coffee.png',
+                      child: Image.network(
+                        widget.photo,
                         width: 140,
                         height: 140,
                       ),
@@ -52,10 +66,11 @@ class _AddProductState extends State<AddProduct> {
                             color: Colors.white,
                             onPressed: () {
                               if (_number == 0) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Không bé hơn 0"),
-                                      duration: Duration(seconds: 1),));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text("Không bé hơn 0"),
+                                  duration: Duration(seconds: 1),
+                                ));
                                 // Fluttertoast.showToast(
                                 //     msg: "Không bé hơn 0",
                                 //     toastLength: Toast.LENGTH_SHORT,
@@ -101,7 +116,7 @@ class _AddProductState extends State<AddProduct> {
                           Container(
                             margin: const EdgeInsets.only(right: 45),
                             child: Text(
-                              "Cà Phê Đen",
+                              widget.namePrd,
                               style: GoogleFonts.inter(
                                   fontSize: 20,
                                   color: Colors.black,
@@ -111,7 +126,9 @@ class _AddProductState extends State<AddProduct> {
                           Container(
                             margin: const EdgeInsets.only(left: 45),
                             child: Text(
-                              "40.000đ",
+                              NumberFormat.simpleCurrency(locale: "vi_VN")
+                                  .format(
+                                      int.parse(widget.pricePrd.toString())),
                               style: GoogleFonts.inter(
                                   fontSize: 20,
                                   color: Colors.black,
@@ -129,7 +146,18 @@ class _AddProductState extends State<AddProduct> {
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff492F2C)),
-                          onPressed: () {},
+                          onPressed: () {
+                            Map<String, dynamic> map = {
+                              "maSP": widget.idPrd,
+                              "tenSP": widget.namePrd,
+                              "soLuong": _number,
+                            };
+                            colTable.doc(widget.idBan).update({
+                              "HDT": FieldValue.arrayUnion([map])
+                            });
+                            _number = 0;
+                            Navigator.pop(context);
+                          },
                           child: Text(
                             "THÊM",
                             style: GoogleFonts.inter(

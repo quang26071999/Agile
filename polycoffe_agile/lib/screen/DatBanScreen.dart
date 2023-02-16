@@ -15,6 +15,13 @@ class DatBanScreen extends StatefulWidget {
 class _DatBanScreenState extends State<DatBanScreen> {
   late String maBan, maHDT;
 
+  // late Map<String, dynamic> sp = {
+  //   "maSP": "abc",
+  //   "soLuong": 1,
+  // };
+  //
+  // late List<Map<String, dynamic>> list = {sp};
+
   // List trangThai = [
   //   "Chưa thanh toán",
   //   "Trống",
@@ -81,6 +88,14 @@ class _DatBanScreenState extends State<DatBanScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           DocumentSnapshot docSnap = snapShot.data?.docs[index]
                               as DocumentSnapshot<Object?>;
+                          String id = docSnap.id;
+                          if (docSnap["HDT"] != null) {
+                            colTable
+                                .doc(id)
+                                .update({"trangThai": "Chưa Thanh Toán"});
+                          } else {
+                            colTable.doc(id).update({"trangThai": "Trống"});
+                          }
                           String trangThai = docSnap["trangThai"];
                           return GestureDetector(
                               onTap: () {
@@ -88,7 +103,9 @@ class _DatBanScreenState extends State<DatBanScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => MenuOrder(
-                                            numTable: "Bàn ${index + 1}")));
+                                              numTable: "Bàn ${index + 1}",
+                                              idBan: id,
+                                            )));
                               },
                               child: SizedBox(
                                 width: 147,
@@ -182,7 +199,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
           colTable.doc(maBan).set({
             "maBan": maBan,
             "trangThai": "Trống",
-            "maHDT": null,
+            "HDT": null,
           });
         },
         child: const Icon(Icons.add),
