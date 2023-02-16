@@ -1,18 +1,29 @@
-import 'dart:convert';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:polycoffe_agile/main.dart';
+import 'package:polycoffe_agile/screen/AddProductToTableScreen.dart';
 
 List products = ["Cà Phê Phin", "Cà Phê Đen", "Bạc Xỉu"];
 List quantity = [2, 5, 1];
+late List list;
+final CollectionReference colBill =
+    FirebaseFirestore.instance.collection("Bill");
+final CollectionReference colTable =
+    FirebaseFirestore.instance.collection("Table");
 
-class DrinksScreen2 extends StatelessWidget {
-  DrinksScreen2({super.key, required this.maLoai});
+class DrinksScreen2 extends StatefulWidget {
+  const DrinksScreen2({super.key, required this.maLoai, required this.idBan});
 
+  final String idBan;
   final int maLoai;
+
+  @override
+  State<DrinksScreen2> createState() => _DrinksScreen2State();
+}
+
+class _DrinksScreen2State extends State<DrinksScreen2> {
   final db = FirebaseFirestore.instance.collection("Products");
 
   @override
@@ -55,85 +66,112 @@ class DrinksScreen2 extends StatelessWidget {
                     if (snapshot.hasData) {
                       return Expanded(
                           child: Padding(
-                        padding: EdgeInsets.only(top: 20, bottom: 120),
+                        padding: const EdgeInsets.only(top: 20, bottom: 120),
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           itemCount: snapshot.data?.docs
-                              .where((element) => element["maloai"] == maLoai)
+                              .where((element) =>
+                                  element["maloai"] == widget.maLoai)
                               .length,
                           itemBuilder: (context, index) {
                             DocumentSnapshot documentSnapshot = snapshot
                                 .data?.docs
-                                .where((element) => element["maloai"] == maLoai)
+                                .where((element) =>
+                                    element["maloai"] == widget.maLoai)
                                 .elementAt(index) as DocumentSnapshot<Object?>;
                             String id = documentSnapshot.id; // id
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 10.0),
-                              child: Card(
-                                // margin: EdgeInsets.only(bottom: 20, top: 20),
-                                color: const Color(0xffDECDB9),
-                                elevation: 5.0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                                child: Row(
-                                  // mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 20, bottom: 20, left: 24),
-                                      child: Image.network(
-                                        documentSnapshot["hinhanh"],
-                                        width: 100,
-                                        height: 100,
-                                      ),
+                            String photo = documentSnapshot["hinhanh"];
+                            String namePrd = documentSnapshot["tensp"];
+                            int pricePrd = documentSnapshot["gia"];
+                            return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AddProduct(
+                                                photo: photo,
+                                                namePrd: namePrd,
+                                                pricePrd: pricePrd,
+                                                idPrd: id,
+                                                idBan: widget.idBan,
+                                              )));
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: Card(
+                                    // margin: EdgeInsets.only(bottom: 20, top: 20),
+                                    color: const Color(0xffDECDB9),
+                                    elevation: 5.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
                                     ),
-                                    Column(
+                                    child: Row(
+                                      // mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 50),
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 10.0),
-                                                child: Text(
-                                                    documentSnapshot["tensp"],
-                                                    textAlign: TextAlign.start,
-                                                    style: GoogleFonts.inter(
-                                                        color:
-                                                            Color(0xff000000),
-                                                        fontSize: 16,
-                                                        fontStyle:
-                                                            FontStyle.italic,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                              ),
-                                              Text(
-                                                  NumberFormat.simpleCurrency(
-                                                          locale: "vi_VN")
-                                                      .format(int.parse(
-                                                          documentSnapshot[
-                                                                  "gia"]
-                                                              .toString())),
-                                                  textAlign: TextAlign.right,
-                                                  style: GoogleFonts.inter(
-                                                      color: Color(0xff000000),
-                                                      fontSize: 16,
-                                                      fontStyle:
-                                                          FontStyle.italic))
-                                            ],
+                                          padding: const EdgeInsets.only(
+                                              top: 20, bottom: 20, left: 24),
+                                          child: Image.network(
+                                            documentSnapshot["hinhanh"],
+                                            width: 100,
+                                            height: 100,
                                           ),
-                                        )
+                                        ),
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 50),
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 10.0),
+                                                    child: Text(
+                                                        documentSnapshot[
+                                                            "tensp"],
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: GoogleFonts.inter(
+                                                            color: const Color(
+                                                                0xff000000),
+                                                            fontSize: 16,
+                                                            fontStyle: FontStyle
+                                                                .italic,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  ),
+                                                  Text(
+                                                      NumberFormat
+                                                              .simpleCurrency(
+                                                                  locale:
+                                                                      "vi_VN")
+                                                          .format(int.parse(
+                                                              documentSnapshot[
+                                                                      "gia"]
+                                                                  .toString())),
+                                                      textAlign: TextAlign
+                                                          .right,
+                                                      style: GoogleFonts.inter(
+                                                          color: const Color(
+                                                              0xff000000),
+                                                          fontSize: 16,
+                                                          fontStyle:
+                                                              FontStyle.italic))
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            );
+                                  ),
+                                ));
                           },
                         ),
                       ));
@@ -150,14 +188,14 @@ class DrinksScreen2 extends StatelessWidget {
         backgroundColor: const Color(0xff492F2C),
         child: const Icon(Icons.shopping_cart),
         onPressed: () {
-          _showModalBottomSheet(context);
+          _showModalBottomSheet(context, idBan: widget.idBan);
         },
       ),
     );
   }
 }
 
-void _showModalBottomSheet(BuildContext context) {
+void _showModalBottomSheet(BuildContext context, {required idBan}) {
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -194,75 +232,111 @@ void _showModalBottomSheet(BuildContext context) {
                           color: Colors.black),
                     ),
                   ),
-                  ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: products.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          margin: const EdgeInsets.only(left: 40, right: 40),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "${products[index]}:",
+                  StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection("Table")
+                          .doc(idBan)
+                          .snapshots(),
+                      builder: (context, snapShot) {
+                        if (snapShot.hasData) {
+                          DocumentSnapshot docSnap =
+                              snapShot.data as DocumentSnapshot<Object>;
+                          if (docSnap["HDT"] == null) {
+                            return Expanded(
+                                child: Center(
+                              child: Text(
+                                "Chưa có sản phẩm nào",
                                 style: GoogleFonts.inter(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.black),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w300,
+                                  fontStyle: FontStyle.italic,
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  IconButton(
-                                    color: Colors.white,
-                                    onPressed: () {
-                                      if (quantity[index] == 0) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                          content: Text("Không bé hơn 0"),
-                                          duration: Duration(seconds: 1),
-                                        ));
-                                        // Fluttertoast.showToast(
-                                        //     msg: "Không bé hơn 0",
-                                        //     toastLength: Toast.LENGTH_SHORT,
-                                        //     gravity: ToastGravity.BOTTOM,
-                                        //     backgroundColor: Colors.red,
-                                        //     textColor: Colors.white,
-                                        //     fontSize: 16.0);
-                                      } else {
-                                        // setState(() {
-                                        //   _number--;
-                                        // });
-                                      }
-                                    },
-                                    icon: const Icon(Icons.remove),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 10, right: 10),
-                                    child: Text(
-                                      "${quantity[index]}",
-                                      style: GoogleFonts.inter(
-                                          fontSize: 16,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                  ),
-                                  IconButton(
-                                    color: Colors.white,
-                                    onPressed: () {
-                                      // setState(() {
-                                      //   _number++;
-                                      // });
-                                    },
-                                    icon: const Icon(Icons.add),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        );
+                            ));
+                          } else {
+                            list = docSnap["HDT"];
+                            return Expanded(
+                                child: Container(
+                              margin:
+                                  const EdgeInsets.only(left: 40, right: 40),
+                              child: ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: list.length,
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    Map<String, dynamic> map = list[index];
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          map["tenSP".toString()],
+                                          style: GoogleFonts.inter(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                              fontStyle: FontStyle.italic,
+                                              color: Colors.black),
+                                        ),
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                              color: Colors.white,
+                                              onPressed: () {
+                                                if (quantity[index] == 0) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                          const SnackBar(
+                                                    content:
+                                                        Text("Không bé hơn 0"),
+                                                    duration:
+                                                        Duration(seconds: 1),
+                                                  ));
+                                                  // Fluttertoast.showToast(
+                                                  //     msg: "Không bé hơn 0",
+                                                  //     toastLength: Toast.LENGTH_SHORT,
+                                                  //     gravity: ToastGravity.BOTTOM,
+                                                  //     backgroundColor: Colors.red,
+                                                  //     textColor: Colors.white,
+                                                  //     fontSize: 16.0);
+                                                } else {
+                                                  // setState(() {
+                                                  //   _number--;
+                                                  // });
+                                                }
+                                              },
+                                              icon: const Icon(Icons.remove),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              child: Text(
+                                                map["soLuong"].toString(),
+                                                style: GoogleFonts.inter(
+                                                    fontSize: 16,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                            ),
+                                            IconButton(
+                                              color: Colors.white,
+                                              onPressed: () {
+                                                // setState(() {
+                                                //   _number++;
+                                                // });
+                                              },
+                                              icon: const Icon(Icons.add),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    );
+                                  }),
+                            ));
+                          }
+                        }
+                        return const Text("không có dữ liệu");
                       }),
                   Container(
                     alignment: Alignment.bottomRight,
@@ -273,7 +347,9 @@ void _showModalBottomSheet(BuildContext context) {
                         Container(
                           margin: const EdgeInsets.only(right: 5),
                           child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showAlert(context, idBan: idBan, list: list);
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xff492F2C),
                               ),
@@ -292,4 +368,61 @@ void _showModalBottomSheet(BuildContext context) {
                   )
                 ],
               ))));
+}
+
+void showAlert(BuildContext context, {required idBan, list}) {
+  Widget cancelButton = TextButton(
+    child: Text("Hủy",
+        style: GoogleFonts.inter(
+            fontSize: 18, fontWeight: FontWeight.w400, color: Colors.red)),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  Widget continueButton = TextButton(
+    child: Text("Thanh Toán",
+        style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w400)),
+    onPressed: () {
+      String maHD = "HD$idBan";
+      colBill.doc(maHD).set({
+        "maHD": maHD,
+        "maBan": idBan,
+        "ngay": null,
+        "nhanVien": null,
+        "dsSanPham": list,
+      });
+      colTable.doc(idBan).update({"HDT": null});
+      Navigator.of(context).pop();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const MyApp()));
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text(
+      "THÔNG BÁO",
+      style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700),
+    ),
+    content: Text(
+      "Bạn chắc chắn muốn thanh toán?",
+      style: GoogleFonts.inter(
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
+          fontStyle: FontStyle.italic),
+    ),
+    backgroundColor: const Color(0xffDECDB9),
+    actions: [
+      continueButton,
+      cancelButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
