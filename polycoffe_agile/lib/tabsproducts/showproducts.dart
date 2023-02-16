@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -7,14 +6,25 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class DrinksScreen extends StatelessWidget {
-  DrinksScreen({super.key, required this.maLoai});
+class ShowProducts extends StatefulWidget {
+  ShowProducts({super.key, required this.maLoai});
 
   final int maLoai;
+
+  @override
+  State<ShowProducts> createState() => _ShowProductsState();
+}
+
+class _ShowProductsState extends State<ShowProducts> {
+
   final TextEditingController _tenSPUpdateTED = TextEditingController();
   final TextEditingController _giaSPUpdateTED = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
   final db = FirebaseFirestore.instance.collection("Products");
+
+  String searchNameProduct = "";
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +44,7 @@ class DrinksScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               TextFormField(
+                // controller: _search,
                 style: GoogleFonts.inter(
                     fontSize: 16, fontStyle: FontStyle.italic),
                 decoration: InputDecoration(
@@ -47,13 +58,25 @@ class DrinksScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       borderSide: const BorderSide(),
                     )),
+                onChanged: (value) {
+                    print("test1 ${searchNameProduct}");
+                    setState(() {
+                      searchNameProduct = value;
+                    });
+                },
               ),
               StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection("Products")
-                    .snapshots(),
+                stream: (searchNameProduct!= "" && searchNameProduct != null) ? FirebaseFirestore.instance.collection("Products")
+                    .where("tensp", isNotEqualTo: searchNameProduct)
+                    .orderBy("tensp")
+                    .startAt([searchNameProduct,])
+                    .endAt([searchNameProduct+'\uf8ff',])
+                    .snapshots()
+                    : FirebaseFirestore.instance.collection("Products").snapshots(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.connectionState == ConnectionState.waiting && snapshot.hasData != true) {
+                    return Container();
+                  }else{
                     return Expanded(
                         child: Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 130),
@@ -61,12 +84,12 @@ class DrinksScreen extends StatelessWidget {
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemCount: snapshot.data?.docs
-                            .where((element) => element["maloai"] == maLoai)
+                            .where((element) => element["maloai"] == widget.maLoai)
                             .length,
                         itemBuilder: (context, index) {
                           DocumentSnapshot documentSnapshot = snapshot
                               .data?.docs
-                              .where((element) => element["maloai"] == maLoai)
+                              .where((element) => element["maloai"] == widget.maLoai)
                               .elementAt(index) as DocumentSnapshot<Object?>;
                           String id = documentSnapshot.id; // id
                           return Container(
@@ -226,7 +249,7 @@ class DrinksScreen extends StatelessWidget {
                                                                               documentReference
                                                                                   .update({
                                                                                     "tensp": _tenSPUpdateTED.text,
-                                                                                    "gia": _giaSPUpdateTED.text
+                                                                                    "gia": int.parse(_giaSPUpdateTED.text)
                                                                                   })
                                                                                   .then((value) => debugPrint("Sửa thành công"))
                                                                                   .catchError((error) => debugPrint("Sửa thất bại:  ${error}"));
@@ -360,9 +383,7 @@ class DrinksScreen extends StatelessWidget {
                                       padding: const EdgeInsets.only(
                                           top: 20, bottom: 20, left: 24),
                                       child: CachedNetworkImage(
-                                        imageUrl:
-                                        documentSnapshot[
-                                        "hinhanh"],
+                                        imageUrl: documentSnapshot["hinhanh"],
                                         width: 100,
                                         height: 100,
                                       ),

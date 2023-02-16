@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -6,11 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:polycoffe_agile/models/product.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../TabProducts/DrinksScreen.dart';
+import 'package:polycoffe_agile/tabsproducts/showproducts.dart';
 import 'package:get/get.dart';
-
-//
-// const List<String> list = <String>['Đồ uống', 'Bánh ngọt', 'Đồ ăn vặt'];
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -23,7 +19,6 @@ class _Menu extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
       body: Center(
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -56,9 +51,6 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
   Widget build(BuildContext context) {
     final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     return SafeArea(
-        // borderRadius: BorderRadius.all(
-        //   Radius.circular(50),
-        // ),
         child: DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -129,7 +121,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
             // ),
           ),
           body: PageView(
-            children: [DrinksScreen(maLoai: maLoai,)],
+            children: [ShowProducts(maLoai: maLoai,)],
           ),
           floatingActionButton: Visibility(
             visible: showFab,
@@ -293,7 +285,6 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
                                                     if (text == null || text.isEmpty) {
                                                       return 'Vui lòng nhập tên sản phẩm';
                                                     }
-
                                                     return null;
                                                   },
                                                 ),
