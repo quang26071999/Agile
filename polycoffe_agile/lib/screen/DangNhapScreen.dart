@@ -27,14 +27,18 @@ class _MyLoginState extends State<MyLogin>{
 
   late SharedPreferences logindata;
   late bool newuser;
+  late bool _passVisible;
 
   @override
   void initState() {
     check_login();
+    _passVisible = false;
     super.initState();
   }
 
-  Future<void> check_login() async {
+
+
+    Future<void> check_login() async {
     logindata = await SharedPreferences.getInstance() ;
     newuser = (logindata.getBool("login") ?? true);
     
@@ -102,7 +106,7 @@ class _MyLoginState extends State<MyLogin>{
                     TextField(
                       controller: passwordController,
                       style:  GoogleFonts.inter(fontSize: 20,color: Colors.black),
-                      obscureText: true,
+                      obscureText: !_passVisible,
                       decoration: InputDecoration(
                           labelText: "Password",
                           filled: true,
@@ -114,7 +118,23 @@ class _MyLoginState extends State<MyLogin>{
                               BorderSide(color: Colors.black,width: 2),
                               borderRadius: BorderRadius.all(Radius.circular(20)))),
                     ),
-                    Image.asset("assets/images/eye.png",height: 30,scale: 2,width: 40,)
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(270,4,0,0),
+                      child:  IconButton(
+                          icon: Icon(
+                            _passVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Theme.of(context).primaryColorDark,
+                          ),
+                          onPressed: (){
+                            setState(() {
+                              _passVisible = !_passVisible;
+                            });
+                          }),
+
+                    )
+
                   ],
                 ),
               ),
