@@ -16,7 +16,6 @@ class ShowProducts extends StatefulWidget {
 }
 
 class _ShowProductsState extends State<ShowProducts> {
-
   final TextEditingController _tenSPUpdateTED = TextEditingController();
   final TextEditingController _giaSPUpdateTED = TextEditingController();
 
@@ -59,386 +58,376 @@ class _ShowProductsState extends State<ShowProducts> {
                       borderSide: const BorderSide(),
                     )),
                 onChanged: (value) {
-                    print("test1 ${searchNameProduct}");
-                    setState(() {
-                      searchNameProduct = value;
-                    });
+                  print("test1 ${searchNameProduct}");
+                  setState(() {
+                    searchNameProduct = value;
+                  });
                 },
               ),
               StreamBuilder(
-                stream: (searchNameProduct!= "" && searchNameProduct != null) ? FirebaseFirestore.instance.collection("Products")
-                    .where("tensp", isNotEqualTo: searchNameProduct)
-                    .orderBy("tensp")
-                    .startAt([searchNameProduct,])
-                    .endAt([searchNameProduct+'\uf8ff',])
-                    .snapshots()
-                    : FirebaseFirestore.instance.collection("Products").snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting && snapshot.hasData != true) {
-                    return Container();
-                  }else{
-                    return Expanded(
-                        child: Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 130),
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: snapshot.data?.docs
-                            .where((element) => element["maloai"] == widget.maLoai)
-                            .length,
-                        itemBuilder: (context, index) {
-                          DocumentSnapshot documentSnapshot = snapshot
-                              .data?.docs
-                              .where((element) => element["maloai"] == widget.maLoai)
-                              .elementAt(index) as DocumentSnapshot<Object?>;
-                          String id = documentSnapshot.id; // id
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: Slidable(
-                              // key: ValueKey(0),
-                              endActionPane: ActionPane(
-                                motion: const StretchMotion(),
-                                children: [
-                                  SlidableAction(
-                                    flex: 1,
-                                    borderRadius: BorderRadius.circular(15),
-                                    onPressed: (context) {
-                                      _tenSPUpdateTED.text =
-                                          documentSnapshot["tensp"];
-                                      _giaSPUpdateTED.text =
-                                          documentSnapshot["gia"].toString();
-                                      showModalBottomSheet<void>(
-                                        isScrollControlled: true,
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return StatefulBuilder(
-                                              builder: (context, setState) {
-                                            return FractionallySizedBox(
-                                              heightFactor: 0.6,
-                                              child: Container(
-                                                color: const Color(0xffDECDB9),
-                                                child: Center(
-                                                  child: SingleChildScrollView(
-                                                    child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(0),
-                                                        child: Form(
-                                                          key: _formKey,
-                                                          child: Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        bottom:
-                                                                            46),
-                                                                child:
-                                                                    CachedNetworkImage(
-                                                                  imageUrl:
-                                                                      documentSnapshot[
-                                                                          "hinhanh"],
-                                                                  width: 100,
-                                                                  height: 100,
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            40,
-                                                                        right:
-                                                                            40),
+                  stream: FirebaseFirestore.instance.collection("Products").snapshots(),
+                  builder: (context, snapshot) {
+                    return (snapshot.connectionState ==
+                                ConnectionState.waiting &&
+                            snapshot.hasData != true)
+                        ? Center(child: CircularProgressIndicator())
+                        : Expanded(
+                            child: Padding(
+                            padding: EdgeInsets.only(top: 10, bottom: 130),
+                            child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data?.docs
+                                  .where((element) =>
+                                      element["maloai"] == widget.maLoai).where((element) => element["tensp"].toString().toLowerCase().contains(searchNameProduct.toLowerCase()))
+                                  .length,
+                              itemBuilder: (context, index) {
+                                DocumentSnapshot documentSnapshot = snapshot
+                                        .data?.docs
+                                        .where((element) =>
+                                            element["maloai"] == widget.maLoai).where((element) => element["tensp"].toString().toLowerCase().contains(searchNameProduct.toLowerCase()))
+                                        .elementAt(index)
+                                    as DocumentSnapshot<Object?>;
+                                String id = documentSnapshot.id; // id
+                                return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: Slidable(
+                                    // key: ValueKey(0),
+                                    endActionPane: ActionPane(
+                                      motion: const StretchMotion(),
+                                      children: [
+                                        SlidableAction(
+                                          flex: 1,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          onPressed: (context) {
+                                            _tenSPUpdateTED.text =
+                                                documentSnapshot["tensp"];
+                                            _giaSPUpdateTED.text =
+                                                documentSnapshot["gia"]
+                                                    .toString();
+                                            showModalBottomSheet<void>(
+                                              isScrollControlled: true,
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return StatefulBuilder(builder:
+                                                    (context, setState) {
+                                                  return FractionallySizedBox(
+                                                    heightFactor: 0.6,
+                                                    child: Container(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: MediaQuery.of(
+                                                                  context)
+                                                              .viewInsets
+                                                              .bottom),
+                                                      color: const Color(
+                                                          0xffDECDB9),
+                                                      child: Center(
+                                                        child:
+                                                            SingleChildScrollView(
+                                                          child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(0),
+                                                              child: Form(
+                                                                key: _formKey,
                                                                 child: Column(
                                                                   children: [
                                                                     Padding(
                                                                       padding: const EdgeInsets
                                                                               .only(
                                                                           bottom:
-                                                                              34.0),
+                                                                              46),
                                                                       child:
-                                                                          Container(
+                                                                          CachedNetworkImage(
+                                                                        imageUrl:
+                                                                            documentSnapshot["hinhanh"],
                                                                         width:
-                                                                            280,
-                                                                        // height:
-                                                                        //     40,
-                                                                        child:
-                                                                            TextFormField(
-                                                                          controller:
-                                                                              _tenSPUpdateTED,
-                                                                          decoration: const InputDecoration(
-                                                                              border: OutlineInputBorder(),
-                                                                              hintText: 'Nhập tên sản phẩm cần sửa',
-                                                                              isDense: true),
-                                                                          validator:
-                                                                              (text) {
-                                                                            if (text == null ||
-                                                                                text.isEmpty) {
-                                                                              return 'Tên không được để trống';
-                                                                            }
-                                                                            return null;
-                                                                          },
-                                                                        ),
+                                                                            100,
+                                                                        height:
+                                                                            100,
                                                                       ),
                                                                     ),
-                                                                    Container(
-                                                                      width:
-                                                                          280,
-                                                                      // height:
-                                                                      //     40,
-                                                                      child:
-                                                                          TextFormField(
-                                                                        controller:
-                                                                            _giaSPUpdateTED,
-                                                                        decoration: const InputDecoration(
-                                                                            border:
-                                                                                OutlineInputBorder(),
-                                                                            hintText:
-                                                                                'Nhập giá sản phẩm cần sửa',
-                                                                            isDense:
-                                                                                true),
-                                                                        validator:
-                                                                            (text) {
-                                                                          if (text == null ||
-                                                                              text.isEmpty) {
-                                                                            return 'Giá không được để trống';
-                                                                          }
-                                                                          if (int.parse(text) <=
-                                                                              0) {
-                                                                            return 'Vui lòng nhập giá sản phẩm > 0 đ';
-                                                                          }
-                                                                          return null;
-                                                                        },
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        top:
-                                                                            46),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
                                                                     Padding(
                                                                       padding: const EdgeInsets
                                                                               .only(
+                                                                          left:
+                                                                              40,
                                                                           right:
-                                                                              24.0),
+                                                                              40),
                                                                       child:
+                                                                          Column(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(bottom: 34.0),
+                                                                            child:
+                                                                                Container(
+                                                                              width: 280,
+                                                                              // height:
+                                                                              //     40,
+                                                                              child: TextFormField(
+                                                                                controller: _tenSPUpdateTED,
+                                                                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Nhập tên sản phẩm cần sửa', isDense: true),
+                                                                                validator: (text) {
+                                                                                  if (text == null || text.isEmpty) {
+                                                                                    return 'Tên không được để trống';
+                                                                                  }
+                                                                                  return null;
+                                                                                },
+                                                                              ),
+                                                                            ),
+                                                                          ),
                                                                           Container(
-                                                                        width:
-                                                                            128,
-                                                                        height:
-                                                                            40,
-                                                                        child:
-                                                                            ElevatedButton(
-                                                                          style:
-                                                                              ElevatedButton.styleFrom(backgroundColor: const Color(0xff492F2C)),
-                                                                          onPressed:
-                                                                              () {
-                                                                            if (_formKey.currentState!.validate()) {
-                                                                              var documentReference = FirebaseFirestore.instance.collection("Products").doc(id);
-                                                                              documentReference
-                                                                                  .update({
-                                                                                    "tensp": _tenSPUpdateTED.text,
-                                                                                    "gia": int.parse(_giaSPUpdateTED.text)
-                                                                                  })
-                                                                                  .then((value) => debugPrint("Sửa thành công"))
-                                                                                  .catchError((error) => debugPrint("Sửa thất bại:  ${error}"));
-                                                                              Navigator.pop(context);
-                                                                            }
-                                                                            // print(snapshot.data?.docs.where((element) => element["maloai"] == maLoai).length) ;
-                                                                          },
-                                                                          child: Text(
-                                                                              'LƯU',
-                                                                              style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xffffffff))),
-                                                                        ),
+                                                                            width:
+                                                                                280,
+                                                                            // height:
+                                                                            //     40,
+                                                                            child:
+                                                                                TextFormField(
+                                                                              controller: _giaSPUpdateTED,
+                                                                              decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Nhập giá sản phẩm cần sửa', isDense: true),
+                                                                              validator: (text) {
+                                                                                if (text == null || text.isEmpty) {
+                                                                                  return 'Giá không được để trống';
+                                                                                }
+                                                                                if (int.parse(text) <= 0) {
+                                                                                  return 'Vui lòng nhập giá sản phẩm > 0 đ';
+                                                                                }
+                                                                                return null;
+                                                                              },
+                                                                            ),
+                                                                          ),
+                                                                        ],
                                                                       ),
                                                                     ),
-                                                                    Container(
-                                                                      width:
-                                                                          128,
-                                                                      height:
-                                                                          40,
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              46),
                                                                       child:
-                                                                          ElevatedButton(
-                                                                        style: ElevatedButton.styleFrom(
-                                                                            backgroundColor:
-                                                                                const Color(0xff492F2C)),
-                                                                        onPressed:
-                                                                            () =>
-                                                                                Navigator.pop(context),
-                                                                        child: Text(
-                                                                            'HUỶ',
-                                                                            style: GoogleFonts.inter(
-                                                                                fontSize: 20,
-                                                                                fontWeight: FontWeight.bold,
-                                                                                color: Color(0xffffffff))),
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(right: 24.0),
+                                                                            child:
+                                                                                Container(
+                                                                              width: 128,
+                                                                              height: 40,
+                                                                              child: ElevatedButton(
+                                                                                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xff492F2C)),
+                                                                                onPressed: () {
+                                                                                  if (_formKey.currentState!.validate()) {
+                                                                                    var documentReference = FirebaseFirestore.instance.collection("Products").doc(id);
+                                                                                    documentReference
+                                                                                        .update({
+                                                                                          "tensp": _tenSPUpdateTED.text,
+                                                                                          "gia": int.parse(_giaSPUpdateTED.text)
+                                                                                        })
+                                                                                        .then((value) => debugPrint("Sửa thành công"))
+                                                                                        .catchError((error) => debugPrint("Sửa thất bại:  ${error}"));
+                                                                                    Navigator.pop(context);
+                                                                                  }
+                                                                                  // print(snapshot.data?.docs.where((element) => element["maloai"] == maLoai).length) ;
+                                                                                },
+                                                                                child: Text('LƯU', style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xffffffff))),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Container(
+                                                                            width:
+                                                                                128,
+                                                                            height:
+                                                                                40,
+                                                                            child:
+                                                                                ElevatedButton(
+                                                                              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xff492F2C)),
+                                                                              onPressed: () => Navigator.pop(context),
+                                                                              child: Text('HUỶ', style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xffffffff))),
+                                                                            ),
+                                                                          ),
+                                                                        ],
                                                                       ),
-                                                                    ),
+                                                                    )
                                                                   ],
                                                                 ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        )),
-                                                  ),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
+                                              },
+                                            );
+                                          },
+                                          backgroundColor:
+                                              const Color(0xffDECDB9),
+                                          foregroundColor: Colors.black,
+                                          icon: Icons.edit,
+                                        ),
+                                        SlidableAction(
+                                          flex: 1,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          onPressed: (BuildContext context) {
+                                            showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                insetPadding: EdgeInsets.zero,
+                                                title: const Text(
+                                                  'Xoá sản phẩm',
+                                                  textAlign: TextAlign.center,
                                                 ),
+                                                content: Text(
+                                                    'Bạn có muốn xoá ${documentSnapshot["tensp"]} không ?'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      Navigator.pop(context);
+                                                      var storageRef =
+                                                          FirebaseStorage
+                                                              .instance
+                                                              .ref()
+                                                              .child(
+                                                                  '${documentSnapshot["masp"]}');
+                                                      await storageRef.delete();
+                                                      DocumentReference
+                                                          documentReference =
+                                                          FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  "Products")
+                                                              .doc(id);
+                                                      await documentReference
+                                                          .delete()
+                                                          .whenComplete(() => {
+                                                                Navigator.pop(
+                                                                    context)
+                                                              })
+                                                          .then((value) =>
+                                                              debugPrint(
+                                                                  "Xoá thành công"))
+                                                          .catchError((error) =>
+                                                              debugPrint(
+                                                                  "Xoá thất bại ${error}"));
+                                                    },
+                                                    child: const Text(
+                                                      'Xoá', //title
+                                                      textAlign: TextAlign
+                                                          .end, //aligment
+                                                    ),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text(
+                                                      'Huỷ', //title
+                                                      textAlign: TextAlign.end,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             );
-                                          });
-                                        },
-                                      );
-                                    },
-                                    backgroundColor: const Color(0xffDECDB9),
-                                    foregroundColor: Colors.black,
-                                    icon: Icons.edit,
-                                  ),
-                                  SlidableAction(
-                                    flex: 1,
-                                    borderRadius: BorderRadius.circular(15),
-                                    onPressed: (BuildContext context) {
-                                      showDialog<String>(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            AlertDialog(
-                                          insetPadding: EdgeInsets.zero,
-                                          title: const Text(
-                                            'Xoá sản phẩm',
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          content: Text(
-                                              'Bạn có muốn xoá ${documentSnapshot["tensp"]} không ?'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () async {
-                                                Navigator.pop(context);
-                                                var storageRef = FirebaseStorage
-                                                    .instance
-                                                    .ref()
-                                                    .child(
-                                                        '${documentSnapshot["masp"]}');
-                                                await storageRef.delete();
-                                                DocumentReference
-                                                    documentReference =
-                                                    FirebaseFirestore.instance
-                                                        .collection("Products")
-                                                        .doc(id);
-                                                await documentReference
-                                                    .delete()
-                                                    .whenComplete(() => {
-                                                          Navigator.pop(context)
-                                                        })
-                                                    .then((value) => debugPrint(
-                                                        "Xoá thành công"))
-                                                    .catchError((error) =>
-                                                        debugPrint(
-                                                            "Xoá thất bại ${error}"));
-                                              },
-                                              child: const Text(
-                                                'Xoá', //title
-                                                textAlign:
-                                                    TextAlign.end, //aligment
-                                              ),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text(
-                                                'Huỷ', //title
-                                                textAlign: TextAlign.end,
-                                              ),
-                                            ),
-                                          ],
+                                          },
+                                          backgroundColor:
+                                              const Color(0xffDECDB9),
+                                          foregroundColor: Colors.black,
+                                          icon: Icons.delete,
                                         ),
-                                      );
-                                    },
-                                    backgroundColor: const Color(0xffDECDB9),
-                                    foregroundColor: Colors.black,
-                                    icon: Icons.delete,
-                                  ),
-                                ],
-                              ),
-
-                              child: Card(
-                                // margin: EdgeInsets.only(bottom: 20, top: 20),
-                                color: const Color(0xffDECDB9),
-                                elevation: 5.0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                                child: Row(
-                                  // mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 20, bottom: 20, left: 24),
-                                      child: CachedNetworkImage(
-                                        imageUrl: documentSnapshot["hinhanh"],
-                                        width: 100,
-                                        height: 100,
-                                      ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 50),
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 10.0),
-                                                child: Text(
-                                                    documentSnapshot["tensp"],
-                                                    textAlign: TextAlign.start,
-                                                    style: GoogleFonts.inter(
-                                                        color:
-                                                            Color(0xff000000),
-                                                        fontSize: 16,
-                                                        fontStyle:
-                                                            FontStyle.italic,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                              ),
-                                              Text(
-                                                  NumberFormat.simpleCurrency(
-                                                          locale: "vi_VN")
-                                                      .format(int.parse(
-                                                          documentSnapshot[
-                                                                  "gia"]
-                                                              .toString())),
-                                                  textAlign: TextAlign.right,
-                                                  style: GoogleFonts.inter(
-                                                      color: Color(0xff000000),
-                                                      fontSize: 16,
-                                                      fontStyle:
-                                                          FontStyle.italic))
-                                            ],
-                                          ),
-                                        )
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
+
+                                    child: Card(
+                                      // margin: EdgeInsets.only(bottom: 20, top: 20),
+                                      color: const Color(0xffDECDB9),
+                                      elevation: 5.0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                      ),
+                                      child: Row(
+                                        // mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 20, bottom: 20, left: 24),
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  documentSnapshot["hinhanh"],
+                                              width: 100,
+                                              height: 100,
+                                            ),
+                                          ),
+                                          Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 50),
+                                                child: Column(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 10.0),
+                                                      child: Text(
+                                                          documentSnapshot[
+                                                              "tensp"],
+                                                          textAlign:
+                                                              TextAlign.start,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: GoogleFonts.inter(
+                                                              color: Color(
+                                                                  0xff000000),
+                                                              fontSize: 16,
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .italic,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                    ),
+                                                    Text(
+                                                        NumberFormat
+                                                                .simpleCurrency(
+                                                                    locale:
+                                                                        "vi_VN")
+                                                            .format(int.parse(
+                                                                documentSnapshot[
+                                                                        "gia"]
+                                                                    .toString())),
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: GoogleFonts.inter(
+                                                            color: Color(
+                                                                0xff000000),
+                                                            fontSize: 16,
+                                                            fontStyle: FontStyle
+                                                                .italic))
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
-                    ));
+                          ));
                   }
-                  return const Text("Không có sản phẩm");
-                },
-              )
+                  // return const Text("Không có sản phẩm");
+                  )
             ],
           ),
         ),
