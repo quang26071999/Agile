@@ -8,8 +8,8 @@ import 'package:polycoffe_agile/screen/AddProductToTableScreen.dart';
 List products = ["Cà Phê Phin", "Cà Phê Đen", "Bạc Xỉu"];
 List quantity = [2, 5, 1];
 late List list;
-final CollectionReference colBill =
-    FirebaseFirestore.instance.collection("Bill");
+var colBill =
+    FirebaseFirestore.instance.collection("Bill").doc();
 final CollectionReference colTable =
     FirebaseFirestore.instance.collection("Table");
 
@@ -411,12 +411,13 @@ void showAlert(BuildContext context, {required idBan, list}) {
         style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w400)),
     onPressed: () {
       String maHD = "HD$idBan";
-      colBill.doc(maHD).set({
-        "maHD": maHD,
+      colBill.set({
+        "maHD": colBill.id,
         "maBan": idBan,
-        "ngay": null,
+        "ngay": DateFormat("dd/MM/yyyy").format(DateTime.now()),
         "nhanVien": null,
         "dsSanPham": list,
+
       });
       colTable.doc(idBan).update({"HDT": null});
       Navigator.of(context).pop();
