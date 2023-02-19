@@ -41,7 +41,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   late SharedPreferences logindata;
-  late String username;
+  late String username,role;
 
   @override
   void initState() {
@@ -54,17 +54,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     logindata = await SharedPreferences.getInstance();
     setState(() {
       username = logindata.getString("username")!;
+      role = logindata.getString('role')!;
     });
   }
 
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
+  static const TextStyle optionStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   final List<Widget> _widgetOptions = <Widget>[
     QLNVScreen(),
     MenuScreen(),
     DatBanScreen(),
     DoanhThuScreen(),
+    TaiKhoanScreen(),
+  ];
+  final List<Widget> _widgetOptions2 = <Widget>[
+    DatBanScreen(),
     TaiKhoanScreen(),
   ];
 
@@ -76,7 +80,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return role == 'Admin' ? Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -112,6 +116,32 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           onTap: _onItemTapped,
         ),
       )
+    )
+    : Scaffold(
+        body: Center(
+          child: _widgetOptions2.elementAt(_selectedIndex),
+        ),
+        bottomNavigationBar: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(17)),
+          child: BottomNavigationBar(
+            backgroundColor: Color(0xffD9D9D9),
+            type: BottomNavigationBarType.fixed,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.table_bar),
+                label: 'Bàn',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_pin),
+                label: 'Tài khoản',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.blue[800],
+            onTap: _onItemTapped,
+          ),
+        )
     );
+
   }
 }
