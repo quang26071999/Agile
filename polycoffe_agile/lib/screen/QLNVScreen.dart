@@ -1131,7 +1131,7 @@ class _QLNVState extends State<QLNV>{
                                                   var imgUrl = await storage.getDownloadURL();
                                                   var documentRefence = FirebaseFirestore
                                                       .instance
-                                                      .collection("User");
+                                                      .collection("User").doc(username.text);
 
                                                   User user = User(
                                                       username.text.toString(),
@@ -1144,7 +1144,7 @@ class _QLNVState extends State<QLNV>{
                                                       ngaySinh.text);
 
                                                   documentRefence
-                                                      .add(user.toJson())
+                                                      .set(user.toJson())
                                                       .whenComplete(
                                                           () => {
                                                         setEmpty(),

@@ -1,17 +1,39 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
-class DoanhThuScreen extends StatelessWidget {
+class DoanhThuScreen extends StatefulWidget {
    DoanhThuScreen({super.key});
-  List maHoaDon=["01","02"];
-  List ngay=["18-12-2022","28-01-2023"];
-  List nguoiNhanTien=["Huy","Hung"];
-  List ban=["1","2"];
-  List tenMon=["bạc xỉu","nước lọc"];
-  List tongTien=["80000","45000"];
-  
 
-  
+  @override
+  State<DoanhThuScreen> createState() => _DoanhThuScreenState();
+}
+
+class _DoanhThuScreenState extends State<DoanhThuScreen> {
+  List maHoaDon=["01","02"];
+
+  List ngay=["18-12-2022","28-01-2023"];
+
+  List nguoiNhanTien=["Huy","Hung"];
+
+  List ban=["1","2"];
+
+  List tenMon=["bạc xỉu","nước lọc"];
+
+  List tongTien=["80000","45000"];
+
+  final TextEditingController tuNgay = TextEditingController();
+
+   final TextEditingController denNgay = TextEditingController();
+
+   final dateFormatter = DateFormat("dd-MM-yyyy");
+
+   DateTime parseDate(String date){
+     return  dateFormatter.parse(date);
+   }
+
+   var sum = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +62,7 @@ class DoanhThuScreen extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(32, 0,32,0),
 
                 child: TextField(
+                  controller: tuNgay,
                   style: const TextStyle(fontSize: 24,color: Colors.black),
                   decoration: InputDecoration(
                       labelText: "dd/MM/yyyy",
@@ -61,6 +84,7 @@ class DoanhThuScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(32, 0, 32,36),
                 child: TextField(
+                  controller: denNgay,
                   style: const TextStyle(fontSize: 24,color: Colors.black),
                   decoration: InputDecoration(
                       labelText: "dd/MM/yyyy",
@@ -78,7 +102,34 @@ class DoanhThuScreen extends StatelessWidget {
                   width: double.infinity,
                   height: 54,
                   child: ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      print("hihi");
+                        var ref = FirebaseFirestore.instance.collection("Bill");
+                        var listBill = [];
+                        var sumx = 0 ;
+                        ref.get().then((QuerySnapshot query) => {
+                            query.docs.forEach((element) {
+                                if(parseDate(element['ngay']).compareTo(parseDate(tuNgay.text))>=0  && parseDate(element['ngay']).compareTo(parseDate(denNgay.text))<=0   ){
+                                  listBill.add(element);
+                                  sumx+= int.parse(element['tongtien']);
+                                  // List.from(element['dsSanPham']).forEach((element2) {
+                                  //   sumx+= int.parse(element2['gia'])*int.parse(element2['soLuong']);
+                                  // });
+                                }
+                                setState(() {
+                                  sum = sumx;
+                                });
+
+                            })
+
+                        });
+                      // for (var element in listBill) {
+                      //   sumx+= int.parse(element['tongtien']);
+                      // }
+                      //print(sumx);
+
+
+                        },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,
                       backgroundColor: Colors.brown[900],
@@ -94,7 +145,7 @@ class DoanhThuScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(13, 0, 23, 22),
-                child: Text("Tổng doanh thu là 125.000 VND",
+                child: Text("Tổng doanh thu là $sum VND",
                     style: GoogleFonts.inter(fontSize: 22,fontStyle: FontStyle.italic,fontWeight:
                     FontWeight.w700 )
                 ),
@@ -224,5 +275,4 @@ class DoanhThuScreen extends StatelessWidget {
       ),
     );
   }
-
 }
