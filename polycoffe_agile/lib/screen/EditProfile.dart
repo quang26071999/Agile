@@ -13,10 +13,10 @@ class EditProfile extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    numberPhonetxt.text = username.toString();
-    nametxt.text = name.toString() ;
-    dateOfBirthtxt.text = dateOfBirth.toString();
-    addresstxt.text = address.toString();
+    // numberPhonetxt.text = username.toString();
+    // nametxt.text = name.toString() ;
+    // dateOfBirthtxt.text = dateOfBirth.toString();
+    // addresstxt.text = address.toString();
     return Scaffold(
       body: Container(
           width: 500,

@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:polycoffe_agile/constants.dart';
+import 'package:polycoffe_agile/screen/ChangePass.dart';
 import 'package:polycoffe_agile/screen/DangNhapScreen.dart';
 import 'package:polycoffe_agile/screen/EditProfile.dart';
-import 'package:polycoffe_agile/screen/changepasswordscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +23,14 @@ class ProfileScreen extends StatefulWidget{
 
 }
 class ProfileScreenState extends State<ProfileScreen>{
-
+  SharedPreferences? logindata ;
+  String? avatar;
+  String? username ;
+  String? name ;
+  String? role;
+  String? sex ;
+  String? dateOfBirth ;
+  String? address;
   @override
   void initState() {
     super.initState();
@@ -33,13 +40,13 @@ class ProfileScreenState extends State<ProfileScreen>{
    Future<void> initial() async {
      logindata = await SharedPreferences.getInstance();
      setState(() {
-       avatar;
-       username;
-       name;
-       role;
-       sex;
-       dateOfBirth;
-       address;
+       avatar = logindata!.getString("avatar")!;
+       username = logindata!.getString("username")!;
+       name = logindata!.getString("name")!;
+       role = logindata!.getString("role")!;
+       sex = logindata!.getString("sex")!;
+       dateOfBirth = logindata!.getString("dateOfBirth")!;
+       address = logindata!.getString("address")!;
      });
    }
 
@@ -59,8 +66,8 @@ class ProfileScreenState extends State<ProfileScreen>{
 
               child: Column(
                 children:  <Widget>[
-                  Avatar(),
-                  Profile(),
+                  Avatar(avatar: avatar,role: role,),
+                  Profile(username: username,name: name,sex: sex,dateOfBirth: dateOfBirth,address: address),
                   Padding(
                     padding: EdgeInsets.only(top: 66),
                     child: Column(
@@ -70,7 +77,7 @@ class ProfileScreenState extends State<ProfileScreen>{
                           height: 54,
                           child: TextButton(
                               onPressed: (){
-                                Navigator.push(context, new MaterialPageRoute(builder: (context) => ChangePass()));
+                                Get.to(()=>ChangePass());
                               },
                               style: TextButton.styleFrom(
                                 backgroundColor: Color.fromRGBO(73, 47, 44, 1),
@@ -90,7 +97,8 @@ class ProfileScreenState extends State<ProfileScreen>{
                               height: 54,
                               child: TextButton(
                                   onPressed: (){
-                                    logindata.setBool("login", true);
+                                    logindata!.setBool("login", true);
+                                    logindata!.clear();
                                     //Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => MyLogin()));
                                     Get.off(MyLogin());
 
@@ -122,44 +130,12 @@ class ProfileScreenState extends State<ProfileScreen>{
 
 }
 
-// class TaiKhoanScreen extends StatelessWidget {
-//   TaiKhoanScreen({super.key});
-//  late SharedPreferences logindata;
-//
-//
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SafeArea(
-//         child: Container(
-//             decoration: const BoxDecoration(
-//               image: DecorationImage(
-//                   image: AssetImage('assets/images/backgroundCoffee.png'),
-//                   fit: BoxFit.fill
-//               ),
-//             ),
-//             padding: const EdgeInsets.fromLTRB(20,70,20,0),
-//             child: Column(
-//               children:  <Widget>[
-//                 Avatar(),
-//                 Profile(),
-//                 Buttons(),
-//               ],
-//             ),
-//
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 
 class Avatar extends StatelessWidget{
-  Avatar({super.key});
+  Avatar({super.key, required this.avatar, required this.role});
 
-
+String? avatar,role;
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +143,7 @@ class Avatar extends StatelessWidget{
       children: [
         CircleAvatar(
           radius: 50,
-          backgroundImage: NetworkImage(avatar),
+          backgroundImage: NetworkImage(avatar!),
         ),
         Padding(
             padding:const EdgeInsets.only(left: 26),
@@ -180,15 +156,15 @@ class Avatar extends StatelessWidget{
                       fontWeight: FontWeight.w700,)
                   ),
                 ),
-                Padding(padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                  child: Text("Nhân viên",
-                    style:  GoogleFonts.inter(
-                        textStyle: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w400,)
-                    ),
-                ),
-                )
+                // Padding(padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                //   child: Text("Nhân viên",
+                //     style:  GoogleFonts.inter(
+                //         textStyle: const TextStyle(
+                //           fontSize: 30,
+                //           fontWeight: FontWeight.w400,)
+                //     ),
+                // ),
+                // )
               ],
             )
         ),
@@ -215,9 +191,9 @@ class Avatar extends StatelessWidget{
 }
 
 class Profile extends StatelessWidget{
-  Profile({super.key});
+  Profile({super.key, required this.username,required this.name,required this.dateOfBirth,required this.sex,required this.address,});
 
-
+String? username,name,dateOfBirth,sex,address;
   @override
   Widget build(BuildContext context) {
 
