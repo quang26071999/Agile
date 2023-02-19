@@ -24,13 +24,13 @@ class ProfileScreen extends StatefulWidget{
 }
 class ProfileScreenState extends State<ProfileScreen>{
   SharedPreferences? logindata ;
-  String? avatar;
-  String? username ;
-  String? name ;
-  String? role;
-  String? sex ;
-  String? dateOfBirth ;
-  String? address;
+  String? avatar = "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png" ;
+  String? username ="";
+  String? name ="";
+  String? role ="";
+  String? sex ="" ;
+  String? dateOfBirth ="" ;
+  String? address ="";
   @override
   void initState() {
     super.initState();

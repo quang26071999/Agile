@@ -171,79 +171,25 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                                   DocumentSnapshot documentSnapshot = snapshot.data
                                       ?.docs[index] as DocumentSnapshot<Object?>;
 
-                                  return Expanded(
-                                      child: SingleChildScrollView(
-                                        child: Container(
-                                          width: MediaQuery.of(context).size.width,
-                                          padding:
-                                          const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                          child: Card(
-                                            color: const Color(0xffffffff),
-                                            elevation: 5.0,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.fromLTRB(
-                                                          10, 10, 0, 10),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                            const EdgeInsets.fromLTRB(
-                                                                0, 0, 0, 0),
-                                                            child: Text(
-                                                              "Mã HD:" +
-                                                                  documentSnapshot["maHD"],
-                                                              overflow:
-                                                              TextOverflow.ellipsis,
-                                                              style: GoogleFonts.inter(
-                                                                  fontSize: 14,
-                                                                  fontStyle:
-                                                                  FontStyle.italic),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                            const EdgeInsets.fromLTRB(
-                                                                0, 0, 0, 0),
-                                                            child: Text(
-                                                              "Người nhận tiền:"
-                                                              // + documentSnapshot["nhanVien"],
-                                                              ,
-                                                              style: GoogleFonts.inter(
-                                                                  fontSize: 14,
-                                                                  fontStyle:
-                                                                  FontStyle.italic),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                            const EdgeInsets.fromLTRB(
-                                                                0, 0, 0, 0),
-                                                            child: Text(
-                                                              "Tên món:"
-                                                              // + documentSnapshot["dsSanPham"],
-                                                              ,
-                                                              style: GoogleFonts.inter(
-                                                                  fontSize: 14,
-                                                                  fontStyle:
-                                                                  FontStyle.italic),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )),
-                                                Padding(
+                                  return SingleChildScrollView(
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                      child: Card(
+                                        color: const Color(0xffffffff),
+                                        elevation: 5.0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(5.0),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                                child: Padding(
                                                   padding: const EdgeInsets.fromLTRB(
-                                                      25, 0, 0, 0),
+                                                      10, 10, 0, 10),
                                                   child: Column(
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -253,22 +199,23 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                                                         const EdgeInsets.fromLTRB(
                                                             0, 0, 0, 0),
                                                         child: Text(
-                                                            "Ngày:"
-                                                                // + documentSnapshot[
-                                                                // "ngay"]
-                                                            ,
-                                                            style: GoogleFonts.inter(
-                                                                fontSize: 14,
-                                                                fontStyle:
-                                                                FontStyle.italic)),
+                                                          "Mã HD:" +
+                                                              documentSnapshot["maHD"],
+                                                          overflow:
+                                                          TextOverflow.ellipsis,
+                                                          style: GoogleFonts.inter(
+                                                              fontSize: 14,
+                                                              fontStyle:
+                                                              FontStyle.italic),
+                                                        ),
                                                       ),
                                                       Padding(
                                                         padding:
                                                         const EdgeInsets.fromLTRB(
                                                             0, 0, 0, 0),
                                                         child: Text(
-                                                          "Bàn:"
-                                                          // + ban[index],
+                                                          "Người nhận tiền:"
+                                                          // + documentSnapshot["nhanVien"],
                                                           ,
                                                           style: GoogleFonts.inter(
                                                               fontSize: 14,
@@ -281,10 +228,10 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                                                         const EdgeInsets.fromLTRB(
                                                             0, 0, 0, 0),
                                                         child: Text(
-                                                          "Tổng tiền:"
-                                                              // + documentSnapshot[
-                                                              // "tongtien"],
-                                                          ,style: GoogleFonts.inter(
+                                                          "Tên món:"
+                                                          // + documentSnapshot["dsSanPham"],
+                                                          ,
+                                                          style: GoogleFonts.inter(
                                                               fontSize: 14,
                                                               fontStyle:
                                                               FontStyle.italic),
@@ -292,86 +239,87 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                                                       ),
                                                     ],
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.fromLTRB(
-                                                      10, 0, 0, 0),
-                                                  child: SizedBox(
-                                                    height: 18,
-                                                    child: ElevatedButton(
-                                                      onPressed: () {
-                                                        showDialog<String>(
-                                                          context: context,
-                                                          builder: (BuildContext context) =>
-                                                              AlertDialog(
-                                                                insetPadding: EdgeInsets.zero,
-                                                                title: const Text(
-                                                                  'Chi tiết hoá đơn',
-                                                                  textAlign: TextAlign.center,
-                                                                ),
-                                                                content: Container(
-                                                                  child: Column(
-                                                                    mainAxisSize: MainAxisSize.min,
+                                                )),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  25, 0, 0, 0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 0),
+                                                    child: Text(
+                                                        "Ngày:"
+                                                            // + documentSnapshot[
+                                                            // "ngay"]
+                                                        ,
+                                                        style: GoogleFonts.inter(
+                                                            fontSize: 14,
+                                                            fontStyle:
+                                                            FontStyle.italic)),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 0),
+                                                    child: Text(
+                                                      "Bàn:"
+                                                      // + ban[index],
+                                                      ,
+                                                      style: GoogleFonts.inter(
+                                                          fontSize: 14,
+                                                          fontStyle:
+                                                          FontStyle.italic),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 0),
+                                                    child: Text(
+                                                      "Tổng tiền:"
+                                                          // + documentSnapshot[
+                                                          // "tongtien"],
+                                                      ,style: GoogleFonts.inter(
+                                                          fontSize: 14,
+                                                          fontStyle:
+                                                          FontStyle.italic),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  10, 0, 0, 0),
+                                              child: SizedBox(
+                                                height: 18,
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    showDialog<String>(
+                                                      context: context,
+                                                      builder: (BuildContext context) =>
+                                                          AlertDialog(
+                                                            insetPadding: EdgeInsets.zero,
+                                                            title: const Text(
+                                                              'Chi tiết hoá đơn',
+                                                              textAlign: TextAlign.center,
+                                                            ),
+                                                            content: Container(
+                                                              child: Column(
+                                                                mainAxisSize: MainAxisSize.min,
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment.start,
                                                                     children: [
-                                                                      Row(
-                                                                        mainAxisAlignment:
-                                                                        MainAxisAlignment.start,
-                                                                        children: [
-                                                                          Expanded(
-                                                                              child: Padding(
-                                                                                padding: const EdgeInsets.fromLTRB(
-                                                                                    10, 10, 0, 10),
-                                                                                child: Column(
-                                                                                  crossAxisAlignment:
-                                                                                  CrossAxisAlignment.start,
-                                                                                  children: [
-                                                                                    Padding(
-                                                                                      padding:
-                                                                                      const EdgeInsets.fromLTRB(
-                                                                                          0, 0, 0, 0),
-                                                                                      child: Text(
-                                                                                        "Mã hoá đơn:" +
-                                                                                            documentSnapshot["maHD"],
-                                                                                        style: GoogleFonts.inter(
-                                                                                            fontSize: 14,
-                                                                                            fontStyle:
-                                                                                            FontStyle.italic),
-                                                                                      ),
-                                                                                    ),
-                                                                                    Padding(
-                                                                                      padding:
-                                                                                      const EdgeInsets.fromLTRB(
-                                                                                          0, 0, 0, 0),
-                                                                                      child: Text(
-                                                                                        "Người nhận tiền:"
-                                                                                        // + documentSnapshot["nhanVien"],
-                                                                                        ,
-                                                                                        style: GoogleFonts.inter(
-                                                                                            fontSize: 14,
-                                                                                            fontStyle:
-                                                                                            FontStyle.italic),
-                                                                                      ),
-                                                                                    ),
-                                                                                    Padding(
-                                                                                      padding:
-                                                                                      const EdgeInsets.fromLTRB(
-                                                                                          0, 0, 0, 0),
-                                                                                      child: Text(
-                                                                                        "Tên món:"
-                                                                                        // + documentSnapshot["dsSanPham"],
-                                                                                        ,
-                                                                                        style: GoogleFonts.inter(
-                                                                                            fontSize: 14,
-                                                                                            fontStyle:
-                                                                                            FontStyle.italic),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              )),
-                                                                          Padding(
+                                                                      Expanded(
+                                                                          child: Padding(
                                                                             padding: const EdgeInsets.fromLTRB(
-                                                                                25, 0, 0, 0),
+                                                                                10, 10, 0, 10),
                                                                             child: Column(
                                                                               crossAxisAlignment:
                                                                               CrossAxisAlignment.start,
@@ -381,21 +329,21 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                                                                                   const EdgeInsets.fromLTRB(
                                                                                       0, 0, 0, 0),
                                                                                   child: Text(
-                                                                                      "Ngày:"
-                                                                                          // + documentSnapshot[
-                                                                                          // "ngay"],
-                                                                                      ,style: GoogleFonts.inter(
-                                                                                          fontSize: 14,
-                                                                                          fontStyle:
-                                                                                          FontStyle.italic)),
+                                                                                    "Mã hoá đơn:" +
+                                                                                        documentSnapshot["maHD"],
+                                                                                    style: GoogleFonts.inter(
+                                                                                        fontSize: 14,
+                                                                                        fontStyle:
+                                                                                        FontStyle.italic),
+                                                                                  ),
                                                                                 ),
                                                                                 Padding(
                                                                                   padding:
                                                                                   const EdgeInsets.fromLTRB(
                                                                                       0, 0, 0, 0),
                                                                                   child: Text(
-                                                                                    "Bàn:"
-                                                                                    // + ban[index],
+                                                                                    "Người nhận tiền:"
+                                                                                    // + documentSnapshot["nhanVien"],
                                                                                     ,
                                                                                     style: GoogleFonts.inter(
                                                                                         fontSize: 14,
@@ -408,10 +356,10 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                                                                                   const EdgeInsets.fromLTRB(
                                                                                       0, 0, 0, 0),
                                                                                   child: Text(
-                                                                                    "Tổng tiền:"
-                                                                                        // + documentSnapshot[
-                                                                                        // "tongtien"],
-                                                                                    ,style: GoogleFonts.inter(
+                                                                                    "Tên món:"
+                                                                                    // + documentSnapshot["dsSanPham"],
+                                                                                    ,
+                                                                                    style: GoogleFonts.inter(
                                                                                         fontSize: 14,
                                                                                         fontStyle:
                                                                                         FontStyle.italic),
@@ -419,47 +367,98 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                                                                                 ),
                                                                               ],
                                                                             ),
-                                                                          ),
-                                                                        ],
+                                                                          )),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.fromLTRB(
+                                                                            25, 0, 0, 0),
+                                                                        child: Column(
+                                                                          crossAxisAlignment:
+                                                                          CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding:
+                                                                              const EdgeInsets.fromLTRB(
+                                                                                  0, 0, 0, 0),
+                                                                              child: Text(
+                                                                                  "Ngày:"
+                                                                                      // + documentSnapshot[
+                                                                                      // "ngay"],
+                                                                                  ,style: GoogleFonts.inter(
+                                                                                      fontSize: 14,
+                                                                                      fontStyle:
+                                                                                      FontStyle.italic)),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding:
+                                                                              const EdgeInsets.fromLTRB(
+                                                                                  0, 0, 0, 0),
+                                                                              child: Text(
+                                                                                "Bàn:"
+                                                                                // + ban[index],
+                                                                                ,
+                                                                                style: GoogleFonts.inter(
+                                                                                    fontSize: 14,
+                                                                                    fontStyle:
+                                                                                    FontStyle.italic),
+                                                                              ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding:
+                                                                              const EdgeInsets.fromLTRB(
+                                                                                  0, 0, 0, 0),
+                                                                              child: Text(
+                                                                                "Tổng tiền:"
+                                                                                    // + documentSnapshot[
+                                                                                    // "tongtien"],
+                                                                                ,style: GoogleFonts.inter(
+                                                                                    fontSize: 14,
+                                                                                    fontStyle:
+                                                                                    FontStyle.italic),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                ),
-                                                                actions: <Widget>[
-                                                                  TextButton(
-                                                                    onPressed: () {
-                                                                      Navigator.pop(context);
-                                                                    },
-                                                                    child: const Text(
-                                                                      'Ẩn', //title
-                                                                      textAlign: TextAlign.end,
-                                                                    ),
-                                                                  ),
                                                                 ],
                                                               ),
-                                                        );
-                                                      },
-                                                      style: ElevatedButton.styleFrom(
-                                                        primary: Colors.white,
-                                                        backgroundColor:
-                                                        Colors.brown[900],
-                                                      ),
-                                                      child: Text(
-                                                        "chi tiết",
-                                                        style: GoogleFonts.inter(
-                                                            color: Colors.white,
-                                                            fontSize: 13,
-                                                            fontWeight:
-                                                            FontWeight.w700),
-                                                      ),
-                                                    ),
+                                                            ),
+                                                            actions: <Widget>[
+                                                              TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.pop(context);
+                                                                },
+                                                                child: const Text(
+                                                                  'Ẩn', //title
+                                                                  textAlign: TextAlign.end,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                    );
+                                                  },
+                                                  style: ElevatedButton.styleFrom(
+                                                    primary: Colors.white,
+                                                    backgroundColor:
+                                                    Colors.brown[900],
+                                                  ),
+                                                  child: Text(
+                                                    "chi tiết",
+                                                    style: GoogleFonts.inter(
+                                                        color: Colors.white,
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                        FontWeight.w700),
                                                   ),
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ));
+                                      ),
+                                    ),
+                                  );
                                 });
                           }
                           return Text("Không có dữ liệu");
