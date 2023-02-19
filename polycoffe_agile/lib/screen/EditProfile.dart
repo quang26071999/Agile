@@ -177,10 +177,11 @@ class EditScreenState extends State<EditScreen>{
                                           // logindata!.setString("sex", sex.text)!;
                                           logindata!.setString("dateOfBirth", dateOfBirthtxt.text)!;
                                           logindata!.setString("address", addresstxt.text)!;
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (context) => TaiKhoanScreen()),
-                                          );
+
+                                          name = logindata!.getString("name")!;
+                                          // sex = logindata!.getString("sex")!;
+                                          dateOfBirth = logindata!.getString("dateOfBirth")!;
+                                          address = logindata!.getString("address")!;
                                         });
                                       }
                                     }),
