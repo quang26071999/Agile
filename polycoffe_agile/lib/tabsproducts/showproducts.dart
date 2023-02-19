@@ -65,7 +65,9 @@ class _ShowProductsState extends State<ShowProducts> {
                 },
               ),
               StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection("Products").snapshots(),
+                  stream: FirebaseFirestore.instance
+                      .collection("Products")
+                      .snapshots(),
                   builder: (context, snapshot) {
                     return (snapshot.connectionState ==
                                 ConnectionState.waiting &&
@@ -79,15 +81,25 @@ class _ShowProductsState extends State<ShowProducts> {
                               shrinkWrap: true,
                               itemCount: snapshot.data?.docs
                                   .where((element) =>
-                                      element["maloai"] == widget.maLoai).where((element) => element["tensp"].toString().toLowerCase().contains(searchNameProduct.toLowerCase()))
+                                      element["maloai"] == widget.maLoai)
+                                  .where((element) => element["tensp"]
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(
+                                          searchNameProduct.toLowerCase()))
                                   .length,
                               itemBuilder: (context, index) {
                                 DocumentSnapshot documentSnapshot = snapshot
-                                        .data?.docs
-                                        .where((element) =>
-                                            element["maloai"] == widget.maLoai).where((element) => element["tensp"].toString().toLowerCase().contains(searchNameProduct.toLowerCase()))
-                                        .elementAt(index)
-                                    as DocumentSnapshot<Object?>;
+                                    .data?.docs
+                                    .where((element) =>
+                                        element["maloai"] == widget.maLoai)
+                                    .where((element) => element["tensp"]
+                                        .toString()
+                                        .toLowerCase()
+                                        .contains(
+                                            searchNameProduct.toLowerCase()))
+                                    .elementAt(
+                                        index) as DocumentSnapshot<Object?>;
                                 String id = documentSnapshot.id; // id
                                 return Container(
                                   width: MediaQuery.of(context).size.width,
@@ -188,6 +200,7 @@ class _ShowProductsState extends State<ShowProducts> {
                                                                             child:
                                                                                 TextFormField(
                                                                               controller: _giaSPUpdateTED,
+                                                                              keyboardType: TextInputType.number,
                                                                               decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Nhập giá sản phẩm cần sửa', isDense: true),
                                                                               validator: (text) {
                                                                                 if (text == null || text.isEmpty) {
@@ -382,7 +395,8 @@ class _ShowProductsState extends State<ShowProducts> {
                                                               "tensp"],
                                                           textAlign:
                                                               TextAlign.start,
-                                                          overflow: TextOverflow.ellipsis,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                           style: GoogleFonts.inter(
                                                               color: Color(
                                                                   0xff000000),
@@ -405,7 +419,8 @@ class _ShowProductsState extends State<ShowProducts> {
                                                                     .toString())),
                                                         textAlign:
                                                             TextAlign.right,
-                                                        overflow: TextOverflow.ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: GoogleFonts.inter(
                                                             color: Color(
                                                                 0xff000000),

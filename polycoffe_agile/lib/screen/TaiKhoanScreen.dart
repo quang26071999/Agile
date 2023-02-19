@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:polycoffe_agile/constants.dart';
 import 'package:polycoffe_agile/screen/DangNhapScreen.dart';
 import 'package:polycoffe_agile/screen/EditProfile.dart';
+import 'package:polycoffe_agile/screen/changepasswordscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
@@ -68,7 +69,9 @@ class ProfileScreenState extends State<ProfileScreen>{
                           width: double.maxFinite,
                           height: 54,
                           child: TextButton(
-                              onPressed: (){},
+                              onPressed: (){
+                                Navigator.push(context, new MaterialPageRoute(builder: (context) => ChangePass()));
+                              },
                               style: TextButton.styleFrom(
                                 backgroundColor: Color.fromRGBO(73, 47, 44, 1),
                               ),

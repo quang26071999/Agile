@@ -214,6 +214,7 @@ class showFloatingActionButton extends StatelessWidget {
                                         // height: 40,
                                         child: TextFormField(
                                           controller: _giaSPTED,
+                                            keyboardType: TextInputType.number,
                                           decoration: const InputDecoration(
                                               border: OutlineInputBorder(),
                                               hintText:
@@ -269,17 +270,17 @@ class showFloatingActionButton extends StatelessWidget {
                                                 // ...
                                                 print(e.message);
                                               }
-                                              var documentReference = FirebaseFirestore.instance.collection("Products").doc();
+                                              var documentReference = FirebaseFirestore.instance.collection("Products");
                                               var url = await storageRef.getDownloadURL();
                                               Product product = Product(
-                                                  documentReference.id,
+                                                  id,
                                                   _tenSPTED.text,
                                                   url,
                                                   int.parse(_giaSPTED.text
                                                       .toString()),
                                                   maLoai);
                                               documentReference
-                                                  .set(product.toJson())
+                                                  .add(product.toJson())
                                                   .whenComplete(() => {
                                                         setEmpty(),
                                                         Navigator.pop(context)

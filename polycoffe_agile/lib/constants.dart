@@ -25,5 +25,6 @@ String role = logindata.getString("role")!;
 String sex = logindata.getString("sex")!;
 String dateOfBirth = logindata.getString("dateOfBirth")!;
 String address = logindata.getString("address")!;
+String password = logindata.getString("password")!;
 
 

@@ -169,6 +169,7 @@ class _MyLoginState extends State<MyLogin>{
                            await logindata.setString("avatar", doc['avatar']);
                            await logindata.setString("role", doc['role']);
                            await logindata.setString("address", doc['diaChi']);
+                           await logindata.setString("password", doc['password']);
                             Get.snackbar("Successfully", "Dang nhap thanh cong");
                             Get.off(MyApp());
                           }else if(usernameController.text == "admin" && passwordController.text == "admin"){
