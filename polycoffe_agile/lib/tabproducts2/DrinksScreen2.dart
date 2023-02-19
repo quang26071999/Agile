@@ -25,6 +25,7 @@ class DrinksScreen2 extends StatefulWidget {
 
 class _DrinksScreen2State extends State<DrinksScreen2> {
   final db = FirebaseFirestore.instance.collection("Products");
+  String searchNameProduct = "";
 
   @override
   Widget build(BuildContext context) {
@@ -57,127 +58,153 @@ class _DrinksScreen2State extends State<DrinksScreen2> {
                         borderRadius: BorderRadius.circular(15),
                         borderSide: const BorderSide(),
                       )),
+                  onChanged: (value) {
+                    setState(() {
+                      searchNameProduct = value;
+                    });
+                  },
                 ),
                 StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection("Products")
                       .snapshots(),
                   builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 120),
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: snapshot.data?.docs
-                              .where((element) =>
-                                  element["maloai"] == widget.maLoai)
-                              .length,
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot documentSnapshot = snapshot
-                                .data?.docs
-                                .where((element) =>
-                                    element["maloai"] == widget.maLoai)
-                                .elementAt(index) as DocumentSnapshot<Object?>;
-                            String id = documentSnapshot.id; // id
-                            String photo = documentSnapshot["hinhanh"];
-                            String namePrd = documentSnapshot["tensp"];
-                            int pricePrd = documentSnapshot["gia"];
-                            return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => AddProduct(
-                                                photo: photo,
-                                                namePrd: namePrd,
-                                                pricePrd: pricePrd,
-                                                idPrd: id,
-                                                idBan: widget.idBan,
-                                              )));
-                                },
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0),
-                                  child: Card(
-                                    // margin: EdgeInsets.only(bottom: 20, top: 20),
-                                    color: const Color(0xffDECDB9),
-                                    elevation: 5.0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    child: Row(
-                                      // mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, bottom: 20, left: 24),
-                                          child: Image.network(
-                                            documentSnapshot["hinhanh"],
-                                            width: 100,
-                                            height: 100,
-                                          ),
+                    return (snapshot.connectionState ==
+                                ConnectionState.waiting &&
+                            snapshot.hasData != true)
+                        ? Center(child: CircularProgressIndicator())
+                        : Expanded(
+                            child: Padding(
+                            padding: EdgeInsets.only(top: 10, bottom: 130),
+                            child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data?.docs
+                                  .where((element) =>
+                                      element["maloai"] == widget.maLoai)
+                                  .where((element) => element["tensp"]
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(
+                                          searchNameProduct.toLowerCase()))
+                                  .length,
+                              itemBuilder: (context, index) {
+                                DocumentSnapshot documentSnapshot = snapshot
+                                    .data?.docs
+                                    .where((element) =>
+                                        element["maloai"] == widget.maLoai)
+                                    .where((element) => element["tensp"]
+                                        .toString()
+                                        .toLowerCase()
+                                        .contains(
+                                            searchNameProduct.toLowerCase()))
+                                    .elementAt(
+                                        index) as DocumentSnapshot<Object?>;
+                                String id = documentSnapshot.id; // id
+                                String photo = documentSnapshot["hinhanh"];
+                                String namePrd = documentSnapshot["tensp"];
+                                int pricePrd = documentSnapshot["gia"];
+                                return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => AddProduct(
+                                                    photo: photo,
+                                                    namePrd: namePrd,
+                                                    pricePrd: pricePrd,
+                                                    idPrd: id,
+                                                    idBan: widget.idBan,
+                                                  )));
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10.0),
+                                      child: Card(
+                                        // margin: EdgeInsets.only(bottom: 20, top: 20),
+                                        color: const Color(0xffDECDB9),
+                                        elevation: 5.0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
                                         ),
-                                        Column(
+                                        child: Row(
+                                          // mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 50),
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 10.0),
-                                                    child: Text(
-                                                        documentSnapshot[
-                                                            "tensp"],
-                                                        textAlign:
-                                                            TextAlign.start,
-                                                        style: GoogleFonts.inter(
-                                                            color: const Color(
-                                                                0xff000000),
-                                                            fontSize: 16,
-                                                            fontStyle: FontStyle
-                                                                .italic,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                  ),
-                                                  Text(
-                                                      NumberFormat
-                                                              .simpleCurrency(
+                                                  top: 20,
+                                                  bottom: 20,
+                                                  left: 24),
+                                              child: Image.network(
+                                                documentSnapshot["hinhanh"],
+                                                width: 100,
+                                                height: 100,
+                                              ),
+                                            ),
+                                            Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 50),
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 10.0),
+                                                        child: Text(
+                                                            documentSnapshot[
+                                                                "tensp"],
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: GoogleFonts.inter(
+                                                                color: const Color(
+                                                                    0xff000000),
+                                                                fontSize: 16,
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .italic,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                      ),
+                                                      Text(
+                                                          NumberFormat.simpleCurrency(
                                                                   locale:
                                                                       "vi_VN")
-                                                          .format(int.parse(
-                                                              documentSnapshot[
-                                                                      "gia"]
-                                                                  .toString())),
-                                                      textAlign: TextAlign
-                                                          .right,
-                                                      style: GoogleFonts.inter(
-                                                          color: const Color(
-                                                              0xff000000),
-                                                          fontSize: 16,
-                                                          fontStyle:
-                                                              FontStyle.italic))
-                                                ],
-                                              ),
-                                            )
+                                                              .format(int.parse(
+                                                                  documentSnapshot[
+                                                                          "gia"]
+                                                                      .toString())),
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                          style: GoogleFonts.inter(
+                                                              color: const Color(
+                                                                  0xff000000),
+                                                              fontSize: 16,
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .italic))
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ));
-                          },
-                        ),
-                      ));
-                    }
-                    return const Text("Không có sản phẩm");
-                  },
+                                      ),
+                                    ));
+                              },
+                            ),
+                          ));
+                  }
+                  // return const Text("Không có sản phẩm");
+
+                  ,
                 )
               ],
             ),
