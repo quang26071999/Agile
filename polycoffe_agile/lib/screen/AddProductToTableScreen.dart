@@ -147,16 +147,25 @@ class _AddProductState extends State<AddProduct> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff492F2C)),
                           onPressed: () {
-                            Map<String, dynamic> map = {
-                              "maSP": widget.idPrd,
-                              "tenSP": widget.namePrd,
-                              "soLuong": _number,
-                            };
-                            colTable.doc(widget.idBan).update({
-                              "HDT": FieldValue.arrayUnion([map])
-                            });
-                            _number = 0;
-                            Navigator.pop(context);
+                            if (_number != 0) {
+                              Map<String, dynamic> map = {
+                                "maSP": widget.idPrd,
+                                "tenSP": widget.namePrd,
+                                "soLuong": _number,
+                                "gia": widget.pricePrd,
+                              };
+                              colTable.doc(widget.idBan).update({
+                                "HDT": FieldValue.arrayUnion([map])
+                              });
+                              _number = 0;
+                              Navigator.pop(context);
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text("Số lượng sản phẩm không bằng 0"),
+                                duration: Duration(seconds: 1),
+                              ));
+                            }
                           },
                           child: Text(
                             "THÊM",
