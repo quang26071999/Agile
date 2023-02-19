@@ -196,14 +196,61 @@ class _DatBanScreenState extends State<DatBanScreen> {
           //   // maHDT = "HDTB01";
           //
           // });
-          colTable.doc(maBan).set({
-            "maBan": maBan,
-            "trangThai": "Trống",
-            "HDT": null,
-          });
+          showAlert(context, maBan: maBan);
         },
         child: const Icon(Icons.add),
       ),
     );
   }
+}
+
+void showAlert(BuildContext context, {required maBan}) {
+  Widget cancelButton = TextButton(
+    child: Text("Hủy",
+        style: GoogleFonts.inter(
+            fontSize: 18, fontWeight: FontWeight.w400, color: Colors.red)),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  Widget continueButton = TextButton(
+    child: Text("Thêm",
+        style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w400)),
+    onPressed: () {
+      colTable.doc(maBan).set({
+        "maBan": maBan,
+        "trangThai": "Trống",
+        "HDT": null,
+      });
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text(
+      "THÔNG BÁO",
+      style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700),
+    ),
+    content: Text(
+      "Bạn chắc chắn muốn thêm bàn?",
+      style: GoogleFonts.inter(
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
+          fontStyle: FontStyle.italic),
+    ),
+    backgroundColor: const Color(0xffDECDB9),
+    actions: [
+      continueButton,
+      cancelButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
