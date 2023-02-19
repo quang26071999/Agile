@@ -78,7 +78,7 @@ class _QLNVState extends State<QLNV>{
 
   final _formKey = GlobalKey<FormState>();
 
-  String hoVaTen = "";
+  String search = "";
 
 
   late bool _passVisible;
@@ -126,21 +126,13 @@ class _QLNVState extends State<QLNV>{
                     ),
                     onChanged: (val){
                       setState((){
-                        hoVaTen = val;
+                        search = val;
                       });
                     },
                   ),
                 ),
                 StreamBuilder(
-                    stream: (hoVaTen!= "" && hoVaTen != null)
-                        ? FirebaseFirestore.instance
-                        .collection("User")
-                        .where("hoTen", isNotEqualTo: hoVaTen)
-                        .orderBy("hoTen")
-                        .startAt([hoVaTen,])
-                        .endAt([hoVaTen+'\uf8ff',])
-                        .snapshots()
-                        : FirebaseFirestore.instance.collection("User").snapshots(),
+                    stream: FirebaseFirestore.instance.collection("User").snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting && snapshot.hasData != true) {
                         return const Center(
@@ -151,11 +143,11 @@ class _QLNVState extends State<QLNV>{
                       }else{
                         return  ListView.builder(
                             scrollDirection: Axis.vertical,
-                            itemCount: snapshot.data?.docs.length,
+                            itemCount: snapshot.data?.docs.where((element) => element["hoTen"].toString().toLowerCase().contains(search.toLowerCase()) || element["username"].toString().toLowerCase().contains(search.toLowerCase())).length,
                             shrinkWrap: true,
                             itemBuilder: (BuildContext context, int index) {
                               DocumentSnapshot documentSnapshot = snapshot.data
-                                  ?.docs[index] as DocumentSnapshot<Object?>;
+                                  ?.docs.where((element) => element["hoTen"].toString().toLowerCase().contains(search.toLowerCase()) || element["username"].toString().toLowerCase().contains(search.toLowerCase())).elementAt(index) as DocumentSnapshot<Object?>;
                               String id = documentSnapshot.id;
                               return Expanded(
                                 child: Container(
