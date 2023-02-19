@@ -27,7 +27,7 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
 
   final TextEditingController denNgay = TextEditingController();
 
-  final dateFormatter = DateFormat("dd-MM-yyyy");
+  final dateFormatter = DateFormat("dd/MM/yyyy");
 
   DateTime parseDate(String date) {
     return dateFormatter.parse(date);

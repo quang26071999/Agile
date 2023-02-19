@@ -174,7 +174,49 @@ class showFloatingActionButton extends StatelessWidget {
                                             showModalBottomSheet<void>(
                                               context: context,
                                               builder: (BuildContext context) {
-                                                return chooseTypeAddImage();
+                                                return SizedBox(
+                                                  height: 130,
+                                                  child: Center(
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        ListTile(
+                                                          leading: const Icon(
+                                                            Icons.photo_camera,
+                                                          ),
+                                                          title: const Text(
+                                                            'Camera',
+                                                          ),
+                                                          onTap: () async {
+                                                            final XFile? image = await _imagePicker.pickImage(
+                                                                source: ImageSource.camera, imageQuality: 10);
+                                                            setState(() {
+                                                              _imageFile = File(image!.path);
+                                                            });
+                                                            Navigator.of(context).pop();
+                                                          },
+                                                        ),
+                                                        ListTile(
+                                                          leading: const Icon(
+                                                            Icons.camera,
+                                                          ),
+                                                          title: const Text(
+                                                            'Bộ sưu tập',
+                                                          ),
+                                                          onTap: () async {
+                                                            final XFile? image =
+                                                            await _imagePicker.pickImage(source: ImageSource.gallery);
+                                                            setState(() {
+                                                              _imageFile = File(image!.path);
+                                                            });
+                                                            Navigator.of(context).pop();
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
                                               },
                                             );
                                           },
@@ -343,60 +385,4 @@ class showFloatingActionButton extends StatelessWidget {
     id = DateTime.now().millisecondsSinceEpoch.toString();
   }
 
-}
-
-class chooseTypeAddImage extends StatefulWidget {
-  const chooseTypeAddImage({super.key});
-
-  @override
-  State<chooseTypeAddImage> createState() => _chooseTypeAddImageState();
-}
-
-class _chooseTypeAddImageState extends State<chooseTypeAddImage> {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 130,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListTile(
-              leading: const Icon(
-                Icons.photo_camera,
-              ),
-              title: const Text(
-                'Camera',
-              ),
-              onTap: () async {
-                final XFile? image = await _imagePicker.pickImage(
-                    source: ImageSource.camera, imageQuality: 10);
-                setState(() {
-                  _imageFile = File(image!.path);
-                });
-                Navigator.of(context).pop();
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.camera,
-              ),
-              title: const Text(
-                'Bộ sưu tập',
-              ),
-              onTap: () async {
-                final XFile? image =
-                    await _imagePicker.pickImage(source: ImageSource.gallery);
-                setState(() {
-                  _imageFile = File(image!.path);
-                });
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
