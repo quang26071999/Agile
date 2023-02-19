@@ -73,8 +73,6 @@ class _DatBanScreenState extends State<DatBanScreen> {
                       FirebaseFirestore.instance.collection("Table").snapshots(),
                   builder: (context, snapShot) {
                     if (snapShot.hasData) {
-                      maBan =
-                          "B0${(snapShot.data?.docs.length)}${DateTime.now().millisecondsSinceEpoch}";
                       return GridView.builder(
                           itemCount: snapShot.data?.docs.length,
                           padding:
@@ -198,7 +196,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
           //
           // });
           colTable.doc(maBan).set({
-            "maBan": maBan,
+            "maBan": colTable.id,
             "trangThai": "Trống",
             "HDT": null,
           });
