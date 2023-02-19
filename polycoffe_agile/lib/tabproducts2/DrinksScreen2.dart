@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:polycoffe_agile/main.dart';
 import 'package:polycoffe_agile/screen/AddProductToTableScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 List products = ["Cà Phê Phin", "Cà Phê Đen", "Bạc Xỉu"];
 List quantity = [2, 5, 1];
@@ -397,7 +398,8 @@ void _showModalBottomSheet(BuildContext context, {required idBan}) {
               ))));
 }
 
-void showAlert(BuildContext context, {required idBan, list}) {
+void showAlert(BuildContext context, {required idBan, list}) async {
+  var logindata = await SharedPreferences.getInstance();
   Widget cancelButton = TextButton(
     child: Text("Hủy",
         style: GoogleFonts.inter(
@@ -415,7 +417,7 @@ void showAlert(BuildContext context, {required idBan, list}) {
         "maHD": colBill.id,
         "maBan": idBan,
         "ngay": DateFormat("dd/MM/yyyy").format(DateTime.now()),
-        "nhanVien": null,
+        "nhanVien": logindata.getString("hoTen"),
         "dsSanPham": list,
 
       });
