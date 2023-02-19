@@ -143,11 +143,11 @@ class _QLNVState extends State<QLNV>{
                       }else{
                         return  ListView.builder(
                             scrollDirection: Axis.vertical,
-                            itemCount: snapshot.data?.docs.where((element) => element["hoTen"].toString().toLowerCase().contains(search.toLowerCase()) || element["username"].toString().toLowerCase().contains(search.toLowerCase())).length,
+                            itemCount: snapshot.data?.docs.where((element) => element["hoTen"].toString().toLowerCase().contains(search.toLowerCase()) || element["username"].toString().startsWith(search)).length,
                             shrinkWrap: true,
                             itemBuilder: (BuildContext context, int index) {
                               DocumentSnapshot documentSnapshot = snapshot.data
-                                  ?.docs.where((element) => element["hoTen"].toString().toLowerCase().contains(search.toLowerCase()) || element["username"].toString().toLowerCase().contains(search.toLowerCase())).elementAt(index) as DocumentSnapshot<Object?>;
+                                  ?.docs.where((element) => element["hoTen"].toString().toLowerCase().contains(search.toLowerCase()) || element["username"].toString().startsWith(search)).elementAt(index) as DocumentSnapshot<Object?>;
                               String id = documentSnapshot.id;
                               return Expanded(
                                 child: Container(
