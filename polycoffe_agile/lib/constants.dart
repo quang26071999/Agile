@@ -16,15 +16,5 @@ List<GioiTinhChoice> listGT = [
   GioiTinhChoice(indexGT: 1, gioiTinhChoice: "Nữ"),
 ];
 
-late SharedPreferences logindata ;
-
-String avatar = logindata.getString("avatar")!;
-String username = logindata.getString("username")!;
-String name = logindata.getString("name")!;
-String role = logindata.getString("role")!;
-String sex = logindata.getString("sex")!;
-String dateOfBirth = logindata.getString("dateOfBirth")!;
-String address = logindata.getString("address")!;
-String password = logindata.getString("password")!;
 
 
