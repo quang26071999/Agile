@@ -2,14 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:polycoffe_agile/main.dart';
 import 'package:polycoffe_agile/screen/AddProductToTableScreen.dart';
 
 List products = ["Cà Phê Phin", "Cà Phê Đen", "Bạc Xỉu"];
 List quantity = [2, 5, 1];
 late List list;
-var colBill =
-    FirebaseFirestore.instance.collection("Bill").doc();
+final CollectionReference colBill =
+    FirebaseFirestore.instance.collection("Bill");
 final CollectionReference colTable =
     FirebaseFirestore.instance.collection("Table");
 
@@ -293,46 +292,28 @@ void _showModalBottomSheet(BuildContext context, {required idBan}) {
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     Map<String, dynamic> map = list[index];
-                                    return Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          map["tenSP".toString()],
-                                          style: GoogleFonts.inter(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.black),
-                                        ),
-                                        Row(
+                                    return Container(
+                                        margin:
+                                            const EdgeInsets.only(bottom: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
                                           children: [
-                                            IconButton(
-                                              color: Colors.white,
-                                              onPressed: () {
-                                                if (quantity[index] == 0) {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                          const SnackBar(
-                                                    content:
-                                                        Text("Không bé hơn 0"),
-                                                    duration:
-                                                        Duration(seconds: 1),
-                                                  ));
-                                                  // Fluttertoast.showToast(
-                                                  //     msg: "Không bé hơn 0",
-                                                  //     toastLength: Toast.LENGTH_SHORT,
-                                                  //     gravity: ToastGravity.BOTTOM,
-                                                  //     backgroundColor: Colors.red,
-                                                  //     textColor: Colors.white,
-                                                  //     fontSize: 16.0);
-                                                } else {
-                                                  // setState(() {
-                                                  //   _number--;
-                                                  // });
-                                                }
-                                              },
-                                              icon: const Icon(Icons.remove),
+                                            Text(
+                                              map["tenSP".toString()],
+                                              style: GoogleFonts.inter(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.black),
+                                            ),
+                                            Text(
+                                              ":",
+                                              style: GoogleFonts.inter(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Colors.black),
                                             ),
                                             Container(
                                               margin: const EdgeInsets.only(
@@ -340,25 +321,14 @@ void _showModalBottomSheet(BuildContext context, {required idBan}) {
                                               child: Text(
                                                 map["soLuong"].toString(),
                                                 style: GoogleFonts.inter(
-                                                    fontSize: 16,
+                                                    fontSize: 18,
                                                     color: Colors.black,
                                                     fontWeight:
                                                         FontWeight.w700),
                                               ),
                                             ),
-                                            IconButton(
-                                              color: Colors.white,
-                                              onPressed: () {
-                                                // setState(() {
-                                                //   _number++;
-                                                // });
-                                              },
-                                              icon: const Icon(Icons.add),
-                                            ),
                                           ],
-                                        )
-                                      ],
-                                    );
+                                        ));
                                   }),
                             ));
                           }
@@ -375,7 +345,19 @@ void _showModalBottomSheet(BuildContext context, {required idBan}) {
                           margin: const EdgeInsets.only(right: 5),
                           child: ElevatedButton(
                               onPressed: () {
-                                showAlert(context, idBan: idBan, list: list);
+                                colTable
+                                    .doc(idBan)
+                                    .get()
+                                    .then((DocumentSnapshot snapshot) {
+                                  final snapShot =
+                                      snapshot.data() as Map<String, dynamic>;
+                                  if (snapShot["HDT"] == null) {
+                                    showAlert2(context);
+                                  } else {
+                                    showAlert(context,
+                                        idBan: idBan, list: list);
+                                  }
+                                });
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xff492F2C),
@@ -385,7 +367,9 @@ void _showModalBottomSheet(BuildContext context, {required idBan}) {
                         Container(
                           margin: const EdgeInsets.only(left: 5),
                           child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                colTable.doc(idBan).update({"HDT": null});
+                              },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.red),
                               child: const Text("Xóa")),
@@ -410,19 +394,26 @@ void showAlert(BuildContext context, {required idBan, list}) {
     child: Text("Thanh Toán",
         style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w400)),
     onPressed: () {
-      String maHD = "HD$idBan";
-      colBill.set({
-        "maHD": colBill.id,
-        "maBan": idBan,
-        "ngay": DateFormat("dd/MM/yyyy").format(DateTime.now()),
-        "nhanVien": null,
-        "dsSanPham": list,
-
+      String maHD = "HD${DateTime.now().millisecondsSinceEpoch.toString()}";
+      int sum = 0;
+      colTable.doc(idBan).get().then((DocumentSnapshot snapshot) {
+        final snapShot = snapshot.data() as Map<String, dynamic>;
+        List list = snapShot["HDT"];
+        list.forEach((element) {
+          sum += element["soLuong"] * element["gia"] as int;
+        });
+        colBill.doc(maHD).set({
+          "maHD": maHD,
+          "maBan": idBan,
+          "ngay": DateFormat("dd/MM/yyyy").format(DateTime.now()),
+          "nhanVien": null,
+          "dsSanPham": list,
+          "tongTien": sum,
+        });
       });
+
       colTable.doc(idBan).update({"HDT": null});
       Navigator.of(context).pop();
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const MyApp()));
     },
   );
 
@@ -442,6 +433,44 @@ void showAlert(BuildContext context, {required idBan, list}) {
     backgroundColor: const Color(0xffDECDB9),
     actions: [
       continueButton,
+      cancelButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+void showAlert2(BuildContext context) {
+  Widget cancelButton = TextButton(
+    child: Text("OK",
+        style: GoogleFonts.inter(
+            fontSize: 18, fontWeight: FontWeight.w400, color: Colors.blueAccent)),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text(
+      "THÔNG BÁO",
+      style: GoogleFonts.inter(fontSize: 22, fontWeight: FontWeight.w700),
+    ),
+    content: Text(
+      "Không có sản phẩm để thanh toán!",
+      style: GoogleFonts.inter(
+          fontSize: 20,
+          fontWeight: FontWeight.w400,
+          fontStyle: FontStyle.italic),
+    ),
+    backgroundColor: const Color(0xffDECDB9),
+    actions: [
       cancelButton,
     ],
   );
