@@ -96,8 +96,8 @@ class _QLNVState extends State<QLNV>{
       //   title: const Text('QLNV'),
       // ),
       body: Container(
-        width: double.maxFinite,
-        height: double.maxFinite,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/backgroundCoffee.png"),
@@ -106,32 +106,32 @@ class _QLNVState extends State<QLNV>{
         ),
         child: SafeArea(
           minimum: const EdgeInsets.fromLTRB(10, 40, 10, 0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: TextField(
-                    decoration: InputDecoration(
-                        filled: true,
-                        fillColor: const Color(0xffffffff),
-                        suffixIcon: const Icon(Icons.search),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 15),
-                        hintText: "Tìm nhân viên",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(),
-                        )
-                    ),
-                    onChanged: (val){
-                      setState((){
-                        search = val;
-                      });
-                    },
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color(0xffffffff),
+                      suffixIcon: const Icon(Icons.search),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
+                      hintText: "Tìm nhân viên",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(),
+                      )
                   ),
+                  onChanged: (val){
+                    setState((){
+                      search = val;
+                    });
+                  },
                 ),
-                StreamBuilder(
+              ),
+              Expanded(
+                child: StreamBuilder(
                     stream: FirebaseFirestore.instance.collection("User").snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting && snapshot.hasData != true) {
@@ -279,48 +279,26 @@ class _QLNVState extends State<QLNV>{
                                                                       ),
                                                                       Padding(
                                                                           padding: const EdgeInsets.only(bottom: 14),
-                                                                          child: Stack(
-                                                                            children: [
-                                                                              TextFormField(
-                                                                                obscureText: !_passVisible,
-                                                                                controller: passwordUpdate,
-                                                                                decoration: const InputDecoration(
-                                                                                  //filled: true,
-                                                                                  // fillColor: Color(0xffffffff),
-                                                                                  border: OutlineInputBorder(),
-                                                                                  prefixIcon: SizedBox(
-                                                                                      width: 50, child: Icon(Icons.lock_open)),
+                                                                          child: TextFormField(
+                                                                            obscureText: !_passVisible,
+                                                                            controller: passwordUpdate,
+                                                                            decoration: InputDecoration(
+                                                                              //filled: true,
+                                                                              // fillColor: Color(0xffffffff),
+                                                                              border: OutlineInputBorder(),
+                                                                              prefixIcon: SizedBox(
+                                                                                  width: 50, child: Icon(Icons.lock_open)),
+                                                                              hintText: 'Nhập password',
+                                                                            ),
 
-                                                                                  hintText: 'Nhập password',
-                                                                                ),
+                                                                            validator: (value){
+                                                                              if(value!.isEmpty){
+                                                                                return "Vui lòng không để trống";
+                                                                              }
+                                                                              return null;
+                                                                            },
+                                                                            onChanged: (value) => {},
 
-                                                                                validator: (value){
-                                                                                  if(value!.isEmpty){
-                                                                                    return "Vui lòng không để trống";
-                                                                                  }
-                                                                                  return null;
-                                                                                },
-                                                                                onChanged: (value) => {},
-
-                                                                              ),
-                                                                              Padding(
-                                                                                padding: EdgeInsets.fromLTRB(270,6,0,0),
-                                                                                child:  IconButton(
-                                                                                    icon: Icon(
-                                                                                      _passVisible
-                                                                                          ? Icons.visibility
-                                                                                          : Icons.visibility_off,
-                                                                                      color: Theme.of(context).primaryColorDark,
-                                                                                    ),
-                                                                                    onPressed: (){
-                                                                                      setState(() {
-                                                                                        _passVisible = !_passVisible;
-                                                                                      });
-                                                                                    }),
-
-                                                                              )
-
-                                                                            ],
                                                                           )
                                                                       ),
                                                                       Padding(
@@ -737,9 +715,9 @@ class _QLNVState extends State<QLNV>{
 
                       }
                       return Text("Chưa có nhân viên");
-                    })
-              ],
-            ),
+                    }),
+              )
+            ],
           ),
         ),
       ),
@@ -942,49 +920,27 @@ class _QLNVState extends State<QLNV>{
                                     ),
                                     Padding(
                                         padding: const EdgeInsets.only(bottom: 14),
-                                        child: Stack(
-                                          children: [
-                                            TextFormField(
-                                              obscureText: !_passVisible,
-                                              controller: password,
-                                              decoration: const InputDecoration(
-                                                //filled: true,
-                                                // fillColor: Color(0xffffffff),
-                                                border: OutlineInputBorder(),
-                                                prefixIcon: SizedBox(
-                                                    width: 50, child: Icon(Icons.lock_open)),
+                                        child: TextFormField(
+                                          obscureText: !_passVisible,
+                                          controller: password,
+                                          decoration: const InputDecoration(
+                                            //filled: true,
+                                            // fillColor: Color(0xffffffff),
+                                            border: OutlineInputBorder(),
+                                            prefixIcon: SizedBox(
+                                                width: 50, child: Icon(Icons.lock_open)),
 
-                                                hintText: 'Nhập password',
-                                              ),
+                                            hintText: 'Nhập password',
+                                          ),
 
-                                              validator: (value){
-                                                if(value!.isEmpty){
-                                                  return "Vui lòng không để trống";
-                                                }
-                                                return null;
-                                              },
-                                              onChanged: (value) => {},
+                                          validator: (value){
+                                            if(value!.isEmpty){
+                                              return "Vui lòng không để trống";
+                                            }
+                                            return null;
+                                          },
+                                          onChanged: (value) => {},
 
-                                            ),
-                                            Padding(
-                                                padding: EdgeInsets.fromLTRB(270,6,0,0),
-                                                child:  IconButton(
-                                                  icon: Icon(
-
-                                                  _passVisible
-                                                  ? Icons.visibility
-                                                    : Icons.visibility_off,
-                                                    color: Theme.of(context).primaryColorDark,
-                                                  ),
-                                                  onPressed: (){
-                                                    setState(() {
-                                                      _passVisible = !_passVisible;
-                                                    });
-                                                  }),
-
-                                            )
-
-                                          ],
                                         )
                                     ),
                                     Padding(
