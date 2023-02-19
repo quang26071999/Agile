@@ -171,7 +171,17 @@ class EditScreenState extends State<EditScreen>{
                                             .catchError((error) => debugPrint("Sửa thất bại"));
                                         Get.snackbar("Successfully", "Đổi thông tin thành công");
                                        // Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => ProfileScreen()));
-
+                                        setState(() {
+                                          logindata!.setString("name", nametxt.text)!;
+                                          // logindata!.setString("role", role.text)!;
+                                          // logindata!.setString("sex", sex.text)!;
+                                          logindata!.setString("dateOfBirth", dateOfBirthtxt.text)!;
+                                          logindata!.setString("address", addresstxt.text)!;
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => TaiKhoanScreen()),
+                                          );
+                                        });
                                       }
                                     }),
                               ),
