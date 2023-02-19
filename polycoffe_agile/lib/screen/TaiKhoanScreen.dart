@@ -1,12 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:polycoffe_agile/constants.dart';
-import 'package:polycoffe_agile/screen/ChangePass.dart';
 import 'package:polycoffe_agile/screen/DangNhapScreen.dart';
 import 'package:polycoffe_agile/screen/EditProfile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
+
+import 'changepasswordscreen.dart';
 
 class TaiKhoanScreen extends StatelessWidget{
   @override
@@ -77,7 +77,7 @@ class ProfileScreenState extends State<ProfileScreen>{
                           height: 54,
                           child: TextButton(
                               onPressed: (){
-                                Get.to(()=>ChangePass());
+                                Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
                               },
                               style: TextButton.styleFrom(
                                 backgroundColor: Color.fromRGBO(73, 47, 44, 1),
