@@ -30,12 +30,13 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
   final TextEditingController denNgay = TextEditingController();
 
   final dateFormatter = DateFormat("dd/MM/yyyy");
+  var list = [];
 
   DateTime parseDate(String date) {
     return dateFormatter.parse(date);
   }
 
-  var sum = 0;
+  int sum = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -123,14 +124,17 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                                         .compareTo(parseDate(denNgay.text)) <=
                                     0) {
                               listBill.add(element);
-                              sumx += int.parse(element['tongTien']);
+                              //sumx += int.parse(element['tongTien']);
+                              print(element['tongTien']);
+
                               // List.from(element['dsSanPham']).forEach((element2) {
                               //   sumx+= int.parse(element2['gia'])*int.parse(element2['soLuong']);
                               // });
 
                             }
                             setState(() {
-                              sum = sumx;
+                              sum = sum + int.parse(element['tongTien'].toString());
+                              list = listBill;
                             });
                           });
                         });
@@ -162,19 +166,12 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                       fontWeight: FontWeight.w700)),
             ),
             Expanded(
-                child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection("Bill")
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView.builder(
+                child: ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            itemCount: snapshot.data?.docs.length,
+                            itemCount: list.length,
                             itemBuilder: (context, index) {
-                              DocumentSnapshot documentSnapshot = snapshot.data
-                                  ?.docs[index] as DocumentSnapshot<Object?>;
+                              var documentSnapshot = list[index] ;
 
                               return SingleChildScrollView(
                                 child: GestureDetector(
@@ -457,10 +454,8 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                                   },
                                 ),
                               );
-                            });
-                      }
-                      return Text("Không có dữ liệu");
-                    }))
+                            })),
+
           ],
         ),
       ),
