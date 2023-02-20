@@ -8,8 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 List products = ["Cà Phê Phin", "Cà Phê Đen", "Bạc Xỉu"];
 List quantity = [2, 5, 1];
 late List list;
-final CollectionReference colBill =
-    FirebaseFirestore.instance.collection("Bill");
+var colBill =
+    FirebaseFirestore.instance.collection("Bill").doc();
 final CollectionReference colTable =
     FirebaseFirestore.instance.collection("Table");
 
@@ -404,8 +404,8 @@ void showAlert(BuildContext context, {required idBan, list}) async {
         list.forEach((element) {
           sum += element["soLuong"] * element["gia"] as int;
         });
-        colBill.doc(maHD).set({
-          "maHD": maHD,
+        colBill.set({
+          "maHD": colBill.id,
           "maBan": idBan,
           "ngay": DateFormat("dd/MM/yyyy").format(DateTime.now()),
           "nhanVien": logindata!.getString("name"),
