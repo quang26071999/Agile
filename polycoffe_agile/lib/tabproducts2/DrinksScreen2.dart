@@ -408,7 +408,7 @@ void showAlert(BuildContext context, {required idBan, list}) async {
           "maHD": maHD,
           "maBan": idBan,
           "ngay": DateFormat("dd/MM/yyyy").format(DateTime.now()),
-          "nhanVien": null,
+          "nhanVien": logindata!.getString("name"),
           "dsSanPham": list,
           "tongTien": sum,
         });
