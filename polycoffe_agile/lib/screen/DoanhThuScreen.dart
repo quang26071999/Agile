@@ -113,8 +113,8 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                     print("hihi");
                     var ref = FirebaseFirestore.instance.collection("Bill");
                     var listBill = [];
-                    var sumx = 0;
-                    ref.get().then((QuerySnapshot query) => {
+                    int sumx = 0;
+                    ref.get().then((QuerySnapshot query) {
                           query.docs.forEach((element) {
                             if (parseDate(element['ngay'])
                                         .compareTo(parseDate(tuNgay.text)) >=
@@ -123,15 +123,16 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                                         .compareTo(parseDate(denNgay.text)) <=
                                     0) {
                               listBill.add(element);
-                              sumx += int.parse(element['tongtien']);
+                              sumx += int.parse(element['tongTien']);
                               // List.from(element['dsSanPham']).forEach((element2) {
                               //   sumx+= int.parse(element2['gia'])*int.parse(element2['soLuong']);
                               // });
+
                             }
                             setState(() {
                               sum = sumx;
                             });
-                          })
+                          });
                         });
                     // for (var element in listBill) {
                     //   sumx+= int.parse(element['tongtien']);
