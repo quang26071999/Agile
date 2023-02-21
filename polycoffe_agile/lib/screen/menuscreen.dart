@@ -327,10 +327,15 @@ class showFloatingActionButton extends StatelessWidget {
                                                         setEmpty(),
                                                         Navigator.pop(context)
                                                       })
-                                                  .then((value) => debugPrint(
-                                                      "Thêm thành công"))
-                                                  .catchError((error) => debugPrint(
-                                                      "Thêm thất bại:  ${error}"));
+                                                  .then((value) =>
+                                                  // debugPrint("Thêm thành công")
+                                              Get.snackbar("Thông báo", "Thêm sản phẩm thành công")
+                                              )
+                                                  .catchError((error) =>
+                                                  Get.snackbar("Thông báo", "Thêm sản phẩm thất bại")
+                                                  // debugPrint(
+                                                  //     "Thêm thất bại:  ${error}")
+                                              );
                                             }
                                           },
                                           child: Text('LƯU',

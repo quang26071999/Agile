@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -243,8 +244,14 @@ class _ShowProductsState extends State<ShowProducts> {
                                                                                           "tensp": _tenSPUpdateTED.text,
                                                                                           "gia": int.parse(_giaSPUpdateTED.text)
                                                                                         })
-                                                                                        .then((value) => debugPrint("Sửa thành công"))
-                                                                                        .catchError((error) => debugPrint("Sửa thất bại:  ${error}"));
+                                                                                        .then((value) =>
+                                                                                        // debugPrint("Sửa thành công")
+                                                                                    Get.snackbar("Thông báo", "Sửa thành công")
+                                                                                    )
+                                                                                        .catchError((error) =>
+                                                                                        // debugPrint("Sửa thất bại:  ${error}")
+                                                                                    Get.snackbar("Thông báo", "Sửa thất bại")
+                                                                                    );
                                                                                     Navigator.pop(context);
                                                                                   }
                                                                                   // print(snapshot.data?.docs.where((element) => element["maloai"] == maLoai).length) ;
@@ -326,7 +333,8 @@ class _ShowProductsState extends State<ShowProducts> {
                                                               })
                                                           .then((value) =>
                                                               debugPrint(
-                                                                  "Xoá thành công"))
+                                                                  "Xoá thành công")
+                                                      )
                                                           .catchError((error) =>
                                                               debugPrint(
                                                                   "Xoá thất bại ${error}"));
