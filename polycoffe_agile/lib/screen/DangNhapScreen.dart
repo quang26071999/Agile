@@ -32,6 +32,8 @@ class _MyLoginState extends State<MyLogin>{
   late bool _passVisible;
     final _formKey = GlobalKey<FormState>();
 
+    bool _rememberMe = false;
+
   @override
   void initState() {
     check_login();
@@ -139,6 +141,18 @@ class _MyLoginState extends State<MyLogin>{
                             fillColor:   Color(0xffDECDB9),
                             prefixIcon: Container(
                                 width: 50, child: Icon(Icons.key)),
+                            suffixIcon: IconButton(
+                                icon: Icon(
+                                  _passVisible
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                  color: Theme.of(context).primaryColorDark,
+                                ),
+                                onPressed: (){
+                                  setState(() {
+                                    _passVisible = !_passVisible;
+                                  });
+                                }),
                             border: const OutlineInputBorder(
                                 borderSide:
                                 BorderSide(color: Colors.black,width: 2),
@@ -150,22 +164,6 @@ class _MyLoginState extends State<MyLogin>{
                           return null;
                         },
                       ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(270,4,0,0),
-                        child:  IconButton(
-                            icon: Icon(
-                              _passVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Theme.of(context).primaryColorDark,
-                            ),
-                            onPressed: (){
-                              setState(() {
-                                _passVisible = !_passVisible;
-                              });
-                            }),
-
-                      )
 
                     ],
                   ),
@@ -173,11 +171,20 @@ class _MyLoginState extends State<MyLogin>{
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 36, 50),
                   child: CheckboxListTile(
-                    title: const Text('Nhớ mật khẩu',
+                    title: const Text('Lưu đăng nhập',
                       style: TextStyle(fontSize: 20,color: Colors.black),),
                     controlAffinity: ListTileControlAffinity.leading,
-                    value: true,
-                    onChanged:(bool? value) { },
+                    value: _rememberMe,
+                    onChanged:(bool? value) {
+                      setState(() {
+                        _rememberMe = value!;
+                        if(_rememberMe){
+                          newuser == true;
+                        }else{
+                          newuser == false;
+                        }
+                      });
+                    },
                   ),
                 ),
 
