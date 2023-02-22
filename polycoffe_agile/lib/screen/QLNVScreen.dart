@@ -1077,18 +1077,23 @@ class _QLNVState extends State<QLNV>{
                                                 final documentRefence = FirebaseFirestore
                                                     .instance
                                                     .collection("User").doc(username.text);
-                                                documentRefence
+                                                documentRefence.get().then((value) => {
+                                                  if(value["username"]==null){
+                                                    documentRefence
                                                     .set(user.toJson())
                                                     .whenComplete(
                                                         () => {
-                                                      setEmpty(),
-                                                      Navigator.pop(context)})
+                                                        setEmpty(),
+                                                        Navigator.pop(context)})
                                                     .then((value) =>
-                                                    Get.snackbar("Thành công", "Thêm nhân viên thành công")
-                                                )
+                                                        Get.snackbar("Thành công", "Thêm nhân viên thành công")
+                                                    )
                                                     .catchError((error) =>
-                                                    Get.snackbar("Error", "Thêm nhân viên thất bại")
-                                                );
+                                                        Get.snackbar("Error", "Thêm nhân viên thất bại")
+                                                    )
+                                                  } else Get.snackbar("Error", "Username (Số điện thoại) đã sử dụng")
+                                                });
+
                                               }
                                             }),
                                       ),
