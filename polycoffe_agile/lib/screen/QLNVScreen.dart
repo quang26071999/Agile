@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:polycoffe_agile/models/user.dart';
@@ -307,14 +308,14 @@ class _QLNVState extends State<QLNV>{
                                                                             Icon(Icons.supervised_user_circle_sharp)),
                                                                         hintText: 'Nhập họ tên',
                                                                       ),
-                                                                      validator: (value){
-                                                                        if(value!.isEmpty){
-                                                                          return "Vui lòng không để trống";
-                                                                        }
-                                                                        else{
-                                                                          return null;
-                                                                        }
-                                                                      },
+                                                                      // validator: (value){
+                                                                      //   if(value!.isEmpty){
+                                                                      //     return "Vui lòng không để trống";
+                                                                      //   }
+                                                                      //   else{
+                                                                      //     return null;
+                                                                      //   }
+                                                                      // },
                                                                       onChanged: (value) => {},
                                                                     ),
                                                                   ),
@@ -370,17 +371,17 @@ class _QLNVState extends State<QLNV>{
                                                                             child: Icon(Icons.calendar_month_outlined)),
                                                                         hintText: 'Nhập ngày sinh',
                                                                       ),
-                                                                      validator: (value){
-                                                                        if(value!.isEmpty){
-                                                                          return "Vui lòng không để trống";
-                                                                        }
-                                                                        if(!RegExp(r'^(0[1-9]|[12][0-9]|[3][01])/(0[1-9]|1[012])/[0-9]{4}$').hasMatch(value!)){
-                                                                          return "Ngày sinh không đúng định dạng";
-                                                                        }
-                                                                        else{
-                                                                          return null;
-                                                                        }
-                                                                      },
+                                                                      // validator: (value){
+                                                                      //   if(value!.isEmpty){
+                                                                      //     return "Vui lòng không để trống";
+                                                                      //   }
+                                                                      //   if(!RegExp(r'^(0[1-9]|[12][0-9]|[3][01])/(0[1-9]|1[012])/[0-9]{4}$').hasMatch(value!)){
+                                                                      //     return "Ngày sinh không đúng định dạng";
+                                                                      //   }
+                                                                      //   else{
+                                                                      //     return null;
+                                                                      //   }
+                                                                      // },
                                                                       onChanged: (value) => {},
                                                                     ),
                                                                   ),
@@ -396,14 +397,14 @@ class _QLNVState extends State<QLNV>{
                                                                             width: 50, child: Icon(Icons.map_outlined)),
                                                                         hintText: 'Nhập địa chỉ',
                                                                       ),
-                                                                      validator: (value){
-                                                                        if(value!.isEmpty){
-                                                                          return "Vui lòng không để trống";
-                                                                        }
-                                                                        else{
-                                                                          return null;
-                                                                        }
-                                                                      },
+                                                                      // validator: (value){
+                                                                      //   if(value!.isEmpty){
+                                                                      //     return "Vui lòng không để trống";
+                                                                      //   }
+                                                                      //   else{
+                                                                      //     return null;
+                                                                      //   }
+                                                                      // },
                                                                       onChanged: (value) => {},
                                                                     ),
                                                                   ),
@@ -439,7 +440,7 @@ class _QLNVState extends State<QLNV>{
                                                                                   "gioiTinh" : '$default_gioiTinh'
 
                                                                                 }).then((value) =>
-                                                                                    debugPrint("Sửa thành công"))
+                                                                                    Get.snackbar("Thông báo", "Sửa thông tin thành công"))
                                                                                     .catchError((error) => debugPrint("Sửa thất bại"));
 
                                                                                 Navigator.pop(context);
@@ -494,8 +495,13 @@ class _QLNVState extends State<QLNV>{
                                                         'Bạn có muốn xoá ${documentSnapshot["hoTen"]} không ?'),
                                                     actions: <Widget>[
                                                       TextButton(
-                                                        onPressed: () {
+                                                        onPressed: () async {
                                                           Navigator.pop(context);
+
+                                                          var storageRef = FirebaseStorage.instance
+                                                              .ref().child('${documentSnapshot['username']}');
+                                                          storageRef.delete();
+
                                                           DocumentReference
                                                           documentReference =
                                                           FirebaseFirestore.instance
@@ -934,12 +940,12 @@ class _QLNVState extends State<QLNV>{
                                             Icon(Icons.supervised_user_circle_sharp)),
                                         hintText: 'Nhập họ tên',
                                       ),
-                                      validator: (value){
-                                        if(value!.isEmpty){
-                                          return "Vui lòng không để trống";
-                                        }
-                                        return null;
-                                      },
+                                      // validator: (value){
+                                      //   if(value!.isEmpty){
+                                      //     return "Vui lòng không để trống";
+                                      //   }
+                                      //   return null;
+                                      // },
                                       onChanged: (value) => {},
                                     ),
                                   ),
@@ -995,17 +1001,17 @@ class _QLNVState extends State<QLNV>{
                                             child: Icon(Icons.calendar_month_outlined)),
                                         hintText: 'Nhập ngày sinh',
                                       ),
-                                      validator: (value){
-                                        if(value!.isEmpty){
-                                          return "Vui lòng không để trống";
-                                        }
-                                        if(!RegExp(r'^(0[1-9]|[12][0-9]|[3][01])/(0[1-9]|1[012])/[0-9]{4}$').hasMatch(value!)){
-                                          return "Ngày sinh không đúng định dạng";
-                                        }
-                                        else{
-                                          return null;
-                                        }
-                                      },
+                                      // validator: (value){
+                                      //   if(value!.isEmpty){
+                                      //     return "Vui lòng không để trống";
+                                      //   }
+                                      //   if(!RegExp(r'^(0[1-9]|[12][0-9]|[3][01])/(0[1-9]|1[012])/[0-9]{4}$').hasMatch(value!)){
+                                      //     return "Ngày sinh không đúng định dạng";
+                                      //   }
+                                      //   else{
+                                      //     return null;
+                                      //   }
+                                      // },
                                       onChanged: (value) => {},
                                     ),
                                   ),
@@ -1021,14 +1027,14 @@ class _QLNVState extends State<QLNV>{
                                             width: 50, child: Icon(Icons.map_outlined)),
                                         hintText: 'Nhập địa chỉ',
                                       ),
-                                      validator: (value){
-                                        if(value!.isEmpty){
-                                          return "Vui lòng không để trống";
-                                        }
-                                        else{
-                                          return null;
-                                        }
-                                      },
+                                      // validator: (value){
+                                      //   if(value!.isEmpty){
+                                      //     return "Vui lòng không để trống";
+                                      //   }
+                                      //   else{
+                                      //     return null;
+                                      //   }
+                                      // },
                                       onChanged: (value) => {},
                                     ),
                                   ),
@@ -1047,8 +1053,11 @@ class _QLNVState extends State<QLNV>{
                                                     textStyle: const TextStyle(
                                                         fontSize: 20,
                                                         fontWeight: FontWeight.w700))),
-                                            onPressed: () async {
-                                              if(_formKey.currentState!.validate()){
+                                            onPressed: ()  async {
+                                              if(avatarFile == null){
+                                                Get.snackbar("Thông báo", "Vui lòng thêm ảnh cho sản phẩm");
+                                              }
+                                              else if(_formKey.currentState!.validate() && avatarFile!= null){
                                                 var storage = FirebaseStorage.instance.ref().child('/User/$id');
                                                 try{
                                                   await storage.putFile(avatarFile!);
@@ -1056,10 +1065,6 @@ class _QLNVState extends State<QLNV>{
                                                   print('Error: $err');
                                                 }
                                                 var imgUrl = await storage.getDownloadURL();
-                                                var documentRefence = FirebaseFirestore
-                                                    .instance
-                                                    .collection("User").doc(username.text);
-
                                                 User user = User(
                                                     username.text.toString(),
                                                     password.text,
@@ -1069,7 +1074,9 @@ class _QLNVState extends State<QLNV>{
                                                     diaChi.text,
                                                     imgUrl,
                                                     ngaySinh.text);
-
+                                                final documentRefence = FirebaseFirestore
+                                                    .instance
+                                                    .collection("User").doc(username.text);
                                                 documentRefence
                                                     .set(user.toJson())
                                                     .whenComplete(
@@ -1077,9 +1084,11 @@ class _QLNVState extends State<QLNV>{
                                                       setEmpty(),
                                                       Navigator.pop(context)})
                                                     .then((value) =>
-                                                    debugPrint("Thêm thành công"))
-                                                    .catchError((error) => debugPrint(
-                                                    "Thêm thất bại ${error}"));
+                                                    Get.snackbar("Thành công", "Thêm nhân viên thành công")
+                                                )
+                                                    .catchError((error) =>
+                                                    Get.snackbar("Error", "Thêm nhân viên thất bại")
+                                                );
                                               }
                                             }),
                                       ),
