@@ -199,25 +199,30 @@ class _MyLoginState extends State<MyLogin>{
                         if(_formKey.currentState!.validate()){
                           final userRef = FirebaseFirestore.instance.collection("User").doc(usernameController.text);
                           userRef.get().then((doc)  async {
-                            if(usernameController.text == doc["username"] && passwordController.text == doc["password"]){
-                              await logindata.setBool("login", false);
-                              await logindata.setString("username", usernameController.text);
-                              await logindata.setString("name", doc['hoTen']);
-                              await logindata.setString("dateOfBirth", doc['ngaySinh']);
-                              await logindata.setString("sex", doc['gioiTinh']);
-                              await logindata.setString("avatar", doc['avatar']);
-                              await logindata.setString("role", doc['role']);
-                              await logindata.setString("address", doc['diaChi']);
-                              await logindata.setString("password", doc['password']);
-
-                              //final User user = User(doc['username'], doc['password'], doc['hoTen'], doc['role'], doc['gioiTinh'], doc['diaChi'], doc['avatar'], doc['ngaySinh']);
-                              Get.snackbar("Successfully", "Dang nhap thanh cong");
-                              Get.off(() => MyApp(selectIndex: 0,));
-
-                            }
-                            else{
+                            if(!doc.exists){
                               Get.snackbar("Error", "Sai thong tin dang nhap");
+
+                            } else{
+                              if(usernameController.text == doc["username"] && passwordController.text == doc["password"]){
+                                await logindata.setBool("login", false);
+                                await logindata.setString("username", usernameController.text);
+                                await logindata.setString("name", doc['hoTen']);
+                                await logindata.setString("dateOfBirth", doc['ngaySinh']);
+                                await logindata.setString("sex", doc['gioiTinh']);
+                                await logindata.setString("avatar", doc['avatar']);
+                                await logindata.setString("role", doc['role']);
+                                await logindata.setString("address", doc['diaChi']);
+                                await logindata.setString("password", doc['password']);
+
+                                //final User user = User(doc['username'], doc['password'], doc['hoTen'], doc['role'], doc['gioiTinh'], doc['diaChi'], doc['avatar'], doc['ngaySinh']);
+                                Get.snackbar("Successfully", "Dang nhap thanh cong");
+                                Get.off(() => MyApp(selectIndex: 0,));
+                              }
+                              else{
+                                Get.snackbar("Error", "Sai thong tin dang nhap");
+                              }
                             }
+
 
                           }
                           );
