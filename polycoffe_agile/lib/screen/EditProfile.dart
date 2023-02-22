@@ -91,13 +91,19 @@ class EditScreenState extends State<EditScreen>{
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 28),
-                      child: TextField(
+                      child: TextFormField(
                         controller: nametxt,
                         style: GoogleFonts.inter(),
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Name',
                         ),
+                        validator: (value){
+                          if(value!.isEmpty){
+                            return "Vui lòng không để trống";
+                          }
+                          return null;
+                        },
                       ),
                     ),
 

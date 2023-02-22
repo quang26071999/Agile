@@ -308,14 +308,14 @@ class _QLNVState extends State<QLNV>{
                                                                             Icon(Icons.supervised_user_circle_sharp)),
                                                                         hintText: 'Nhập họ tên',
                                                                       ),
-                                                                      // validator: (value){
-                                                                      //   if(value!.isEmpty){
-                                                                      //     return "Vui lòng không để trống";
-                                                                      //   }
-                                                                      //   else{
-                                                                      //     return null;
-                                                                      //   }
-                                                                      // },
+                                                                      validator: (value){
+                                                                        if(value!.isEmpty){
+                                                                          return "Vui lòng không để trống";
+                                                                        }
+                                                                        else{
+                                                                          return null;
+                                                                        }
+                                                                      },
                                                                       onChanged: (value) => {},
                                                                     ),
                                                                   ),
@@ -940,12 +940,12 @@ class _QLNVState extends State<QLNV>{
                                             Icon(Icons.supervised_user_circle_sharp)),
                                         hintText: 'Nhập họ tên',
                                       ),
-                                      // validator: (value){
-                                      //   if(value!.isEmpty){
-                                      //     return "Vui lòng không để trống";
-                                      //   }
-                                      //   return null;
-                                      // },
+                                      validator: (value){
+                                        if(value!.isEmpty){
+                                          return "Vui lòng không để trống";
+                                        }
+                                        return null;
+                                      },
                                       onChanged: (value) => {},
                                     ),
                                   ),

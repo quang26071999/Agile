@@ -24,12 +24,11 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
   List tenMon = ["bạc xỉu", "nước lọc"];
 
   List tongTien = ["80000", "45000"];
-
+  final dateFormatter = DateFormat("dd/MM/yyyy");
   final TextEditingController tuNgay = TextEditingController();
 
   final TextEditingController denNgay = TextEditingController();
 
-  final dateFormatter = DateFormat("dd/MM/yyyy");
   var list = [];
 
   DateTime parseDate(String date) {
