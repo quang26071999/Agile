@@ -46,27 +46,6 @@ class _DatBanScreenState extends State<DatBanScreen> {
           ),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(247, 28, 24, 0),
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Row(
-                    children: const [
-                      Text(
-                        "Lọc theo",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                      Icon(
-                        Icons.filter_alt_sharp,
-                        size: 32,
-                      )
-                    ],
-                  ),
-                ),
-              ),
               Expanded(
                 child: StreamBuilder(
                   stream:
