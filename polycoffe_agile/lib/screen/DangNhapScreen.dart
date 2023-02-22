@@ -171,7 +171,7 @@ class _MyLoginState extends State<MyLogin>{
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 36, 50),
                   child: CheckboxListTile(
-                    title: const Text('Lưu đăng nhập',
+                    title: const Text('Nhớ tài khoản',
                       style: TextStyle(fontSize: 20,color: Colors.black),),
                     controlAffinity: ListTileControlAffinity.leading,
                     value: _rememberMe,
