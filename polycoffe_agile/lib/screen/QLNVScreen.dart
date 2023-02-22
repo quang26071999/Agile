@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:polycoffe_agile/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RoleChoice {
   String roleChoice;
@@ -72,6 +73,8 @@ class _QLNVState extends State<QLNV>{
     GioiTinhChoice(indexGT: 1, gioiTinhChoice: "Nữ"),
   ];
 
+  SharedPreferences? logindata ;
+
   String id = DateTime.now().microsecond.toString();
 
   File? avatarFile;
@@ -86,6 +89,11 @@ class _QLNVState extends State<QLNV>{
   @override
   void initState() {
     _passVisible = false;
+    initial();
+  }
+
+  Future<void> initial() async {
+    logindata = await SharedPreferences.getInstance();
   }
 
 
@@ -482,7 +490,10 @@ class _QLNVState extends State<QLNV>{
                                           const Color(0xffDECDB9),
                                           icon: Icons.delete_forever,
                                           onPressed: (context) {
-                                            showDialog<String>(
+                                            if(logindata?.getString("username")==documentSnapshot["username"]){
+                                              Get.snackbar("Error", "Không thể xóa bản thân");
+                                            } else {
+                                              showDialog<String>(
                                               context: context,
                                               builder: (BuildContext context) =>
                                                   AlertDialog(
@@ -534,6 +545,7 @@ class _QLNVState extends State<QLNV>{
                                                     ],
                                                   ),
                                             );
+                                            }
 
                                           })
                                     ],
