@@ -291,6 +291,7 @@ class showFloatingActionButton extends StatelessWidget {
                                               backgroundColor:
                                                   Color(0xff492F2C)),
                                           onPressed: () async {
+                                            var documentReference = FirebaseFirestore.instance.collection("Products").doc();
                                             if (_imageFile == null) {
                                               Get.snackbar(
                                                 "Thông báo",
@@ -304,7 +305,7 @@ class showFloatingActionButton extends StatelessWidget {
                                               final storageRef = FirebaseStorage
                                                   .instance
                                                   .ref()
-                                                  .child(id);
+                                                  .child(documentReference.id);
                                               try {
                                                 await storageRef
                                                     .putFile(_imageFile!);
@@ -312,7 +313,7 @@ class showFloatingActionButton extends StatelessWidget {
                                                 // ...
                                                 print(e.message);
                                               }
-                                              var documentReference = FirebaseFirestore.instance.collection("Products").doc();
+
                                               var url = await storageRef.getDownloadURL();
                                               Product product = Product(
                                                   documentReference.id,
