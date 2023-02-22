@@ -148,16 +148,46 @@ class _AddProductState extends State<AddProduct> {
                               backgroundColor: const Color(0xff492F2C)),
                           onPressed: () {
                             if (_number != 0) {
-                              Map<String, dynamic> map = {
-                                "maSP": widget.idPrd,
-                                "tenSP": widget.namePrd,
-                                "soLuong": _number,
-                                "gia": widget.pricePrd,
-                              };
-                              colTable.doc(widget.idBan).update({
-                                "HDT": FieldValue.arrayUnion([map])
+                              var map;
+                              int index;
+                              var refX = colTable.doc(widget.idBan);
+                              refX.get().then((value) {
+                                print(value["maBan"]);
+                                if(value["HDT"] != null){
+                                  print(value["HDT"]);
+                                  index = List.from(value['HDT']).indexWhere((element) => element['maSP'].toString() == widget.idPrd.toString());
+                                  print(widget.idPrd.toString());
+                                  print(index);
+                                  if(index != -1){
+                                    map = value['HDT'];
+                                    print(map[0]);
+                                    map[index]['soLuong'] = int.parse(map[index]['soLuong'].toString()) + _number;
+                                    refX.update({
+                                      "HDT": map
+                                    });
+                                  }  else{
+                                    colTable.doc(widget.idBan).update({
+                                      "HDT": FieldValue.arrayUnion([{
+                                        "maSP": widget.idPrd,
+                                        "tenSP": widget.namePrd,
+                                        "soLuong": _number,
+                                        "gia": widget.pricePrd,
+                                      }])
+                                    });
+                                  }
+                                } else{
+                                colTable.doc(widget.idBan).update({
+                                  "HDT": FieldValue.arrayUnion([{
+                                  "maSP": widget.idPrd,
+                                  "tenSP": widget.namePrd,
+                                  "soLuong": _number,
+                                  "gia": widget.pricePrd,
+                                    }])
+                                  });
+                                }
+                                _number = 0;
                               });
-                              _number = 0;
+
                               Navigator.pop(context);
                             } else {
                               ScaffoldMessenger.of(context)

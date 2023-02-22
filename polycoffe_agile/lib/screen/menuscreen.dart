@@ -312,17 +312,17 @@ class showFloatingActionButton extends StatelessWidget {
                                                 // ...
                                                 print(e.message);
                                               }
-                                              var documentReference = FirebaseFirestore.instance.collection("Products");
+                                              var documentReference = FirebaseFirestore.instance.collection("Products").doc();
                                               var url = await storageRef.getDownloadURL();
                                               Product product = Product(
-                                                  id,
+                                                  documentReference.id,
                                                   _tenSPTED.text,
                                                   url,
                                                   int.parse(_giaSPTED.text
                                                       .toString()),
                                                   maLoai);
                                               documentReference
-                                                  .add(product.toJson())
+                                                  .set(product.toJson())
                                                   .whenComplete(() => {
                                                         setEmpty(),
                                                         Navigator.pop(context)
