@@ -129,12 +129,11 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                               // List.from(element['dsSanPham']).forEach((element2) {
                               //   sumx+= int.parse(element2['gia'])*int.parse(element2['soLuong']);
                               // });
-
+                              setState(() {
+                                sum = sum + int.parse(element['tongTien'].toString());
+                                list = listBill;
+                              });
                             }
-                            setState(() {
-                              sum = sum + int.parse(element['tongTien'].toString());
-                              list = listBill;
-                            });
                           });
                         });
                     // for (var element in listBill) {
