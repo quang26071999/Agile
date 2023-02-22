@@ -19,21 +19,23 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.selectIndex});
 
   static const String _title = 'PolyCoffee';
+  final int selectIndex;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
-      home: MyStatefulWidget(),
+      home: MyStatefulWidget(selectIndex: selectIndex,),
     );
   }
 }
 
 class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({super.key});
+  const MyStatefulWidget({super.key, required this.selectIndex});
+  final int selectIndex;
 
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
@@ -42,12 +44,14 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   late SharedPreferences logindata;
   late String username,role;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
 
     super.initState();
     initial();
+    _selectedIndex = widget.selectIndex;
   }
 
   Future<void> initial() async {
@@ -58,7 +62,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     });
   }
 
-  int _selectedIndex = 0;
   static const TextStyle optionStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   final List<Widget> _widgetOptions = <Widget>[
     QLNVScreen(),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:polycoffe_agile/Screen/TaiKhoanScreen.dart';
 import 'package:polycoffe_agile/constants.dart';
+import 'package:polycoffe_agile/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user.dart';
@@ -199,7 +200,7 @@ class EditScreenState extends State<EditScreen>{
                                                 fontWeight: FontWeight.w700))),
                                     onPressed: () =>
                                     {
-                                      Get.off(() => TaiKhoanScreen())
+                                      Get.off(() => MyStatefulWidget(selectIndex: 4))
                                     }),
                               )
                             ],

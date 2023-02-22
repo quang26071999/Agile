@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:polycoffe_agile/main.dart';
 import 'package:polycoffe_agile/screen/AddProductToTableScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -415,7 +417,7 @@ void showAlert(BuildContext context, {required idBan, list}) async {
       });
 
       colTable.doc(idBan).update({"HDT": null});
-      Navigator.of(context).pop();
+      Get.off(MyStatefulWidget(selectIndex: 2));
     },
   );
 
