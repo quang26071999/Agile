@@ -71,146 +71,141 @@ class EditScreenState extends State<EditScreen>{
           height: double.maxFinite,
           decoration: const BoxDecoration(color:  color),
           child: SingleChildScrollView(
-            child: SafeArea(
-              child: Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(40),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 28),
-                            child: TextField(
-                              controller: numberPhonetxt,
-                              style: GoogleFonts.inter(),
-                              enabled: false,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Number Phone',
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 28),
-                            child: TextField(
-                              controller: nametxt,
-                              style: GoogleFonts.inter(),
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Name',
-                              ),
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 28),
-                            child: TextFormField(
-                              controller: dateOfBirthtxt,
-                              style: GoogleFonts.inter(),
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Date of birth',
-                              ),
-                              validator: (value){
-                                if(value!.isEmpty){
-                                  return "Vui lòng không để trống";
-                                }
-                                if(!RegExp(r'^(0[1-9]|[12][0-9]|[3][01])/(0[1-9]|1[012])/[0-9]{4}$').hasMatch(value!)){
-                                  return "Ngày sinh không đúng định dạng";
-                                }
-                                else{
-                                  return null;
-                                }
-                              },
-                            ),
-                          ),
-                          RadioButtons(),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 28),
-                            child: TextField(
-                              controller: addresstxt,
-                              style: GoogleFonts.inter(),
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Address',
-                              ),
-                            ),
-                          ),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 152,
-                                padding: const EdgeInsets.fromLTRB(0,0,24,24),
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.brown),
-                                    child: Text("LƯU",
-                                        style: GoogleFonts.inter(
-                                            textStyle: const TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w700))),
-                                    onPressed: () {
-                                      if(_formKey.currentState!.validate()){
-                                        var documentRefence = FirebaseFirestore
-                                            .instance
-                                            .collection("User").doc(username);
-
-
-                                        documentRefence.update({
-                                          "hoTen" : nametxt.text,
-                                          "diaChi" : addresstxt.text,
-                                          "ngaySinh" : dateOfBirthtxt.text,
-
-                                          // "gioiTinh" : '$default_gioiTinh'
-
-                                        }).then((value) =>
-                                            debugPrint("Sửa thành công"))
-                                            .catchError((error) => debugPrint("Sửa thất bại"));
-                                        Get.snackbar("Successfully", "Đổi thông tin thành công");
-                                       // Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => ProfileScreen()));
-                                        setState(() {
-                                          logindata!.setString("name", nametxt.text)!;
-                                          // logindata!.setString("role", role.text)!;
-                                          // logindata!.setString("sex", sex.text)!;
-                                          logindata!.setString("dateOfBirth", dateOfBirthtxt.text)!;
-                                          logindata!.setString("address", addresstxt.text)!;
-
-                                          name = logindata!.getString("name")!;
-                                          // sex = logindata!.getString("sex")!;
-                                          dateOfBirth = logindata!.getString("dateOfBirth")!;
-                                          address = logindata!.getString("address")!;
-                                        });
-                                      }
-                                    }),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(bottom: 24),
-                                width: 128,
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.brown),
-                                    child: Text("HỦY",
-                                        style: GoogleFonts.inter(
-                                            textStyle: const TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w700))),
-                                    onPressed: () =>
-                                    {
-                                      Get.off(() => MyStatefulWidget(selectIndex: 4))
-                                    }),
-                              )
-                            ],
-                          )
-
-
-                        ],
+            child: Padding(
+              padding: const EdgeInsets.all(40),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 28),
+                      child: TextField(
+                        controller: numberPhonetxt,
+                        style: GoogleFonts.inter(),
+                        enabled: false,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Number Phone',
+                        ),
                       ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 28),
+                      child: TextField(
+                        controller: nametxt,
+                        style: GoogleFonts.inter(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Name',
+                        ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 28),
+                      child: TextFormField(
+                        controller: dateOfBirthtxt,
+                        style: GoogleFonts.inter(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Date of birth',
+                        ),
+                        validator: (value){
+                          if(value!.isEmpty){
+                            return "Vui lòng không để trống";
+                          }
+                          if(!RegExp(r'^(0[1-9]|[12][0-9]|[3][01])/(0[1-9]|1[012])/[0-9]{4}$').hasMatch(value!)){
+                            return "Ngày sinh không đúng định dạng";
+                          }
+                          else{
+                            return null;
+                          }
+                        },
+                      ),
+                    ),
+                    RadioButtons(),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 28),
+                      child: TextField(
+                        controller: addresstxt,
+                        style: GoogleFonts.inter(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Address',
+                        ),
+                      ),
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 152,
+                          padding: const EdgeInsets.fromLTRB(0,0,24,24),
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.brown),
+                              child: Text("LƯU",
+                                  style: GoogleFonts.inter(
+                                      textStyle: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700))),
+                              onPressed: () {
+                                if(_formKey.currentState!.validate()){
+                                  var documentRefence = FirebaseFirestore
+                                      .instance
+                                      .collection("User").doc(username);
+
+
+                                  documentRefence.update({
+                                    "hoTen" : nametxt.text,
+                                    "diaChi" : addresstxt.text,
+                                    "ngaySinh" : dateOfBirthtxt.text,
+
+                                    // "gioiTinh" : '$default_gioiTinh'
+
+                                  }).then((value) =>
+                                      Get.snackbar("Successfully", "Đổi thông tin thành công"))
+                                      .catchError((error) => debugPrint("Sửa thất bại"));
+
+                                 // Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => ProfileScreen()));
+                                  setState(() {
+                                    logindata!.setString("name", nametxt.text)!;
+                                    // logindata!.setString("role", role.text)!;
+                                    // logindata!.setString("sex", sex.text)!;
+                                    logindata!.setString("dateOfBirth", dateOfBirthtxt.text)!;
+                                    logindata!.setString("address", addresstxt.text)!;
+
+                                    name = logindata!.getString("name")!;
+                                    // sex = logindata!.getString("sex")!;
+                                    dateOfBirth = logindata!.getString("dateOfBirth")!;
+                                    address = logindata!.getString("address")!;
+                                  });
+                                  Get.off(MyStatefulWidget(selectIndex: 4));
+                                }
+                              }),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(bottom: 24),
+                          width: 128,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.brown),
+                              child: Text("HỦY",
+                                  style: GoogleFonts.inter(
+                                      textStyle: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700))),
+                              onPressed: ()
+                              {
+                                Get.off(MyStatefulWidget(selectIndex: 4));
+                              }),
+                        )
+                      ],
+                    )
+
+
+                  ],
                 ),
               ),
             ),

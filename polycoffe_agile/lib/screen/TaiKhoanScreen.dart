@@ -174,8 +174,9 @@ String? avatar,role;
             child: Padding(padding:const EdgeInsets.fromLTRB(0, 0, 0, 18),
               child: IconButton(
                   onPressed: () {
-                    // Get.to(const EditProfile());
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
+                     Get.to(EditProfile());
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
+                   // Get.bottomSheet(EditProfile());
                   },
                   icon: const Icon(Icons.edit,
                     size: 45 ,
