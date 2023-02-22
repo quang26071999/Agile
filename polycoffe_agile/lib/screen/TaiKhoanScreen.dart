@@ -77,7 +77,7 @@ class ProfileScreenState extends State<ProfileScreen>{
                           height: 54,
                           child: TextButton(
                               onPressed: (){
-                                Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
+                                Navigator.push(context, new MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
                               },
                               style: TextButton.styleFrom(
                                 backgroundColor: Color.fromRGBO(73, 47, 44, 1),
