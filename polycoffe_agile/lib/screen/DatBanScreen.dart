@@ -73,7 +73,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
                       FirebaseFirestore.instance.collection("Table").snapshots(),
                   builder: (context, snapShot) {
                     if (snapShot.hasData) {
-                      maBan = "B${DateTime.now().millisecondsSinceEpoch.toString()}";
+                      maBan = "Bàn ${snapShot.data!.docs.length+1}";
                       return GridView.builder(
                           itemCount: snapShot.data?.docs.length,
                           padding:

@@ -56,6 +56,7 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
             onTap: (selectedIndex) {
               setState(() {
                 maLoai = selectedIndex + 1;
+                print(maLoai);
               });
               // print(maLoai);
             },
@@ -99,18 +100,19 @@ class _MenuStatefulWidget extends State<MenuStatefulWidget> {
               )
             ],
           ),
-          floatingActionButton: showFloatingActionButton()),
+          floatingActionButton: showFloatingActionButton(maLoai)),
     ));
   }
 }
 
 class showFloatingActionButton extends StatelessWidget {
+  showFloatingActionButton(this.maLoai);
   final TextEditingController _maSPTED = TextEditingController();
   final TextEditingController _tenSPTED = TextEditingController();
   final TextEditingController _giaSPTED = TextEditingController();
 
   // final bool showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
-  int maLoai = 1;
+  int maLoai;
 
   String id = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -322,6 +324,7 @@ class showFloatingActionButton extends StatelessWidget {
                                                   int.parse(_giaSPTED.text
                                                       .toString()),
                                                   maLoai);
+                                              print(maLoai);
                                               documentReference
                                                   .set(product.toJson())
                                                   .whenComplete(() => {
