@@ -5,11 +5,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'TaiKhoanScreen.dart';
 
-class ChangePasswordScreen extends StatelessWidget {
+class ChangePasswordScreen extends StatefulWidget {
+  @override
+  State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
+}
+
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ChangePass(),
+      home: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child:  ChangePass()
+      ),
     );
   }
 }
@@ -29,9 +37,14 @@ class _ChangePass extends State<ChangePass> {
   String? user;
   String? password;
 
+  late bool _show_hideOldPass,_show_hideNewPass,_show_hidereNewPass;
+
   @override
   void initState() {
     super.initState();
+    _show_hideOldPass = false;
+    _show_hideNewPass = false;
+    _show_hidereNewPass = false;
     initial();
   }
 
@@ -72,11 +85,24 @@ class _ChangePass extends State<ChangePass> {
                               controller: _oldPass,
                               style: GoogleFonts.inter(
                                   fontSize: 16, fontStyle: FontStyle.italic),
+                              obscureText: !_show_hideOldPass,
                               decoration: InputDecoration(
                                   filled: true,
                                   fillColor: const Color(0xffDECDB9),
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 15, horizontal: 15),
+                                  suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _show_hideOldPass
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: Theme.of(context).primaryColorDark,
+                                      ),
+                                      onPressed: (){
+                                        setState(() {
+                                          _show_hideOldPass = !_show_hideOldPass;
+                                        });
+                                      }),
                                   hintText: "Nhập mật khẩu cũ",
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20),
@@ -99,16 +125,30 @@ class _ChangePass extends State<ChangePass> {
                               controller: _newPass,
                               style: GoogleFonts.inter(
                                   fontSize: 16, fontStyle: FontStyle.italic),
+                              obscureText: !_show_hideNewPass,
                               decoration: InputDecoration(
                                   filled: true,
                                   fillColor: const Color(0xffDECDB9),
+                                  suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _show_hideNewPass
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: Theme.of(context).primaryColorDark,
+                                      ),
+                                      onPressed: (){
+                                        setState(() {
+                                          _show_hideNewPass = !_show_hideNewPass;
+                                        });
+                                      }),
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 15, horizontal: 15),
                                   hintText: "Nhập mật khẩu mới",
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20),
                                     borderSide: const BorderSide(),
-                                  )),
+                                  )
+                              ),
                               validator: (text) {
                                 if (text == null || text.isEmpty) {
                                   return 'Vui lòng nhập mật khảu mới';
@@ -124,11 +164,24 @@ class _ChangePass extends State<ChangePass> {
                             padding: EdgeInsets.only(bottom: 40),
                             child: TextFormField(
                               controller: _reNewPass,
+                              obscureText: !_show_hidereNewPass,
                               style: GoogleFonts.inter(
                                   fontSize: 16, fontStyle: FontStyle.italic),
                               decoration: InputDecoration(
                                   filled: true,
                                   fillColor: const Color(0xffDECDB9),
+                                  suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _show_hidereNewPass
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: Theme.of(context).primaryColorDark,
+                                      ),
+                                      onPressed: (){
+                                        setState(() {
+                                          _show_hidereNewPass = !_show_hidereNewPass;
+                                        });
+                                      }),
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 15, horizontal: 15),
                                   hintText: "Nhập lại mật khẩu mới",
