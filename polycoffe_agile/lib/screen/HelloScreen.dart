@@ -16,27 +16,6 @@ class HelloScreen extends StatelessWidget{
   }
 }
 
-// class Home extends StatelessWidget {
-//   Future<SharedPreferences> login = SharedPreferences.getInstance();
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     Timer(Duration(seconds: 3), (){
-//       Get.off(DangNhapScreen());
-//     });
-//     return Scaffold(
-//       body: Container(
-//         decoration: const BoxDecoration(
-//           image: DecorationImage(
-//             image: AssetImage('assets/images/helloScreen.png'),
-//             fit: BoxFit.fill,
-//           )
-//         ),
-//       ),
-//     );
-//
-//   }
-// }
 class Home extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -61,17 +40,26 @@ class HomeState extends State<Home> {
   }
   @override
   Widget build(BuildContext context) {
-    if(username ==null ){
+    // if(username ==null ){
+    //   Timer(const Duration(seconds: 3), (){
+    //     Get.off(DangNhapScreen());
+    //   });
+    // }else if(username != null && role == 'Admin' ){
+    //   Timer(const Duration(seconds: 3), (){
+    //     Get.off(const MenuScreen());
+    //   });
+    // }else if(username != null && role == 'Nhân viên'){
+    //   Timer(const Duration(seconds: 3), (){
+    //     Get.off(const DatBanScreen());
+    //   });
+    // }
+    if(login == null){
       Timer(const Duration(seconds: 3), (){
-        Get.off(DangNhapScreen());
-      });
-    }else if(username != null && role == 'Admin' ){
+            Get.off(DangNhapScreen());
+          });
+    }else{
       Timer(const Duration(seconds: 3), (){
-        Get.off(const MenuScreen());
-      });
-    }else if(username != null && role == 'Nhân viên'){
-      Timer(const Duration(seconds: 3), (){
-        Get.off(const DatBanScreen());
+        Get.off(MenuScreen());
       });
     }
 
