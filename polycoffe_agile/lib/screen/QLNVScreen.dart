@@ -1067,7 +1067,7 @@ class _QLNVState extends State<QLNV>{
                                                         fontWeight: FontWeight.w700))),
                                             onPressed: ()  async {
                                               if(avatarFile == null){
-                                                Get.snackbar("Thông báo", "Vui lòng thêm ảnh cho sản phẩm");
+                                                Get.snackbar("Thông báo", "Vui lòng thêm ảnh cho tài khoản");
                                               }
                                               else if(_formKey.currentState!.validate() && avatarFile!= null){
                                                 var storage = FirebaseStorage.instance.ref().child('/User/$id');
@@ -1090,7 +1090,7 @@ class _QLNVState extends State<QLNV>{
                                                     .instance
                                                     .collection("User").doc(username.text);
                                                 documentRefence.get().then((value) => {
-                                                  if(value["username"]==null){
+                                                  if(!value.exists){
                                                     documentRefence
                                                     .set(user.toJson())
                                                     .whenComplete(
