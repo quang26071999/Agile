@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -11,19 +12,19 @@ class DoanhThuScreen extends StatefulWidget {
 }
 
 class _DoanhThuScreenState extends State<DoanhThuScreen> {
-  List listSP = [];
-
-  List maHoaDon = ["01", "02"];
-
-  List ngay = ["18-12-2022", "28-01-2023"];
-
-  List nguoiNhanTien = ["Huy", "Hung"];
-
-  List ban = ["1", "2"];
-
-  List tenMon = ["bạc xỉu", "nước lọc"];
-
-  List tongTien = ["80000", "45000"];
+  // List listSP = [];
+  //
+  // List maHoaDon = ["01", "02"];
+  //
+  // List ngay = ["18-12-2022", "28-01-2023"];
+  //
+  // List nguoiNhanTien = ["Huy", "Hung"];
+  //
+  // List ban = ["1", "2"];
+  //
+  // List tenMon = ["bạc xỉu", "nước lọc"];
+  //
+  // List tongTien = ["80000", "45000"];
   final dateFormatter = DateFormat("dd/MM/yyyy");
   final TextEditingController tuNgay = TextEditingController();
 
@@ -65,6 +66,18 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
               child: TextField(
+                onTap: ()=>{
+                DatePicker.showDatePicker(context,
+                    showTitleActions: true,
+                    minTime: DateTime(2020),
+                    onConfirm: (date) {
+                    setState(() {
+                      tuNgay.text = '${date.day.toString()}/${date.month.toString()}/${date.year.toString()}';
+                    });
+                },
+                    currentTime: DateTime.now(),
+                    locale: LocaleType.vi),
+                },
                 controller: tuNgay,
                 style: const TextStyle(fontSize: 24, color: Colors.black),
                 decoration: InputDecoration(
@@ -91,6 +104,19 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(32, 0, 32, 36),
               child: TextField(
+                onTap: (()=>{
+                  DatePicker.showDatePicker(context,
+                    showTitleActions: true,
+                    minTime: DateTime(2020),
+                    onConfirm: (date){
+                    setState(() {
+                      denNgay.text = '${date.day.toString()}/${date.month.toString()}/${date.year.toString()}';
+                    });
+                    },
+                    locale: LocaleType.vi,
+                    currentTime: DateTime.now(),
+                  ),
+                }),
                 controller: denNgay,
                 style: const TextStyle(fontSize: 24, color: Colors.black),
                 decoration: InputDecoration(
@@ -109,12 +135,13 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                 width: double.infinity,
                 height: 54,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    sum =0;
                     print("hihi");
                     var ref = FirebaseFirestore.instance.collection("Bill");
                     var listBill = [];
                     int sumx = 0;
-                    ref.get().then((QuerySnapshot query) {
+                    await ref.get().then((QuerySnapshot query) {
                           query.docs.forEach((element) {
                             if (parseDate(element['ngay'])
                                         .compareTo(parseDate(tuNgay.text)) >=
@@ -130,7 +157,7 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                               //   sumx+= int.parse(element2['gia'])*int.parse(element2['soLuong']);
                               // });
                               setState(() {
-                                sum = sum + int.parse(element['tongTien'].toString());
+                                sum =  sum + int.parse(element['tongTien'].toString());
                                 list = listBill;
                               });
                             }

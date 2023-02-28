@@ -40,19 +40,6 @@ class HomeState extends State<Home> {
   }
   @override
   Widget build(BuildContext context) {
-    // if(username ==null ){
-    //   Timer(const Duration(seconds: 3), (){
-    //     Get.off(DangNhapScreen());
-    //   });
-    // }else if(username != null && role == 'Admin' ){
-    //   Timer(const Duration(seconds: 3), (){
-    //     Get.off(const MenuScreen());
-    //   });
-    // }else if(username != null && role == 'Nhân viên'){
-    //   Timer(const Duration(seconds: 3), (){
-    //     Get.off(const DatBanScreen());
-    //   });
-    // }
     if(login == null){
       Timer(const Duration(seconds: 3), (){
             Get.off(DangNhapScreen());

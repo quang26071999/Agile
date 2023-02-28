@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -1002,7 +1003,19 @@ class _QLNVState extends State<QLNV>{
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 14),
-                                    child: TextFormField(
+                                    child: TextField(
+                                      onTap: (){
+                                        DatePicker.showDatePicker(context,
+                                          showTitleActions: true,
+                                          onConfirm: (date){
+                                          setState((){
+                                            ngaySinh.text = '${date.day.toString()}/${date.month.toString()}/${date.year.toString()}';
+                                          });
+                                          },
+                                          locale: LocaleType.vi,
+                                          currentTime: DateTime.now(),
+                                        );
+                                      },
                                       controller: ngaySinh,
                                       decoration: const InputDecoration(
                                         //filled: true,

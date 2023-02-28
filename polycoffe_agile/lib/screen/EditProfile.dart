@@ -33,6 +33,7 @@ class EditScreenState extends State<EditScreen>{
   String? sex ;
   String? dateOfBirth ;
   String? address;
+  int? gt;
   @override
   void initState() {
     super.initState();
@@ -49,6 +50,7 @@ class EditScreenState extends State<EditScreen>{
       sex = logindata!.getString("sex")!;
       dateOfBirth = logindata!.getString("dateOfBirth")!;
       address = logindata!.getString("address")!;
+      gt = sex == 'Nam' ? 0 : 1;
     });
   }
 
@@ -65,10 +67,10 @@ class EditScreenState extends State<EditScreen>{
     nametxt.text = name.toString() ;
     dateOfBirthtxt.text = dateOfBirth.toString();
     addresstxt.text = address.toString();
+
     return Scaffold(
       body: Container(
-          width: 500,
-          height: double.maxFinite,
+          height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(color:  color),
           child: SingleChildScrollView(
             child: Padding(
@@ -129,7 +131,42 @@ class EditScreenState extends State<EditScreen>{
                         },
                       ),
                     ),
-                    RadioButtons(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                    children:[
+                      Text('Giới tính', style: GoogleFonts.inter(
+                        textStyle: TextStyle(
+                          fontSize: 18,
+                        )
+                      ),),
+                      ListTile(
+                        title: const Text('Nam'),
+                        leading: Radio<int>(
+                          value: 0,
+                          groupValue: gt,
+                          onChanged: (value) {
+                            setState(() {
+                              gt =value;
+                              print(value);
+                            });
+                          },
+                        ),
+                      ),
+                      ListTile(
+                        title: const Text('Nữ'),
+                        leading: Radio<int>(
+                          value: 1,
+                          groupValue: gt,
+                          onChanged: (value) {
+                            setState(() {
+                              gt =value;
+                              print(value);
+                            });
+                          },
+                        ),
+                      ),
+                    ]
+                ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 28),
                       child: TextField(
@@ -158,6 +195,7 @@ class EditScreenState extends State<EditScreen>{
                                           fontWeight: FontWeight.w700))),
                               onPressed: () {
                                 if(_formKey.currentState!.validate()){
+                                  gt == 1 ? sex = 'Nữ': sex ='Nam';
                                   var documentRefence = FirebaseFirestore
                                       .instance
                                       .collection("User").doc(username);
@@ -165,6 +203,7 @@ class EditScreenState extends State<EditScreen>{
 
                                   documentRefence.update({
                                     "hoTen" : nametxt.text,
+                                    'gioiTinh': sex.toString(),
                                     "diaChi" : addresstxt.text,
                                     "ngaySinh" : dateOfBirthtxt.text,
 
@@ -176,9 +215,10 @@ class EditScreenState extends State<EditScreen>{
 
                                  // Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => ProfileScreen()));
                                   setState(() {
+                                    print(sex.toString());
                                     logindata!.setString("name", nametxt.text)!;
                                     // logindata!.setString("role", role.text)!;
-                                    // logindata!.setString("sex", sex.text)!;
+                                    logindata!.setString("sex",sex.toString());
                                     logindata!.setString("dateOfBirth", dateOfBirthtxt.text)!;
                                     logindata!.setString("address", addresstxt.text)!;
 
@@ -187,7 +227,10 @@ class EditScreenState extends State<EditScreen>{
                                     dateOfBirth = logindata!.getString("dateOfBirth")!;
                                     address = logindata!.getString("address")!;
                                   });
-                                  Get.off(MyStatefulWidget(selectIndex: 4));
+                                  if(role == 'Admin'){
+                                    Get.off(MyStatefulWidget(selectIndex: 4));
+                                  }else Get.off(MyStatefulWidget(selectIndex: 1));
+
                                 }
                               }),
                         ),
@@ -204,7 +247,9 @@ class EditScreenState extends State<EditScreen>{
                                           fontWeight: FontWeight.w700))),
                               onPressed: ()
                               {
-                                Get.off(MyStatefulWidget(selectIndex: 4));
+                                if(role == 'Admin'){
+                                  Get.off(MyStatefulWidget(selectIndex: 4));
+                                }else Get.off(MyStatefulWidget(selectIndex: 1));
                               }),
                         )
                       ],
@@ -218,81 +263,11 @@ class EditScreenState extends State<EditScreen>{
           )),
     );
   }
-
-}
-
-
-
-class RadioButtons extends StatefulWidget{
-  const RadioButtons({super.key});
-@override
-  State<StatefulWidget> createState() {
-    return RadioButtonState();
-  }
-}
-class RadioButtonState extends State<RadioButtons> {
-
-  @override
-  Widget build(BuildContext context) {
-  return Row(
-    children:[
-      Text('Giới tính'),
-      Row(
-        children:
-        listGT.map((data) => Container(
-          height: 50,
-          width: 130,
-          child: RadioListTile(
-              title: Text(
-                  '${data.gioiTinhChoice}',
-                  style: GoogleFonts.inter(
-                      textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight:
-                          FontWeight
-                              .w400))),
-              value: data.indexGT,
-              groupValue:
-              default_index_gioiTinh,
-              onChanged: (value) {
-                setState(() {
-                  default_gioiTinh = data
-                      .gioiTinhChoice;
-                  default_index_gioiTinh =
-                      data.indexGT;
-                });
-              }),
-        ))
-            .toList(),
-      ),
-    ]
-
-  );
-  }
 }
 
 
 
 
-class HomeEdit extends StatefulWidget{
-@override
-  State<StatefulWidget> createState() {
-    return HomeEditState();
-  }
 
-}
-class HomeEditState extends State<HomeEdit>{
-  @override
-  void initState() {
 
-    super.initState();
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-    );
-  }
-
-}
 

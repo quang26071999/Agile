@@ -45,9 +45,9 @@ class _MyLoginState extends State<MyLogin>{
 
     Future<void> check_login() async {
     logindata = await SharedPreferences.getInstance() ;
-    newuser = (logindata.getBool("login") ?? true);
+    newuser = logindata.getBool("login")!;
     
-    if(newuser == false){
+    if(newuser){
      // Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => MyStatefulWidget()));
       Get.off(MyStatefulWidget(selectIndex: 0,));
     }
@@ -203,15 +203,15 @@ class _MyLoginState extends State<MyLogin>{
 
                             } else{
                               if(usernameController.text == doc["username"] && passwordController.text == doc["password"]){
-                                await logindata.setBool("login", false);
-                                await logindata.setString("username", usernameController.text);
-                                await logindata.setString("name", doc['hoTen']);
-                                await logindata.setString("dateOfBirth", doc['ngaySinh']);
-                                await logindata.setString("sex", doc['gioiTinh']);
-                                await logindata.setString("avatar", doc['avatar']);
-                                await logindata.setString("role", doc['role']);
-                                await logindata.setString("address", doc['diaChi']);
-                                await logindata.setString("password", doc['password']);
+                                  await logindata.setBool("login", _rememberMe);
+                                  await logindata.setString("username", usernameController.text);
+                                  await logindata.setString("name", doc['hoTen']);
+                                  await logindata.setString("dateOfBirth", doc['ngaySinh']);
+                                  await logindata.setString("sex", doc['gioiTinh']);
+                                  await logindata.setString("avatar", doc['avatar']);
+                                  await logindata.setString("role", doc['role']);
+                                  await logindata.setString("address", doc['diaChi']);
+                                  await logindata.setString("password", doc['password']);
 
                                 //final User user = User(doc['username'], doc['password'], doc['hoTen'], doc['role'], doc['gioiTinh'], doc['diaChi'], doc['avatar'], doc['ngaySinh']);
                                 Get.snackbar("Successfully", "Dang nhap thanh cong");
