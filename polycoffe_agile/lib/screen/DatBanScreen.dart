@@ -51,6 +51,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
 
                             DocumentSnapshot docSnap = snapShot.data?.docs[index]
                                 as DocumentSnapshot<Object?>;
+                            int docSnapX = snapShot.data!.docs.length;
                             String id = docSnap.id;
                             String status = docSnap['trangThai'];
 
@@ -77,17 +78,15 @@ class _DatBanScreenState extends State<DatBanScreen> {
                                       onPressed: () async {
                                         print(status);
                                         print(id);
-                                        if(id == "${snapShot.data!.docs.length}" && status == 'Trống' ){
+
                                           FirebaseFirestore.instance.collection("Table")
-                                              .doc(id)
+                                              .doc('${docSnapX}')
                                               .delete()
                                               .then((value) => {
                                                 Get.snackbar('Thành công', 'Xóa thành công')
                                           }
                                           );
-                                        }else{
-                                          Get.snackbar('Thất bại', 'Bạn chỉ có thể xóa bàn cuối cùng và trạng thái trống');
-                                        }
+
                                         Navigator.pop(context, 'OK');
                                       },
                                       child: const Text('OK'),
