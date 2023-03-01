@@ -177,11 +177,6 @@ class _MyLoginState extends State<MyLogin>{
                     onChanged:(bool? value) {
                       setState(() {
                         _rememberMe = value!;
-                        if(_rememberMe){
-                          newuser == true;
-                        }else{
-                          newuser == false;
-                        }
                       });
                     },
                   ),

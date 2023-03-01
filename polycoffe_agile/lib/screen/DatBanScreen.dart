@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:polycoffe_agile/screen/MenuOrderScreen.dart';
 
@@ -53,6 +54,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
                   builder: (context, snapShot) {
                     if (snapShot.hasData) {
                       maBan = "Bàn ${snapShot.data!.docs.length+1}";
+
                       return GridView.builder(
                           itemCount: snapShot.data?.docs.length,
                           padding:
@@ -68,6 +70,8 @@ class _DatBanScreenState extends State<DatBanScreen> {
                             DocumentSnapshot docSnap = snapShot.data?.docs[index]
                                 as DocumentSnapshot<Object?>;
                             String id = docSnap.id;
+                            String status = docSnap['trangThai'];
+
                             if (docSnap["HDT"] != null) {
                               colTable
                                   .doc(id)
@@ -77,6 +81,37 @@ class _DatBanScreenState extends State<DatBanScreen> {
                             }
                             String trangThai = docSnap["trangThai"];
                             return GestureDetector(
+                                onLongPress: () => showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Thông báo'),
+                                  content: const Text('Bạn muốn xóa bàn này'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        print(status);
+                                        if(id == "Bàn ${snapShot.data!.docs.length}" && status == 'Trống' ){
+                                          FirebaseFirestore.instance.collection("Table")
+                                              .doc(id)
+                                              .delete()
+                                              .then((value) => {
+                                                Get.snackbar('Thành công', 'Xóa thành công')
+                                          }
+                                          );
+                                        }else{
+                                          Get.snackbar('Thất bại', 'Bạn chỉ có thể xóa bàn cuối cùng và trạng thái trống');
+                                        }
+                                        Navigator.pop(context, 'OK');
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                  ),
+                                ),
                                 onTap: () {
                                   Navigator.push(
                                       context,

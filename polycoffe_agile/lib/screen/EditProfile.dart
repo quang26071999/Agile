@@ -131,38 +131,37 @@ class EditScreenState extends State<EditScreen>{
                         },
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                     children:[
-                      Text('Giới tính', style: GoogleFonts.inter(
-                        textStyle: TextStyle(
-                          fontSize: 18,
-                        )
-                      ),),
-                      ListTile(
-                        title: const Text('Nam'),
-                        leading: Radio<int>(
-                          value: 0,
-                          groupValue: gt,
-                          onChanged: (value) {
-                            setState(() {
-                              gt =value;
-                              print(value);
-                            });
-                          },
+                      Expanded(
+                        child: ListTile(
+                          title: const Text('Nam'),
+                          leading: Radio<int>(
+                            value: 0,
+                            groupValue: gt,
+                            onChanged: (value) {
+                              setState(() {
+                                gt =value;
+                                print(value);
+                              });
+                            },
+                          ),
                         ),
                       ),
-                      ListTile(
-                        title: const Text('Nữ'),
-                        leading: Radio<int>(
-                          value: 1,
-                          groupValue: gt,
-                          onChanged: (value) {
-                            setState(() {
-                              gt =value;
-                              print(value);
-                            });
-                          },
+                      Expanded(
+                        child: ListTile(
+                          title: const Text('Nữ'),
+                          leading: Radio<int>(
+                            value: 1,
+                            groupValue: gt,
+                            onChanged: (value) {
+                              setState(() {
+                                gt =value;
+                                print(value);
+                              });
+                            },
+                          ),
                         ),
                       ),
                     ]
