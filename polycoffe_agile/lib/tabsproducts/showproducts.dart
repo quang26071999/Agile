@@ -44,6 +44,7 @@ class _ShowProductsState extends State<ShowProducts> {
           child: Column(
             children: <Widget>[
               TextFormField(
+                focusNode: FocusNode(),
                 // controller: _search,
                 style: GoogleFonts.inter(
                     fontSize: 16, fontStyle: FontStyle.italic),

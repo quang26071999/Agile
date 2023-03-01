@@ -82,6 +82,7 @@ class _ChangePass extends State<ChangePass> {
                           Padding(
                             padding: EdgeInsets.only(top: 56, bottom: 24),
                             child: TextFormField(
+                              focusNode: FocusNode(),
                               controller: _oldPass,
                               style: GoogleFonts.inter(
                                   fontSize: 16, fontStyle: FontStyle.italic),
@@ -122,6 +123,7 @@ class _ChangePass extends State<ChangePass> {
                           Padding(
                             padding: EdgeInsets.only(bottom: 24),
                             child: TextFormField(
+                              focusNode: FocusNode(),
                               controller: _newPass,
                               style: GoogleFonts.inter(
                                   fontSize: 16, fontStyle: FontStyle.italic),
@@ -163,6 +165,7 @@ class _ChangePass extends State<ChangePass> {
                           Padding(
                             padding: EdgeInsets.only(bottom: 40),
                             child: TextFormField(
+                              focusNode: FocusNode(),
                               controller: _reNewPass,
                               obscureText: !_show_hidereNewPass,
                               style: GoogleFonts.inter(
@@ -205,6 +208,7 @@ class _ChangePass extends State<ChangePass> {
                             child: TextButton(
                               onPressed: () {
                                 // print('USER ${user}');
+                                FocusManager.instance.primaryFocus?.unfocus();
                                 if (_formKey.currentState!.validate()) {
                                   var documentReference = FirebaseFirestore
                                       .instance
