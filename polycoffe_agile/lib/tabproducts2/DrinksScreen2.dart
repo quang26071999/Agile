@@ -27,7 +27,20 @@ class DrinksScreen2 extends StatefulWidget {
 class _DrinksScreen2State extends State<DrinksScreen2> {
   final db = FirebaseFirestore.instance.collection("Products");
   String searchNameProduct = "";
+  SharedPreferences? logindata ;
+  String? role ="";
+  @override
+  void initState() {
+    super.initState();
+    initial();
+  }
 
+  Future<void> initial() async {
+    logindata = await SharedPreferences.getInstance();
+    setState(() {
+      role = logindata!.getString("role")!;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -216,14 +229,14 @@ class _DrinksScreen2State extends State<DrinksScreen2> {
         backgroundColor: const Color(0xff492F2C),
         child: const Icon(Icons.shopping_cart),
         onPressed: () {
-          _showModalBottomSheet(context, idBan: widget.idBan);
+          _showModalBottomSheet(context, idBan: widget.idBan,role: role);
         },
       ),
     );
   }
 }
 
-void _showModalBottomSheet(BuildContext context, {required idBan}) {
+void _showModalBottomSheet(BuildContext context, {required idBan,role}) {
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -357,7 +370,7 @@ void _showModalBottomSheet(BuildContext context, {required idBan}) {
                                     showAlert2(context);
                                   } else {
                                     showAlert(context,
-                                        idBan: idBan, list: list);
+                                        idBan: idBan, list: list, role: role);
                                   }
                                 });
                               },
@@ -383,7 +396,7 @@ void _showModalBottomSheet(BuildContext context, {required idBan}) {
               ))));
 }
 
-void showAlert(BuildContext context, {required idBan, list}) async {
+void showAlert(BuildContext context, {required idBan, list, role}) async {
   var logindata = await SharedPreferences.getInstance();
   Widget cancelButton = TextButton(
     child: Text("Hủy",
@@ -418,7 +431,11 @@ void showAlert(BuildContext context, {required idBan, list}) async {
       });
 
       colTable.doc(idBan).update({"HDT": null});
-      Get.off(MyStatefulWidget(selectIndex: 2));
+      if(role =='Admin'){
+        Get.off(MyStatefulWidget(selectIndex: 2));
+      }else{
+        Get.off(MyStatefulWidget(selectIndex: 0));
+      }
     },
   );
 

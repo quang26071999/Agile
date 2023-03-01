@@ -16,24 +16,6 @@ class DatBanScreen extends StatefulWidget {
 class _DatBanScreenState extends State<DatBanScreen> {
   late String maBan, maHDT;
 
-  // late Map<String, dynamic> sp = {
-  //   "maSP": "abc",
-  //   "soLuong": 1,
-  // };
-  //
-  // late List<Map<String, dynamic>> list = {sp};
-
-  // List trangThai = [
-  //   "Chưa thanh toán",
-  //   "Trống",
-  //   "Chưa thanh toán",
-  //   "Trống",
-  //   "Chưa thanh toán",
-  //   "Trống",
-  // ];
-
-  // List soBan = [1, 2, 3, 4, 5, 6];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,8 +35,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
                       FirebaseFirestore.instance.collection("Table").snapshots(),
                   builder: (context, snapShot) {
                     if (snapShot.hasData) {
-                      maBan = "Bàn ${snapShot.data!.docs.length+1}";
-
+                      maBan = "${snapShot.data!.docs.length+1}";
                       return GridView.builder(
                           itemCount: snapShot.data?.docs.length,
                           padding:
@@ -67,6 +48,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
                           ),
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index) {
+
                             DocumentSnapshot docSnap = snapShot.data?.docs[index]
                                 as DocumentSnapshot<Object?>;
                             String id = docSnap.id;
@@ -94,7 +76,8 @@ class _DatBanScreenState extends State<DatBanScreen> {
                                     TextButton(
                                       onPressed: () async {
                                         print(status);
-                                        if(id == "Bàn ${snapShot.data!.docs.length}" && status == 'Trống' ){
+                                        print(id);
+                                        if(id == "${snapShot.data!.docs.length}" && status == 'Trống' ){
                                           FirebaseFirestore.instance.collection("Table")
                                               .doc(id)
                                               .delete()
@@ -117,7 +100,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => MenuOrder(
-                                                numTable: "Bàn ${index + 1}",
+                                                numTable: "Bàn $id",
                                                 idBan: id,
                                               )));
                                 },
@@ -141,7 +124,7 @@ class _DatBanScreenState extends State<DatBanScreen> {
                                                 child: Text(
                                                   style: GoogleFonts.inter(
                                                       fontSize: 24),
-                                                  "Bàn ${index + 1}",
+                                                  'Bàn $id',
                                                 ),
                                               ),
                                               Padding(
